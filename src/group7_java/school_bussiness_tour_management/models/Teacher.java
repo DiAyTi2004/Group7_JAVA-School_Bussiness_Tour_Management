@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author PC
  */
-public class Student {
+public class Teacher {
 
     public static int count = 0;
 
@@ -23,9 +23,9 @@ public class Student {
     private String phoneNumber;
     private String email;
     private String birthDate;
-    private List<StudentTour> studentTours;
+    private List<Tour> tours;
 
-    public Student() {
+    public Teacher() {
     }
 
     public void setId(int id) {
@@ -84,20 +84,20 @@ public class Student {
         this.email = email;
     }
 
+    public List<Tour> getTours() {
+        return tours;
+    }
+
+    public void setTours(List<Tour> tours) {
+        this.tours = tours;
+    }
+
     public String getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public List<StudentTour> getStudentTours() {
-        return studentTours;
-    }
-
-    public void setStudentTours(List<StudentTour> studentTours) {
-        this.studentTours = studentTours;
     }
 
 }
