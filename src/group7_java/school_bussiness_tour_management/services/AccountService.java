@@ -14,41 +14,53 @@ import java.util.List;
  * @author PC
  */
 public class AccountService {
-    public static boolean isExisted(Account account){
+
+    public static boolean isExisted(Account account) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
-        for(Account acc:data){
-            if(acc.getUsername().equals(account.getUsername()) && acc.getPassword().equals(account.getPassword())) return true;
+        for (Account acc : data) {
+            if (acc.getUsername().equals(account.getUsername()) && acc.getPassword().equals(account.getPassword())) {
+                return true;
+            }
         }
         return false;
     }
-    
-    public static boolean isExistedUsername(String username){
+
+    public static boolean isExistedUsername(String username) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
-        for(Account acc:data){
-            if(acc.getUsername().trim().equals(username.trim())) return true;
+        for (Account acc : data) {
+            if (acc.getUsername().trim().equals(username.trim())) {
+                return true;
+            }
         }
         return false;
     }
-    
-    public static List<Account> getAllAccounts(){
+
+    public static List<Account> getAllAccounts() throws Exception {
         return AccountDAO.readFromFile();
     }
-    
-    public static void createNewAccount(String username, String password){
-        Account acc = new Account();
-        Account.count++;
-        acc.setId(Account.count);
-        acc.setUsername(username);
-        acc.setPassword(password);
+
+    public static int getLastAccountId() throws Exception {
+        List<Account> data = AccountDAO.readFromFile();
+        if (data != null) {
+            if(data.size() == 0) return 0;
+            return data.get(data.size() - 1).getId();
+        }
+        return -1;
+    }
+
+    public static void createNewAccount(String username, String password) throws Exception {
+        int lastId = getLastAccountId();
+        lastId++;
+        Account acc = new Account(lastId, username, password);
         List<Account> data = AccountDAO.readFromFile();
         data.add(acc);
         AccountDAO.writeToFile(data);
     }
-    
-    public static void updateAccount(Account account){
+
+    public static void updateAccount(Account account) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
-        for( Account acc: data){
-            if(acc.getId() == account.getId()){
+        for (Account acc : data) {
+            if (acc.getId() == account.getId()) {
                 acc.setPassword(account.getPassword());
                 acc.setUsername(account.getUsername());
                 break;
@@ -56,17 +68,17 @@ public class AccountService {
         }
         AccountDAO.writeToFile(data);
     }
-    
-    public static void deleteAccount(int accountId){
+
+    public static void deleteAccount(int accountId) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         Account deleteAccount = null;
-        for(Account acc: data){
-            if(acc.getId() == accountId){
+        for (Account acc : data) {
+            if (acc.getId() == accountId) {
                 deleteAccount = acc;
                 break;
             }
         }
-        if(deleteAccount != null){
+        if (deleteAccount != null) {
             data.remove(deleteAccount);
             AccountDAO.writeToFile(data);
         }

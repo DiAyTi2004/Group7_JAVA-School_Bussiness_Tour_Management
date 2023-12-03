@@ -44,7 +44,7 @@ public class StudentTour {
 
     @Override
     public String toString() {
-        return "StudentTour{" + "studentId=" + studentId + ", tourId=" + tourId + ", rate=" + rate + '}';
+        return studentId + "," + tourId + "," + rate;
     }
     
     

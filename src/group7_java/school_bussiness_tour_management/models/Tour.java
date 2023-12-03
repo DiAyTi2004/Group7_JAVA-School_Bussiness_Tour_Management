@@ -111,7 +111,7 @@ public class Tour {
 
     @Override
     public String toString() {
-        return "Tour{" + "id=" + id + ", code=" + code + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", availables=" + availables + ", studentTours=" + studentTours + ", companyId=" + companyId + ", teacherId=" + teacherId + ", presentator=" + presentator + '}';
+        return id + "," + code + "," + name + "," + description + "," + startDate + "," + availables + "," + studentTours + "," + companyId + "," + teacherId + "," + presentator;
     }
 
 }

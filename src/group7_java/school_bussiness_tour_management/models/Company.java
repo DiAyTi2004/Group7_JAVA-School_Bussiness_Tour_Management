@@ -94,7 +94,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" + "id=" + id + ", code=" + code + ", name=" + name + ", description=" + description + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", tours=" + tours + '}';
+        return id + "," + code + "," + name + "," + description + "," + email + "," + phoneNumber + "," + address + "," + tours;
     }
 
 }

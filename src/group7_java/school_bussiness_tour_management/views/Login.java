@@ -140,23 +140,28 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String username = this.username.getText().trim();
-        if (username.equals("")) {
-            MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
-            return;
-        }
-        String password = this.password.getText().trim();
-        if (password.equals("")) {
-            MessageDialog.showInfoDialog(this, "Mật khẩu không được bỏ trống", "Thông báo");
-            return;
-        }
-        Account acc = new Account(username, password);
-        if (AccountService.isExisted(acc)) {
-            dispose();
-            Home homeScreen = new Home();
-            homeScreen.setVisible(true);
-        } else {
-            MessageDialog.showInfoDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Thông báo");
+        try {
+            String username = this.username.getText().trim();
+            if (username.equals("")) {
+                MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
+                return;
+            }
+            String password = this.password.getText().trim();
+            if (password.equals("")) {
+                MessageDialog.showInfoDialog(this, "Mật khẩu không được bỏ trống", "Thông báo");
+                return;
+            }
+            Account acc = new Account(username, password);
+            if (AccountService.isExisted(acc)) {
+                dispose();
+                Home homeScreen = new Home();
+                homeScreen.setVisible(true);
+            } else {
+                MessageDialog.showInfoDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Thông báo");
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tạo tài khoản mới có lỗi, chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

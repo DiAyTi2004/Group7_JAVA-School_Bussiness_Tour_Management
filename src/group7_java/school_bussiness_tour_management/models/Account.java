@@ -25,6 +25,12 @@ public class Account {
         this.password = password;
     }
 
+    public Account(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
@@ -51,7 +57,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + "id=" + id + ", username=" + username + ", password=" + password + '}';
+        return id + "," + username + "," + password;
     }
 
 }
