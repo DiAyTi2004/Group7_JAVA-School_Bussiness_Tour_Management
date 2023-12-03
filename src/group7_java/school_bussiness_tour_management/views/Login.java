@@ -6,6 +6,8 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.services.AccountService;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +39,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        password = new javax.swing.JPasswordField();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,8 +91,6 @@ public class Login extends javax.swing.JFrame {
 
         passwordLabel.setText("Mật khẩu:");
 
-        jPasswordField1.setText("jPasswordField1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,7 +110,7 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(username)
                                 .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)))
+                                .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)))
                         .addContainerGap(79, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -125,7 +125,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loginButton)
                 .addGap(35, 35, 35))
@@ -141,7 +141,24 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        MessageDialog.showInfoDialog(this, "Tên người dùng: " + username.getText(), "Thông báo");
+        String username = this.username.getText().trim();
+        if (username.equals("")) {
+            MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
+            return;
+        }
+        String password = this.password.getText().trim();
+        if (username.equals("")) {
+            MessageDialog.showInfoDialog(this, "Mật khẩu không được bỏ trống", "Thông báo");
+            return;
+        }
+        Account acc = new Account(username, password);
+        if (AccountService.isExisted(acc)) {
+            dispose();
+            Home homeScreen = new Home();
+            homeScreen.setVisible(true);
+        } else {
+            MessageDialog.showInfoDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Thông báo");
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -184,8 +201,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JButton loginButton;
+    private javax.swing.JPasswordField password;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

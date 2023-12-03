@@ -22,7 +22,6 @@ public class Company {
     private String email;
     private String phoneNumber;
     private String address;
-    private String presentator;
     private List<Tour> tours;
 
     public Company() {
@@ -85,14 +84,6 @@ public class Company {
         this.address = address;
     }
 
-    public String getPresentator() {
-        return presentator;
-    }
-
-    public void setPresentator(String presentator) {
-        this.presentator = presentator;
-    }
-
     public List<Tour> getTours() {
         return tours;
     }
@@ -103,7 +94,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" + "id=" + id + ", code=" + code + ", name=" + name + ", description=" + description + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", presentator=" + presentator + ", tours=" + tours + '}';
+        return "Company{" + "id=" + id + ", code=" + code + ", name=" + name + ", description=" + description + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address=" + address + ", tours=" + tours + '}';
     }
 
 }

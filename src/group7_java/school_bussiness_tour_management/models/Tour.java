@@ -22,6 +22,9 @@ public class Tour {
     private String startDate;
     private String availables; // number of seats for a tour, ex: 100 => 100 students can be engaged in this tour
     private List<StudentTour> studentTours;
+    private int companyId;
+    private int teacherId;
+    private String presentator;
 
     public Tour() {
     }
@@ -80,6 +83,35 @@ public class Tour {
 
     public void setStudentTours(List<StudentTour> studentTours) {
         this.studentTours = studentTours;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getPresentator() {
+        return presentator;
+    }
+
+    public void setPresentator(String presentator) {
+        this.presentator = presentator;
+    }
+
+    @Override
+    public String toString() {
+        return "Tour{" + "id=" + id + ", code=" + code + ", name=" + name + ", description=" + description + ", startDate=" + startDate + ", availables=" + availables + ", studentTours=" + studentTours + ", companyId=" + companyId + ", teacherId=" + teacherId + ", presentator=" + presentator + '}';
     }
 
 }

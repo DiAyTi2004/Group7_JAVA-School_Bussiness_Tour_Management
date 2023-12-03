@@ -42,4 +42,11 @@ public class StudentTour {
         this.rate = rate;
     }
 
+    @Override
+    public String toString() {
+        return "StudentTour{" + "studentId=" + studentId + ", tourId=" + tourId + ", rate=" + rate + '}';
+    }
+    
+    
+
 }

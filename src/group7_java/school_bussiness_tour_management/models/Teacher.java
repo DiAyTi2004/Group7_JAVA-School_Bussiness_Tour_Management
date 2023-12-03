@@ -100,4 +100,9 @@ public class Teacher {
         this.birthDate = birthDate;
     }
 
+    @Override
+    public String toString() {
+        return "Teacher{" + "id=" + id + ", code=" + code + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", birthDate=" + birthDate + ", tours=" + tours + '}';
+    }
+
 }

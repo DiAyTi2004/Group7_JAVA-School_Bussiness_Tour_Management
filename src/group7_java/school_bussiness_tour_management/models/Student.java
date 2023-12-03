@@ -24,6 +24,7 @@ public class Student {
     private String email;
     private String birthDate;
     private List<StudentTour> studentTours;
+    private int classId;
 
     public Student() {
     }
@@ -98,6 +99,19 @@ public class Student {
 
     public void setStudentTours(List<StudentTour> studentTours) {
         this.studentTours = studentTours;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "id=" + id + ", code=" + code + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", birthDate=" + birthDate + ", studentTours=" + studentTours + ", classId=" + classId + '}';
     }
 
 }
