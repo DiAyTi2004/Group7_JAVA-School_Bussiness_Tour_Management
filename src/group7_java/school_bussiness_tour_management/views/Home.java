@@ -18,6 +18,7 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -155,6 +156,7 @@ public class Home extends javax.swing.JFrame {
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();
         ManageAccount manageAccountScreen = new ManageAccount();
+        manageAccountScreen.setLocationRelativeTo(null);
         manageAccountScreen.setVisible(true);
     }//GEN-LAST:event_manageAccountButtonActionPerformed
 
@@ -163,6 +165,7 @@ public class Home extends javax.swing.JFrame {
         if (key == 0) {
             dispose();
             Login loginScreen = new Login();
+            loginScreen.setLocationRelativeTo(null);
             loginScreen.setVisible(true);
         }
     }//GEN-LAST:event_logoutButtonActionPerformed
@@ -197,7 +200,9 @@ public class Home extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                Home view = new Home();
+                view.setLocationRelativeTo(null);
+                view.setVisible(true);
             }
         });
     }

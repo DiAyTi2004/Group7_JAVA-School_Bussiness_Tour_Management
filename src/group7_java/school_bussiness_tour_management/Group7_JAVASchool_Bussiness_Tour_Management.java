@@ -18,6 +18,7 @@ public class Group7_JAVASchool_Bussiness_Tour_Management {
      */
     public static void main(String[] args) {
         Login loginView = new Login();
+        loginView.setLocationRelativeTo(null);
         loginView.setVisible(true);
     }
     

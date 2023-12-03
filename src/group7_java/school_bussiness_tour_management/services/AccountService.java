@@ -30,6 +30,10 @@ public class AccountService {
         return false;
     }
     
+    public static List<Account> getAllAccounts(){
+        return AccountDAO.readFromFile();
+    }
+    
     public static void createNewAccount(String username, String password){
         Account acc = new Account();
         Account.count++;

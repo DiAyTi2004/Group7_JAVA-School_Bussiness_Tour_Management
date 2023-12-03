@@ -5,6 +5,12 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
+import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.services.AccountService;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author PC
@@ -16,6 +22,8 @@ public class ManageAccount extends javax.swing.JFrame {
      */
     public ManageAccount() {
         initComponents();
+        setLocationRelativeTo(null);
+        initializeTable();
     }
 
     /**
@@ -29,10 +37,21 @@ public class ManageAccount extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         turnBackHome = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        accountTable = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        usernameField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JTextField();
+        createAccountButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Quản lí tài khoản hệ thống");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("QUẢN LÍ TÀI KHOẢN HỆ THỐNG");
 
         turnBackHome.setText("Quay lại trang chủ");
         turnBackHome.addActionListener(new java.awt.event.ActionListener() {
@@ -41,28 +60,92 @@ public class ManageAccount extends javax.swing.JFrame {
             }
         });
 
+        accountTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(accountTable);
+
+        jLabel2.setText("Tên tài khoản:");
+
+        jLabel3.setText("Mật khẩu:");
+
+        createAccountButton.setText("Thêm ");
+        createAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createAccountButtonActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(302, 302, 302)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(turnBackHome)))
-                .addContainerGap(305, Short.MAX_VALUE))
+                        .addComponent(turnBackHome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(273, 273, 273)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(createAccountButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 17, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(turnBackHome)
-                .addGap(110, 110, 110)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(createAccountButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)
+                        .addContainerGap(103, Short.MAX_VALUE))))
         );
 
         pack();
@@ -71,8 +154,50 @@ public class ManageAccount extends javax.swing.JFrame {
     private void turnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_turnBackHomeActionPerformed
         dispose();
         Home homeScreen = new Home();
+        homeScreen.setLocationRelativeTo(null);
         homeScreen.setVisible(true);
     }//GEN-LAST:event_turnBackHomeActionPerformed
+
+    private void createAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountButtonActionPerformed
+        String username = this.usernameField.getText().trim();
+        if (username.equals("")) {
+            MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
+            return;
+        }
+        String password = this.passwordField.getText().trim();
+        if (password.equals("")) {
+            MessageDialog.showInfoDialog(this, "Mật khẩu không được bỏ trống", "Thông báo");
+            return;
+        }
+        if (AccountService.isExistedUsername(username)) {
+            MessageDialog.showInfoDialog(this, "Tên tài khoản đã tồn tại trong hệ thống, vui lòng chọn tên tài khoản khác", "Thông báo");
+        } else {
+            AccountService.createNewAccount(username, password);
+            loadTableData();
+            MessageDialog.showInfoDialog(this, "Tạo tài khoản mới thành công!", "Thông báo");
+        }
+    }//GEN-LAST:event_createAccountButtonActionPerformed
+
+    private DefaultTableModel tableModel;
+
+    private void initializeTable() {
+        tableModel = new DefaultTableModel();
+        tableModel.setColumnIdentifiers(new String[]{"Tên tài khoản", "Mật khẩu"});
+        accountTable.setModel(tableModel);
+
+        loadTableData();
+    }
+
+    private void loadTableData() {
+        List<Account> data = AccountService.getAllAccounts();
+        tableModel.setRowCount(0);
+        if (data != null) {
+            for (Account acc : data) {
+                tableModel.addRow(new Object[]{acc.getUsername(), acc.getPassword()});
+            }
+        }
+        tableModel.fireTableDataChanged();
+    }
 
     /**
      * @param args the command line arguments
@@ -110,7 +235,16 @@ public class ManageAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable accountTable;
+    private javax.swing.JButton createAccountButton;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField passwordField;
     private javax.swing.JButton turnBackHome;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
