@@ -42,10 +42,16 @@ public class AccountService {
     public static int getLastAccountId() throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         if (data != null) {
-            if(data.size() == 0) return 0;
+            if (data.size() == 0) {
+                return 0;
+            }
             return data.get(data.size() - 1).getId();
         }
         return -1;
+    }
+
+    public static Account getAccountByIndex(int index) throws Exception {
+        return AccountDAO.readFromFile().get(index);
     }
 
     public static void createNewAccount(String username, String password) throws Exception {

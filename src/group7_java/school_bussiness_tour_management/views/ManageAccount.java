@@ -44,8 +44,9 @@ public class ManageAccount extends javax.swing.JFrame {
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
         createAccountButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteAccountButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
+        updateAccountButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +72,11 @@ public class ManageAccount extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        accountTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accountTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(accountTable);
 
         jLabel2.setText("Tên tài khoản:");
@@ -84,12 +90,24 @@ public class ManageAccount extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        deleteAccountButton.setText("Xóa");
+        deleteAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAccountButtonActionPerformed(evt);
+            }
+        });
 
         resetButton.setText("Nhập lại");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);
+            }
+        });
+
+        updateAccountButton.setText("Sửa");
+        updateAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateAccountButtonActionPerformed(evt);
             }
         });
 
@@ -117,8 +135,9 @@ public class ManageAccount extends javax.swing.JFrame {
                             .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                             .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                             .addComponent(createAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(deleteAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(updateAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 17, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -144,12 +163,14 @@ public class ManageAccount extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
-                        .addComponent(createAccountButton)
+                        .addComponent(createAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
+                        .addComponent(updateAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(resetButton)
-                        .addContainerGap(103, Short.MAX_VALUE))))
+                        .addComponent(deleteAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(45, Short.MAX_VALUE))))
         );
 
         pack();
@@ -197,6 +218,78 @@ public class ManageAccount extends javax.swing.JFrame {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         clearAllFields();
     }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void accountTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountTableMouseClicked
+        try {
+            int index = accountTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn dòng trong bảng để sửa", "Thông báo");
+                return;
+            }
+            Account selectedAcc = AccountService.getAccountByIndex(index);
+            usernameField.setText(selectedAcc.getUsername());
+            passwordField.setText(selectedAcc.getPassword());
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Cập nhật tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_accountTableMouseClicked
+
+    private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAccountButtonActionPerformed
+        try {
+            int index = accountTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn dòng trong bảng để xóa", "Thông báo");
+                return;
+            }
+            Account selectedAcc = AccountService.getAccountByIndex(index);
+            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa tài khoản " + selectedAcc.getUsername(), "Xác nhận");
+            if (keyPress == 0) {
+                AccountService.deleteAccount(selectedAcc.getId());
+                loadTableData();
+                clearAllFields();
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Xóa tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_deleteAccountButtonActionPerformed
+
+    private void updateAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAccountButtonActionPerformed
+        try {
+            int index = accountTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn dòng trong bảng để sửa", "Thông báo");
+                return;
+            }
+            Account selectedAcc = AccountService.getAccountByIndex(index);
+
+            String username = this.usernameField.getText().trim();
+            if (username.equals("")) {
+                MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
+                return;
+            }
+            String password = this.passwordField.getText().trim();
+            if (password.equals("")) {
+                MessageDialog.showInfoDialog(this, "Mật khẩu không được bỏ trống", "Thông báo");
+                return;
+            }
+            if (AccountService.isExistedUsername(username) && !username.equals(username)) {
+                MessageDialog.showInfoDialog(this, "Tên tài khoản đã tồn tại trong hệ thống, vui lòng chọn tên tài khoản khác", "Thông báo");
+            }
+
+            selectedAcc.setUsername(username);
+            selectedAcc.setPassword(password);
+            AccountService.updateAccount(selectedAcc);
+            MessageDialog.showInfoDialog(this, "Cập nhật tài khoản thành công!", "Thông báo");
+            clearAllFields();
+            loadTableData();
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Cập nhật tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_updateAccountButtonActionPerformed
 
     private DefaultTableModel tableModel;
 
@@ -262,7 +355,7 @@ public class ManageAccount extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable accountTable;
     private javax.swing.JButton createAccountButton;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton deleteAccountButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -270,6 +363,7 @@ public class ManageAccount extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JButton resetButton;
     private javax.swing.JButton turnBackHome;
+    private javax.swing.JButton updateAccountButton;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }
