@@ -27,6 +27,25 @@ public class Company {
     public Company() {
 
     }
+    
+    public Company( String code, String name, String description, String email, String phone, String address){
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.email = email;
+        this.phoneNumber = phone;
+        this.address = address;    
+    }
+    
+    public Company(int id, String code, String name, String description, String email, String phone, String address){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.email = email;
+        this.phoneNumber = phone;
+        this.address = address;    
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -95,6 +114,10 @@ public class Company {
     @Override
     public String toString() {
         return id + "," + code + "," + name + "," + description + "," + email + "," + phoneNumber + "," + address + "," + tours;
+    }
+    
+    public String toStringFile() {
+        return id + "," + code + "," + name + "," + description + "," + email + "," + phoneNumber + "," + address;
     }
 
 }

@@ -51,6 +51,11 @@ public class Home extends javax.swing.JFrame {
         manageStudentButton.setText("Quản lí thông tin sinh viên");
 
         manageCompanyButton.setText("Quản lí thông tin doanh nghiệp");
+        manageCompanyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageCompanyButtonActionPerformed(evt);
+            }
+        });
 
         manageTourButton.setText("Quản lí thông tin đợt tham quan");
 
@@ -169,6 +174,13 @@ public class Home extends javax.swing.JFrame {
             loginScreen.setVisible(true);
         }
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void manageCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageCompanyButtonActionPerformed
+        dispose();
+        ManageCompany manageCompanyScreen = new ManageCompany();
+        manageCompanyScreen.setLocationRelativeTo(null);
+        manageCompanyScreen.setVisible(true);
+    }//GEN-LAST:event_manageCompanyButtonActionPerformed
 
     /**
      * @param args the command line arguments

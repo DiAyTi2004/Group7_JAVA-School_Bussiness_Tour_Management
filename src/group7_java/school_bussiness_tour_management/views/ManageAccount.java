@@ -83,6 +83,12 @@ public class ManageAccount extends javax.swing.JFrame {
 
         jLabel3.setText("Mật khẩu:");
 
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
+
         createAccountButton.setText("Thêm ");
         createAccountButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,6 +296,10 @@ public class ManageAccount extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_updateAccountButtonActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
 
     private DefaultTableModel tableModel;
 
