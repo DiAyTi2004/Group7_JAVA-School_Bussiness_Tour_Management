@@ -19,6 +19,16 @@ public class Student extends Person {
     public Student() {
     }
 
+    public Student(int id, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) {
+        super(id, code, firstName, lastName, address, phoneNumber, email, birthDate);
+        this.classId = classId;
+    }
+
+    public Student(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate,int classId) {
+        super(code, firstName, lastName, address, phoneNumber, email, birthDate);
+        this.classId = classId;
+    }
+
     public List<StudentTour> getStudentTours() {
         return studentTours;
     }
@@ -38,6 +48,11 @@ public class Student extends Person {
     @Override
     public String toString() {
         return id + "," + code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + birthDate + "," + studentTours + "," + classId;
+    }
+    
+    public String toStringFile(){
+        return id+","+ code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + birthDate +"," + classId;
+        
     }
 
 }
