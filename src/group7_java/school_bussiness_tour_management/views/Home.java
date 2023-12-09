@@ -18,7 +18,6 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -49,6 +48,11 @@ public class Home extends javax.swing.JFrame {
         manageTeacherButton.setText("Quản lí thông tin giáo viên");
 
         manageStudentButton.setText("Quản lí thông tin sinh viên");
+        manageStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageStudentButtonActionPerformed(evt);
+            }
+        });
 
         manageCompanyButton.setText("Quản lí thông tin doanh nghiệp");
         manageCompanyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +185,13 @@ public class Home extends javax.swing.JFrame {
         manageCompanyScreen.setLocationRelativeTo(null);
         manageCompanyScreen.setVisible(true);
     }//GEN-LAST:event_manageCompanyButtonActionPerformed
+
+    private void manageStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageStudentButtonActionPerformed
+        dispose();
+        ManageStudent manageStudentScreen = new ManageStudent();
+        manageStudentScreen.setLocationRelativeTo(null);
+        manageStudentScreen.setVisible(true);
+    }//GEN-LAST:event_manageStudentButtonActionPerformed
 
     /**
      * @param args the command line arguments
