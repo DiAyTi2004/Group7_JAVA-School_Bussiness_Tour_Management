@@ -277,7 +277,7 @@ public class ManageStudent extends javax.swing.JFrame {
             String firstName = txt_first_name.getText().trim();
             String lastName = txt_last_name.getText().trim();
             String address = txt_address.getText().trim();
-            String phoneNumber = txt_address.getText().trim();
+            String phoneNumber = txt_phone_number.getText().trim();
             String email = txt_email.getText().trim();
             String birthDate = txt_birth_date.getText().trim();
             String classId = txt_class_id.getText().trim();
