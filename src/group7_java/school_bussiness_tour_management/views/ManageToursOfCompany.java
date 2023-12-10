@@ -44,11 +44,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         companyAddressLabel = new javax.swing.JLabel();
         companyDescriptionLabel = new javax.swing.JLabel();
         createCompanyButton = new javax.swing.JButton();
-        updateCompanyButton = new javax.swing.JButton();
-        delCompanyButton = new javax.swing.JButton();
-        resetButton = new javax.swing.JButton();
         companyCodeLabel = new javax.swing.JLabel();
-        toursOfComButton = new javax.swing.JButton();
         returnBackButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -86,42 +82,14 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
 
         companyDescriptionLabel.setText("Ghi chú: ");
 
-        createCompanyButton.setText("Thêm");
+        createCompanyButton.setText("Quản lí các chuyến tham quan");
         createCompanyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createCompanyActionPerformed(evt);
             }
         });
 
-        updateCompanyButton.setText("Sửa");
-        updateCompanyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateCompanyButtonActionPerformed(evt);
-            }
-        });
-
-        delCompanyButton.setText("Xóa");
-        delCompanyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                delCompanyButtonActionPerformed(evt);
-            }
-        });
-
-        resetButton.setText("Nhập lại");
-        resetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetButtonActionPerformed(evt);
-            }
-        });
-
         companyCodeLabel.setText("Mã doanh nghiệp: ");
-
-        toursOfComButton.setText("Các chuyến tham quan của doanh nghiệp");
-        toursOfComButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toursOfComButtonActionPerformed(evt);
-            }
-        });
 
         returnBackButton.setText("Quay lại trang trước");
         returnBackButton.addActionListener(new java.awt.event.ActionListener() {
@@ -142,32 +110,23 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(149, 149, 149))
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(companyPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(companyAddressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(companyCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(createCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(updateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(delCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(toursOfComButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(companyPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(companyAddressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(companyCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(companyNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(companyEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(companyDescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(companyNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(companyEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(companyDescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(45, 45, 45))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(returnBackButton)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(createCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(returnBackButton)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(28, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,14 +149,9 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                     .addComponent(companyDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createCompanyButton)
-                    .addComponent(updateCompanyButton)
-                    .addComponent(delCompanyButton)
-                    .addComponent(resetButton)
-                    .addComponent(toursOfComButton))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(createCompanyButton)
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -246,31 +200,6 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_createCompanyActionPerformed
 
-    private void updateCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCompanyButtonActionPerformed
-        try {
-
-            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
-            clearAllFields();
-            loadTableData();
-        } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_updateCompanyButtonActionPerformed
-
-    private void delCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delCompanyButtonActionPerformed
-        try {
-
-        } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_delCompanyButtonActionPerformed
-
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        clearAllFields();
-    }//GEN-LAST:event_resetButtonActionPerformed
-
     private void toursOfCompanyTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toursOfCompanyTableMouseClicked
         try {
             int index = toursOfCompanyTable.getSelectedRow();
@@ -284,10 +213,6 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_toursOfCompanyTableMouseClicked
-
-    private void toursOfComButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toursOfComButtonActionPerformed
-
-    }//GEN-LAST:event_toursOfComButtonActionPerformed
 
     private void returnBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBackButtonActionPerformed
         ManageCompany mcScreen = new ManageCompany();
@@ -341,14 +266,10 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     private javax.swing.JLabel companyNameLabel;
     private javax.swing.JLabel companyPhoneLabel;
     private javax.swing.JButton createCompanyButton;
-    private javax.swing.JButton delCompanyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton resetButton;
     private javax.swing.JButton returnBackButton;
-    private javax.swing.JButton toursOfComButton;
     private javax.swing.JTable toursOfCompanyTable;
-    private javax.swing.JButton updateCompanyButton;
     // End of variables declaration//GEN-END:variables
 
     public JLabel getCompanyAddressLabel() {
