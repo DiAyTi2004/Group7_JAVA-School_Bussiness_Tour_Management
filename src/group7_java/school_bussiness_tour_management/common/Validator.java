@@ -53,7 +53,9 @@ public class Validator {
         LocalDate dateBefore = LocalDate.parse(before, formatter);
         return dateBefore.isBefore(dateAfter);
     }
-     public static boolean isValidEmail(String email){
+
+    
+    public static boolean isValidEmail(String email){
         String regexEmail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
          Pattern pattern = Pattern.compile(regexEmail);
         Matcher matcher = pattern.matcher(email);

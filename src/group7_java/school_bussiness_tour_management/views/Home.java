@@ -18,7 +18,6 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -54,6 +53,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         manageStudentButton.setText("Quản lí thông tin sinh viên");
+        manageStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageStudentButtonActionPerformed(evt);
+            }
+        });
 
         manageCompanyButton.setText("Quản lí thông tin doanh nghiệp");
         manageCompanyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -187,12 +191,21 @@ public class Home extends javax.swing.JFrame {
         manageCompanyScreen.setVisible(true);
     }//GEN-LAST:event_manageCompanyButtonActionPerformed
 
+
     private void manageTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageTeacherButtonActionPerformed
         dispose();
         ManageTeacher manageTeacherScreen = new ManageTeacher();
         manageTeacherScreen.setLocationRelativeTo(null);
         manageTeacherScreen.setVisible(true);
     }//GEN-LAST:event_manageTeacherButtonActionPerformed
+
+    private void manageStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageStudentButtonActionPerformed
+        dispose();
+        ManageStudent manageStudentScreen = new ManageStudent();
+        manageStudentScreen.setLocationRelativeTo(null);
+        manageStudentScreen.setVisible(true);
+    }//GEN-LAST:event_manageStudentButtonActionPerformed
+
 
     /**
      * @param args the command line arguments
