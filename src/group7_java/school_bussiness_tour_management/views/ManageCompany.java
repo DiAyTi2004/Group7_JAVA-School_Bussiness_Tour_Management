@@ -54,6 +54,7 @@ public class ManageCompany extends javax.swing.JFrame {
         resetButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         companyCodeField = new javax.swing.JTextField();
+        toursOfComButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,69 +130,74 @@ public class ManageCompany extends javax.swing.JFrame {
 
         jLabel6.setText("Mã doanh nghiệp: ");
 
+        toursOfComButton.setText("Các chuyến tham quan của doanh nghiệp");
+        toursOfComButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toursOfComButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(createCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(updateCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(delCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toursOfComButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(turnBackHome)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(companyCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel3)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(companyPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(companyAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(companyDesField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(companyEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(companyNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(createCompanyButton)
-                        .addGap(71, 71, 71)
-                        .addComponent(updateCompanyButton)
-                        .addGap(87, 87, 87)
-                        .addComponent(delCompanyButton)
-                        .addGap(72, 72, 72)
-                        .addComponent(resetButton)))
+                                        .addComponent(companyCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(companyPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(companyAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(companyDesField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(companyEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(companyNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(45, 45, 45))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(227, 227, 227)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(turnBackHome)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(turnBackHome)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -217,7 +223,8 @@ public class ManageCompany extends javax.swing.JFrame {
                     .addComponent(createCompanyButton)
                     .addComponent(updateCompanyButton)
                     .addComponent(delCompanyButton)
-                    .addComponent(resetButton))
+                    .addComponent(resetButton)
+                    .addComponent(toursOfComButton))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -239,18 +246,18 @@ public class ManageCompany extends javax.swing.JFrame {
         companyAddressField.setText("");
         companyDesField.setText("");
     }
-    
+
     private DefaultTableModel tableModel;
-    
+
     private void loadTableData() {
         try {
             List<Company> data = CompanyService.getAllCompanies();
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Company com : data) {
-                    tableModel.addRow(new Object[]{com.getCode(),com.getName(),
-                                                   com.getEmail(),com.getPhoneNumber(),
-                                                   com.getDescription()});
+                    tableModel.addRow(new Object[]{com.getCode(), com.getName(),
+                        com.getEmail(), com.getPhoneNumber(),
+                        com.getDescription()});
                 }
             }
             tableModel.fireTableDataChanged();
@@ -259,64 +266,64 @@ public class ManageCompany extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
+
     private void initializeTable() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã doanh nghiệp", "Doanh nghiệp",
-                                                     "Email","Điện thoại","Mô tả"});
+            "Email", "Điện thoại", "Mô tả"});
         companyTable.setModel(tableModel);
 
         loadTableData();
     }
 
-    
+
     private void createCompanyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCompanyActionPerformed
-        try{
+        try {
             String companyName = this.companyNameField.getText().trim();
             String companyCode = this.companyCodeField.getText().trim();
             String companyDes = this.companyDesField.getText().trim();
             String companyEmail = this.companyEmailField.getText().trim();
             String companyPhone = this.companyPhoneField.getText().trim();
             String companyAddress = this.companyAddressField.getText().trim();
-            if(companyName.equalsIgnoreCase("")) {
+            if (companyName.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Tên doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyCode.equalsIgnoreCase("")) {
+            if (companyCode.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Mã số doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyEmail.equalsIgnoreCase("")) {
+            if (companyEmail.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Mail doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyPhone.equalsIgnoreCase("")) {
+            if (companyPhone.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Số điện thoại doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyAddress.equalsIgnoreCase("")) {
+            if (companyAddress.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Địa chỉ doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            
-            if(CompanyService.isExistedComCode(companyCode)) {
+
+            if (CompanyService.isExistedComCode(companyCode)) {
                 MessageDialog.showInfoDialog(this, "Mã số doanh nghiệp đã tồn tại", "Thông báo");
-            }else if(CompanyService.isExistedComName(companyName)) {
+            } else if (CompanyService.isExistedComName(companyName)) {
                 MessageDialog.showInfoDialog(this, "Tên doanh nghiệp đã tồn tại", "Thông báo");
-            }else{
+            } else {
                 CompanyService.createNewCompany(companyCode, companyName, companyDes, companyEmail, companyPhone, companyAddress);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
-            }                        
-        }catch(Exception ex) {
+            }
+        } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Phát hiện lỗi khi thêm doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_createCompanyActionPerformed
 
     private void updateCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCompanyButtonActionPerformed
-        try{
+        try {
             int index = companyTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp muốn sửa", "Thông báo");
@@ -329,54 +336,54 @@ public class ManageCompany extends javax.swing.JFrame {
             String companyEmail = this.companyEmailField.getText().trim();
             String companyPhone = this.companyPhoneField.getText().trim();
             String companyAddress = this.companyAddressField.getText().trim();
-            if(companyName.equalsIgnoreCase("")) {
+            if (companyName.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Tên doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyCode.equalsIgnoreCase("")) {
+            if (companyCode.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Mã số doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyEmail.equalsIgnoreCase("")) {
+            if (companyEmail.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Mail doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyPhone.equalsIgnoreCase("")) {
+            if (companyPhone.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Số điện thoại doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(companyAddress.equalsIgnoreCase("")) {
+            if (companyAddress.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Địa chỉ doanh nghiệp không để trống", "Thông báo");
                 return;
             }
-            if(CompanyService.isExistedComCode(companyCode) && !companyCode.equals(companyCode)) {
+            if (CompanyService.isExistedComCode(companyCode) && !companyCode.equals(companyCode)) {
                 MessageDialog.showInfoDialog(this, "Mã số doanh nghiệp đã tồn tại", "Thông báo");
                 return;
             }
-            if(CompanyService.isExistedComName(companyName) && !companyName.equals(companyName)) {
+            if (CompanyService.isExistedComName(companyName) && !companyName.equals(companyName)) {
                 MessageDialog.showInfoDialog(this, "Tên doanh nghiệp đã tồn tại", "Thông báo");
                 return;
             }
-            
+
             selectedCom.setName(companyName);
             selectedCom.setCode(companyCode);
             selectedCom.setDescription(companyDes);
             selectedCom.setPhoneNumber(companyPhone);
             selectedCom.setEmail(companyEmail);
             selectedCom.setAddress(companyAddress);
-            
+
             CompanyService.updateCompany(selectedCom);
             MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_updateCompanyButtonActionPerformed
 
     private void delCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delCompanyButtonActionPerformed
-        try{
+        try {
             int index = companyTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp muốn xóa", "Thông báo");
@@ -389,7 +396,7 @@ public class ManageCompany extends javax.swing.JFrame {
                 loadTableData();
                 clearAllFields();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
@@ -418,6 +425,32 @@ public class ManageCompany extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_companyTableMouseClicked
+
+    private void toursOfComButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toursOfComButtonActionPerformed
+        try {
+            int index = companyTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Chưa có doanh nghiệp nào được chọn để thực hiện chức năng này", "Thông báo");
+                return;
+            }
+            Company selectedCom = CompanyService.getCompanyByIndex(index);
+            ManageToursOfCompany tocScreen = new ManageToursOfCompany();
+            if (tocScreen != null) {
+                tocScreen.setVisible(true);
+                tocScreen.getCompanyCodeLabel().setText("Mã doanh nghiệp: " + selectedCom.getCode());
+                tocScreen.getCompanyNameLabel().setText("Tên doanh nghiệp: " + selectedCom.getName());
+                tocScreen.getCompanyDescriptionLabel().setText("Mã doanh nghiệp: " + selectedCom.getDescription());
+                tocScreen.getCompanyAddressLabel().setText("Ghi chú: " + selectedCom.getAddress());
+                tocScreen.getCompanyEmailLabel().setText("Email: " + selectedCom.getEmail());
+                tocScreen.getCompanyPhoneLabel().setText("Điện thoại: " + selectedCom.getPhoneNumber());
+                dispose();
+            }
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_toursOfComButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -474,6 +507,7 @@ public class ManageCompany extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton resetButton;
+    private javax.swing.JButton toursOfComButton;
     private javax.swing.JButton turnBackHome;
     private javax.swing.JButton updateCompanyButton;
     // End of variables declaration//GEN-END:variables

@@ -8,6 +8,7 @@ package group7_java.school_bussiness_tour_management.views;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.services.AccountService;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
+        getRootPane().setDefaultButton(loginButton);
     }
 
     /**
@@ -59,6 +61,11 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Welcome");
         setBackground(new java.awt.Color(255, 255, 255));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/group7_java/school_bussiness_tour_management/resources/loginImage.jpg"))); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(512, 468));
@@ -79,6 +86,11 @@ public class Login extends javax.swing.JFrame {
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
+            }
+        });
+        loginButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginButtonKeyPressed(evt);
             }
         });
 
@@ -164,6 +176,12 @@ public class Login extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
+    }//GEN-LAST:event_loginButtonKeyPressed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments

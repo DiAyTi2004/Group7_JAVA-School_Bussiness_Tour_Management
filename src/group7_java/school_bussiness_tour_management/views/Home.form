@@ -54,14 +54,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="manageTourButton" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="manageClassButton" max="32767" attributes="0"/>
-                          <Component id="manageTeacherButton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="manageStudentButton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="manageCompanyButton" alignment="0" pref="200" max="32767" attributes="0"/>
-                          <Component id="manageAccountButton" max="32767" attributes="0"/>
-                          <Component id="logoutButton" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="manageClassButton" max="32767" attributes="0"/>
+                      <Component id="manageTeacherButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="manageStudentButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="manageCompanyButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="manageAccountButton" max="32767" attributes="0"/>
+                      <Component id="logoutButton" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
               </Group>
@@ -156,7 +154,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="manageTourButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xed; th&#xf4;ng tin &#x111;&#x1ee3;t tham quan"/>
+            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xed; chuy&#x1ebf;n tham quan doanh nghi&#x1ec7;p"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageTourButtonActionPerformed"/>
