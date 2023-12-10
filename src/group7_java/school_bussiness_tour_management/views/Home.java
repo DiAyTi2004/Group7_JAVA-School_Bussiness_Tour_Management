@@ -47,6 +47,11 @@ public class Home extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
         manageTeacherButton.setText("Quản lí thông tin giáo viên");
+        manageTeacherButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageTeacherButtonActionPerformed(evt);
+            }
+        });
 
         manageStudentButton.setText("Quản lí thông tin sinh viên");
 
@@ -181,6 +186,13 @@ public class Home extends javax.swing.JFrame {
         manageCompanyScreen.setLocationRelativeTo(null);
         manageCompanyScreen.setVisible(true);
     }//GEN-LAST:event_manageCompanyButtonActionPerformed
+
+    private void manageTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageTeacherButtonActionPerformed
+        dispose();
+        ManageTeacher manageTeacherScreen = new ManageTeacher();
+        manageTeacherScreen.setLocationRelativeTo(null);
+        manageTeacherScreen.setVisible(true);
+    }//GEN-LAST:event_manageTeacherButtonActionPerformed
 
     /**
      * @param args the command line arguments

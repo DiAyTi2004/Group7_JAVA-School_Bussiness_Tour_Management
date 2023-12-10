@@ -53,4 +53,27 @@ public class Validator {
         LocalDate dateBefore = LocalDate.parse(before, formatter);
         return dateBefore.isBefore(dateAfter);
     }
+     public static boolean isValidEmail(String email){
+        String regexEmail = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+         Pattern pattern = Pattern.compile(regexEmail);
+        Matcher matcher = pattern.matcher(email);
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+     
+    public static String formatName(String fullName) {
+        String[] parts = fullName.split("\\s+");
+        StringBuilder formattedName = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                formattedName.append(Character.toUpperCase(part.charAt(0)))
+                        .append(part.substring(1)).append(" ");
+            }
+        }
+        return formattedName.toString().trim();
+    }
 }
