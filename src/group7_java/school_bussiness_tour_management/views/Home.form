@@ -50,16 +50,18 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jLabel1" max="32767" attributes="0"/>
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="manageClassButton" max="32767" attributes="0"/>
-                      <Component id="manageTourButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="manageTeacherButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="manageStudentButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="manageCompanyButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="manageAccountButton" max="32767" attributes="0"/>
-                      <Component id="logoutButton" max="32767" attributes="0"/>
+                      <Component id="manageTourButton" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="manageClassButton" max="32767" attributes="0"/>
+                          <Component id="manageTeacherButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="manageStudentButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="manageCompanyButton" alignment="0" pref="200" max="32767" attributes="0"/>
+                          <Component id="manageAccountButton" max="32767" attributes="0"/>
+                          <Component id="logoutButton" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
               </Group>
@@ -70,16 +72,16 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="jLabel1" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="manageTeacherButton" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="manageTourButton" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="manageStudentButton" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="manageCompanyButton" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                  <Component id="manageTourButton" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="manageTeacherButton" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="manageClassButton" linkSize="2" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="manageAccountButton" linkSize="2" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace pref="114" max="32767" attributes="0"/>
                   <Component id="logoutButton" min="-2" pref="32" max="-2" attributes="0"/>
@@ -109,11 +111,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageCompanyButtonActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="manageTourButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xed; th&#xf4;ng tin &#x111;&#x1ee3;t tham quan"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="manageClassButton">
           <Properties>
@@ -152,6 +149,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="manageTourButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xed; th&#xf4;ng tin &#x111;&#x1ee3;t tham quan"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageTourButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
