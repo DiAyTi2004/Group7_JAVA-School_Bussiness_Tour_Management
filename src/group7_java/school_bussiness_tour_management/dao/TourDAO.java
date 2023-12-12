@@ -5,10 +5,18 @@
 package group7_java.school_bussiness_tour_management.dao;
 
 import group7_java.school_bussiness_tour_management.models.Student;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,37 +26,90 @@ import java.util.List;
  */
 public class TourDAO {
 
-    private static String filePath = "src/group7_java/school_bussiness_tour_management/files/Tour.txt";
+    private static String filePath = "src/group7_java/school_bussiness_tour_management/files/Tour.json";
 
-    public static List<Student> readFromFile() throws Exception {
-        List<Student> data = new ArrayList<Student>();
-        BufferedReader read = new BufferedReader(new FileReader(filePath));
-        String line;
-        while ((line = read.readLine()) != null) {
-            String[] parts = line.split(",");
-            int id = Integer.parseInt(parts[0]);
-            String code = parts[1];
-            String first_name = parts[2];
-            String last_name = parts[3];
-            String address = parts[4];
-            String phone_number = parts[5];
-            String email = parts[6];
-            String birth_date = parts[7];
-            int classId = Integer.parseInt(parts[8]);
-            Student stu = new Student(id, code, first_name,last_name,address,phone_number,email,birth_date,classId);
-            data.add(stu);
+    public static List<Tour> readFromFile() throws Exception {
+        List<Tour> data = new ArrayList<>();
+        
+        Path path = Paths.get(filePath);
+        if(Files.exists(path) && Files.size(path) > 0) {
+            try(Reader reader = new FileReader(filePath)) {
+                JSONArray tourArray = (JSONArray) new org.json.simple.parser.JSONParser().parse(reader);
+                
+                for(Object tourObject : tourArray) {
+                    JSONObject tourJson = (JSONObject) tourObject;
+                    
+                    int id = Integer.parseInt(tourJson.get("id").toString());
+                    String code = tourJson.get("code").toString();
+                    String name = tourJson.get("name").toString();
+                    String description = tourJson.get("description").toString();
+                    String startDate = tourJson.get("startDate").toString();
+                    String availables = tourJson.get("availables").toString();
+                    int companyId = Integer.parseInt(tourJson.get("companyId").toString());
+                    int teacherId = Integer.parseInt(tourJson.get("teacherId").toString());
+                    String presentator = tourJson.get("presentator").toString();
+                    
+                    Tour tour = new Tour(id, code, name, description, startDate, availables, companyId, teacherId, presentator);
+                    
+                    JSONArray studentToursArray = (JSONArray) tourJson.get("studentTours");
+                    if(studentToursArray != null) {
+                        List<StudentTour> studentTours = new ArrayList<>();
+                        for(Object studentTourObject : studentTours) {
+                            JSONObject studentTourJson = (JSONObject) studentTourObject;
+                            
+                            StudentTour studentTour = new StudentTour();
+                            studentTour.setStudentId(Integer.parseInt(studentTourJson.get("studentId").toString()));
+                            studentTour.setTourId(Integer.parseInt(studentTourJson.get("tourId").toString()));
+                            studentTour.setRate(Integer.parseInt(studentTourJson.get("rate").toString()));
+                            
+                            studentTours.add(studentTour);
+                        }
+                        tour.setStudentTours(studentTours);
+                    }
+                    data.add(tour);
+                }           
+            }catch (Exception e) {
+                throw new IOException("Error reading Company data from file", e);
+            }
         }
         return data;
     }
 
-    public static void writeToFile(List<Student> students) throws Exception {
-        FileWriter fw = new FileWriter(filePath);
-        BufferedWriter bw = new BufferedWriter(fw);
-        for (Student stu : students) {
-            bw.write(stu.toStringFile());
-            bw.newLine();
+    public static void writeToFile(List<Tour> tours) throws Exception {
+        JSONArray tourArray = new JSONArray();
+        
+        for (Tour tour : tours) {
+            JSONObject tourJson = new JSONObject();
+            tourJson.put("id", tour.getId());
+            tourJson.put("code", tour.getCode());
+            tourJson.put("name", tour.getName());
+            tourJson.put("description", tour.getDescription());
+            tourJson.put("startDate", tour.getStartDate());
+            tourJson.put("availables", tour.getAvailables());
+            tourJson.put("companyId", tour.getCompanyId());
+            tourJson.put("teacherId", tour.getTeacherId());
+            tourJson.put("presentator", tour.getPresentator());
+            
+            List<StudentTour> studentTours = tour.getStudentTours();
+            if(studentTours != null && !studentTours.isEmpty()){
+                JSONArray studentToursArray = new JSONArray();
+                for (StudentTour studentTour : studentTours) {
+                    JSONObject studentTourJson = new JSONObject();
+                    studentTourJson.put("studentId", studentTour.getStudentId());
+                    studentTourJson.put("tourId", studentTour.getTourId());
+                    studentTourJson.put("rate", studentTour.getRate());
+                    
+                    studentToursArray.add(studentTourJson);
+                }
+                tourJson.put("studentTours",studentToursArray);
+            }
+            tourArray.add(tourJson);
         }
-        bw.close();
-        fw.close();
+        
+        try ( FileWriter file = new FileWriter(filePath)) {
+            file.write(tourArray.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

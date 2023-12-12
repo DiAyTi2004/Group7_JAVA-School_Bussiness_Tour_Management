@@ -5,7 +5,9 @@
 package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.List;
 
 /**
@@ -27,6 +29,12 @@ public class TourService {
     public static List<Student> getAllStudents() throws Exception{
         return StudentDAO.readFromFile();
     }
+    
+    public static List<Tour> getAllTours() throws Exception{
+        return TourDAO.readFromFile();
+    }
+    
+    
     
     public static int getLastCompanyId() throws Exception{
         List<Student> data = StudentDAO.readFromFile();
