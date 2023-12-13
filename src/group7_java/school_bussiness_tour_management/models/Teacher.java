@@ -139,7 +139,7 @@ public class Teacher extends Person{
 
     @Override
     public String toString() {
-        return id + "," + code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + birthDate + "," + tours;
+        return firstName + " " + lastName;
     }
 
     public String toStringFile() {
