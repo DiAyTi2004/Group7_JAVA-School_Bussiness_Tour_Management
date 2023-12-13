@@ -117,6 +117,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xed; th&#xf4;ng tin l&#x1edb;p h&#x1ecd;c"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageClassButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="manageAccountButton">
           <Properties>

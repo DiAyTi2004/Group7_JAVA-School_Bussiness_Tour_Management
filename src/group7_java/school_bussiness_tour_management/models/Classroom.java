@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author PC
  */
-public class Class {
+public class Classroom {
 
     public static int count = 0;
 
@@ -20,7 +20,14 @@ public class Class {
     private String name;
     private List<Student> students;
 
-    public Class() {
+    public Classroom(int id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
+    
+
+    public Classroom() {
     }
 
     public void setId(int id) {

@@ -6,6 +6,7 @@ package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.models.Student;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,35 @@ public class StudentService {
     
     public static Student getStudentByIndex(int index) throws Exception {
         return StudentDAO.readFromFile().get(index);
+    }
+//    public static List<Student> getStudentByClassId(String classId) throws Exception {
+//        List<Student> data = StudentDAO.readFromFile();
+//        List<Student> trueData = null;
+//        if(data != null){
+//            for(Student stu: data){
+//            // sua lai kieu du lieu cua student classId thanh string
+//            if(stu.getClassId().toString().trim().equals(classId)){
+//                trueData.add(stu);
+//            }
+//            }
+//        }
+//        
+//        return trueData;
+//    }
+    public static List<Student> getStudentByClassId(int classId) throws Exception {
+        List<Student> data = StudentDAO.readFromFile();
+        List<Student> trueData = new ArrayList<Student>();
+        if(data != null){
+            for(Student stu: data){
+            // sua lai kieu du lieu cua student classId thanh string
+            if(stu.getClassId() == classId){
+                trueData.add(stu);
+            }
+            }
+            
+        }
+        
+        return trueData;
     }
     
     public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {    
