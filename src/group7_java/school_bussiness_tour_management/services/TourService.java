@@ -4,8 +4,10 @@
  */
 package group7_java.school_bussiness_tour_management.services;
 
+import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
@@ -21,6 +23,16 @@ public class TourService {
         List<Student> data = StudentDAO.readFromFile();
         for(Student stu : data){
             if(stu.getCode().trim().equals(student_code.trim())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean isExistedTourCode(String tourCode) throws Exception {
+        List<Tour> data = TourDAO.readFromFile();
+        for(Tour tour : data) {
+            if(tour.getCode().trim().equals(tourCode.trim())) {
                 return true;
             }
         }
@@ -45,8 +57,8 @@ public class TourService {
         return tourByComId;
     }
     
-    public static int getLastCompanyId() throws Exception{
-        List<Student> data = StudentDAO.readFromFile();
+    public static int getLastTourId() throws Exception{
+        List<Tour> data = TourDAO.readFromFile();
         if(data!=null) {
             if(data.size() == 0) {
                 return 0;
@@ -56,48 +68,79 @@ public class TourService {
         return -1;
     }
     
-    public static Student getStudentByIndex(int index) throws Exception {
-        return StudentDAO.readFromFile().get(index);
+    public static Tour getTourByIndex(int index) throws Exception {
+        return TourDAO.readFromFile().get(index);
     }
     
-    public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {    
-        Student stu = new Student(code, firstName, lastName, address, phoneNumber, email, birthDate,classId);
-        List<Student> data = StudentDAO.readFromFile();
-        data.add(stu);
-        StudentDAO.writeToFile(data);
+    public static void createNewTour(String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator) throws Exception {    
+        int lastId = getLastTourId();
+        lastId++;
+        Tour tour = new Tour(lastId, code, name, description, startDate,availables, companyId, teacherId, presentator);
+        List<Tour> tour_data = TourDAO.readFromFile();
+        List<Company> company_data = CompanyDAO.readFromFile();
+        for(Company comp : company_data) {
+            if(comp.getId() == companyId) {
+                comp.getTours().add(tour);
+            }
+        }
+        tour_data.add(tour);
+        TourDAO.writeToFile(tour_data);
+        CompanyDAO.writeToFile(company_data);
     }
     
-    public static void updateStudent(Student student) throws Exception {
-        List<Student> data = StudentDAO.readFromFile();
-        for(Student stu : data) {
-            if(stu.getId()==student.getId()) {
-                stu.setCode(student.getCode());
-                stu.setFirstName(student.getFirstName());
-                stu.setLastName(student.getLastName());
-                stu.setAddress(student.getAddress());
-                stu.setPhoneNumber(student.getPhoneNumber());
-                stu.setEmail(student.getEmail());
-                stu.setBirthDate(student.getBirthDate());
-                stu.setClassId(student.getClassId());
-               
+    public static void updateTour(Tour uTour) throws Exception {
+        List<Tour> tour_data = TourDAO.readFromFile();
+        List<Company> company_data = CompanyDAO.readFromFile();
+        for(Tour tour : tour_data) {
+            if(tour.getId() == uTour.getId()) {
+                tour.setCode(uTour.getCode());
+                tour.setName(uTour.getName());
+                tour.setDescription(uTour.getDescription());
+                tour.setStartDate(uTour.getStartDate());
+                tour.setAvailables(uTour.getAvailables());
+                tour.setCompanyId(uTour.getCompanyId());
+                tour.setTeacherId(uTour.getTeacherId());
+                tour.setPresentator(uTour.getPresentator());
+            }
+        }
+        for(Company comp : company_data) {
+            for(Tour comp_tour : comp.getTours()){
+                if(comp_tour.getId() == uTour.getId()){
+                    comp_tour.setCode(uTour.getCode());
+                    comp_tour.setName(uTour.getName());
+                    comp_tour.setDescription(uTour.getDescription());
+                    comp_tour.setStartDate(uTour.getStartDate());
+                    comp_tour.setAvailables(uTour.getAvailables());
+                    comp_tour.setCompanyId(uTour.getCompanyId());
+                    comp_tour.setTeacherId(uTour.getTeacherId());
+                    comp_tour.setPresentator(uTour.getPresentator());
+                }
+            }
+        }
+        TourDAO.writeToFile(tour_data);
+        CompanyDAO.writeToFile(company_data);
+    }
+    
+    public static void deleteTour(int tourId) throws Exception {
+        List<Tour> tour_data = TourDAO.readFromFile();
+        List<Company> company_data = CompanyDAO.readFromFile();
+        
+        Tour delTour = null;
+        for(Tour tour : tour_data) {
+            if(tour.getId()==tourId) {
+                delTour = tour;
                 break;
             }
         }
-        StudentDAO.writeToFile(data);
-    }
-    
-    public static void deleteStudent(int studentId) throws Exception {
-        List<Student> data = StudentDAO.readFromFile();
-        Student delStu = null;
-        for(Student stu : data) {
-            if(stu.getId()==studentId) {
-                delStu = stu;
-                break;
+        if(delTour!=null) {
+            tour_data.remove(delTour);
+            for(Company comp : company_data) {
+                if(comp.getId() == delTour.getCompanyId()) {
+                    comp.getTours().remove(delTour);
+                }
             }
-        }
-        if(delStu!=null) {
-            data.remove(delStu);
-            StudentDAO.writeToFile(data);
+            CompanyDAO.writeToFile(company_data);
+            TourDAO.writeToFile(tour_data);
         }
     }
 }

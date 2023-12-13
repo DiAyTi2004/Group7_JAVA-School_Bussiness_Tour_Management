@@ -20,7 +20,7 @@ public class Tour {
     private String name;
     private String description;
     private String startDate;
-    private String availables; // number of seats for a tour, ex: 100 => 100 students can be engaged in this tour
+    private int availables; // number of seats for a tour, ex: 100 => 100 students can be engaged in this tour
     private List<StudentTour> studentTours;
     private int companyId;
     private int teacherId;
@@ -29,8 +29,19 @@ public class Tour {
     public Tour() {
     }
     
-    public Tour(int id, String code, String name, String description, String startDate, String availables, int companyId, int teacherId, String presentator){
+    public Tour(int id, String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator){
         this.id = id;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.availables = availables;
+        this.companyId = companyId;
+        this.teacherId = teacherId;
+        this.presentator = presentator;
+    }
+    
+    public Tour(String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator){
         this.code = code;
         this.name = name;
         this.description = description;
@@ -81,11 +92,11 @@ public class Tour {
         this.startDate = startDate;
     }
 
-    public String getAvailables() {
+    public int getAvailables() {
         return availables;
     }
 
-    public void setAvailables(String availables) {
+    public void setAvailables(int availables) {
         this.availables = availables;
     }
 

@@ -44,7 +44,7 @@ public class TourDAO {
                     String name = tourJson.get("name").toString();
                     String description = tourJson.get("description").toString();
                     String startDate = tourJson.get("startDate").toString();
-                    String availables = tourJson.get("availables").toString();
+                    int availables = Integer.parseInt(tourJson.get("availables").toString());
                     int companyId = Integer.parseInt(tourJson.get("companyId").toString());
                     int teacherId = Integer.parseInt(tourJson.get("teacherId").toString());
                     String presentator = tourJson.get("presentator").toString();

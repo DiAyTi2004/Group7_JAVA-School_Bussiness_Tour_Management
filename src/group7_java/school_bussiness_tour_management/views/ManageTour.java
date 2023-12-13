@@ -41,7 +41,7 @@ public class ManageTour extends javax.swing.JFrame {
         btn_back = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tourTable = new javax.swing.JTable();
+        studentTable = new javax.swing.JTable();
         btn_add = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
@@ -75,7 +75,7 @@ public class ManageTour extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Quản lí thông tin chuyến tham quan doanh nghiệp");
 
-        tourTable.setModel(new javax.swing.table.DefaultTableModel(
+        studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,12 +86,7 @@ public class ManageTour extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tourTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tourTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tourTable);
+        jScrollPane1.setViewportView(studentTable);
 
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
@@ -238,6 +233,8 @@ public class ManageTour extends javax.swing.JFrame {
                 .addGap(11, 11, 11))
         );
 
+        jLabel14.getAccessibleContext().setAccessibleName("Người đại diện doanh nghiệp:");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -371,18 +368,18 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         try {
-            int index = tourTable.getSelectedRow();
-            if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Chọn sinh viên muốn xóa", "Thông báo");
-                return;
-            }
-            Student selectedStudent = StudentService.getStudentByIndex(index);
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
-            if (keyPress == 0) {
-                StudentService.deleteStudent(selectedStudent.getId());
-                loadTableData();
-                clearAllFields();
-            }
+//            int index = tourTable.getSelectedRow();
+//            if (index == -1) {
+//                MessageDialog.showInfoDialog(this, "Chọn sinh viên muốn xóa", "Thông báo");
+//                return;
+//            }
+//            Student selectedStudent = StudentService.getStudentByIndex(index);
+//            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
+//            if (keyPress == 0) {
+//                StudentService.deleteStudent(selectedStudent.getId());
+//                loadTableData();
+//                clearAllFields();
+//            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -449,11 +446,11 @@ public class ManageTour extends javax.swing.JFrame {
     }
 
     private void initializeTable() {
-        tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
-        tourTable.setModel(tableModel);
-
-        loadTableData();
+//        tableModel = new DefaultTableModel();
+//        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+//        tourTable.setModel(tableModel);
+//
+//        loadTableData();
     }
 
     /**
@@ -515,7 +512,7 @@ public class ManageTour extends javax.swing.JFrame {
     private javax.swing.JTextField nameInput;
     private javax.swing.JTextField presentator;
     private javax.swing.JTextField startDateInput;
-    private javax.swing.JTable tourTable;
+    private javax.swing.JTable studentTable;
     private javax.swing.JComboBox<String> teacherInput;
     // End of variables declaration//GEN-END:variables
 }
