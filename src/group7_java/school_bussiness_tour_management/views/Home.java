@@ -6,6 +6,8 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.services.AccountService;
 
 /**
  *
@@ -20,6 +22,10 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        Account currentLoginUser = AccountService.currentLoginUser;
+        if (!currentLoginUser.getRole().equals("Toàn quyền hệ thống")) {
+            manageAccountButton.setVisible(false);
+        }
     }
 
     /**
@@ -310,8 +316,7 @@ public class Home extends javax.swing.JFrame {
     private void teacherDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherDataButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_teacherDataButtonActionPerformed
-
-
+    
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();
         ManageAccount manageAccountScreen = new ManageAccount();

@@ -33,9 +33,10 @@ public class AccountDAO {
                 int id = Integer.parseInt(accJson.get("id").toString());
                 String username = (String) accJson.get("username");
                 String password = (String) accJson.get("password");
+                String role = (String) accJson.get("role");
 
                 // Create Account object and add it to the list
-                Account acc = new Account(id, username, password);
+                Account acc = new Account(id, username, password, role);
                 data.add(acc);
             }
         }
@@ -52,6 +53,7 @@ public class AccountDAO {
             accJson.put("id", acc.getId());
             accJson.put("username", acc.getUsername());
             accJson.put("password", acc.getPassword());
+            accJson.put("role", acc.getRole());
 
             accountArray.add(accJson);
         }

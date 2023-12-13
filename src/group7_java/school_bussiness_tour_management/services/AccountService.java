@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class AccountService {
 
+    public static Account currentLoginUser;
+
     public static boolean isExisted(Account account) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         for (Account acc : data) {
@@ -39,6 +41,16 @@ public class AccountService {
         return AccountDAO.readFromFile();
     }
 
+    public static Account getAccountByUsername(String username) throws Exception {
+        List<Account> data = AccountDAO.readFromFile();
+        for (Account acc : data) {
+            if (acc.getUsername().equals(username)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
     public static int getLastAccountId() throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         if (data != null) {
@@ -54,10 +66,10 @@ public class AccountService {
         return AccountDAO.readFromFile().get(index);
     }
 
-    public static void createNewAccount(String username, String password) throws Exception {
+    public static void createNewAccount(String username, String password, String role) throws Exception {
         int lastId = getLastAccountId();
         lastId++;
-        Account acc = new Account(lastId, username, password);
+        Account acc = new Account(lastId, username, password, role);
         List<Account> data = AccountDAO.readFromFile();
         data.add(acc);
         AccountDAO.writeToFile(data);
@@ -69,6 +81,7 @@ public class AccountService {
             if (acc.getId() == account.getId()) {
                 acc.setPassword(account.getPassword());
                 acc.setUsername(account.getUsername());
+                acc.setRole(account.getRole());
                 break;
             }
         }
