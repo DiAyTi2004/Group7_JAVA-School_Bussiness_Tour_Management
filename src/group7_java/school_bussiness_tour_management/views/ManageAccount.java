@@ -9,6 +9,7 @@ import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.services.AccountService;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,9 +22,21 @@ public class ManageAccount extends javax.swing.JFrame {
      * Creates new form ManageAccount
      */
     public ManageAccount() {
-        initComponents();
-        setLocationRelativeTo(null);
-        initializeTable();
+        try {
+            initComponents();
+            initializeTable();
+            initializeRoleCombobox();
+            setLocationRelativeTo(null);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra với màn hình này! Chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Lỗi");
+        }
+    }
+    
+    private void initializeRoleCombobox() throws Exception {
+        roleInput.removeAllItems();
+        roleInput.addItem("Toàn quyền hệ thống");
+        roleInput.addItem("Quản lí thông thường");
+        roleInput.setSelectedIndex(1);
     }
 
     /**
@@ -47,6 +60,8 @@ public class ManageAccount extends javax.swing.JFrame {
         deleteAccountButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
         updateAccountButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        roleInput = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +132,10 @@ public class ManageAccount extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Quyền tài khoản:");
+
+        roleInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,19 +152,18 @@ public class ManageAccount extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(passwordField)
+                    .addComponent(createAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(updateAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roleInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(createAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(updateAccountButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 17, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,21 +172,22 @@ public class ManageAccount extends javax.swing.JFrame {
                 .addComponent(turnBackHome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(roleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
                         .addComponent(createAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(updateAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,7 +195,8 @@ public class ManageAccount extends javax.swing.JFrame {
                         .addComponent(deleteAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(45, Short.MAX_VALUE))))
+                        .addGap(0, 25, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -204,7 +224,8 @@ public class ManageAccount extends javax.swing.JFrame {
             if (AccountService.isExistedUsername(username)) {
                 MessageDialog.showInfoDialog(this, "Tên tài khoản đã tồn tại trong hệ thống, vui lòng chọn tên tài khoản khác", "Thông báo");
             } else {
-                AccountService.createNewAccount(username, password);
+                String role = (String) roleInput.getSelectedItem();
+                AccountService.createNewAccount(username, password, role);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Tạo tài khoản mới thành công!", "Thông báo");
                 clearAllFields();
@@ -215,10 +236,11 @@ public class ManageAccount extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_createAccountButtonActionPerformed
-
+    
     private void clearAllFields() {
         usernameField.setText("");
         passwordField.setText("");
+        roleInput.setSelectedIndex(1);
     }
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
@@ -235,6 +257,7 @@ public class ManageAccount extends javax.swing.JFrame {
             Account selectedAcc = AccountService.getAccountByIndex(index);
             usernameField.setText(selectedAcc.getUsername());
             passwordField.setText(selectedAcc.getPassword());
+            roleInput.setSelectedItem(selectedAcc.getRole());
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Cập nhật tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -269,7 +292,7 @@ public class ManageAccount extends javax.swing.JFrame {
                 return;
             }
             Account selectedAcc = AccountService.getAccountByIndex(index);
-
+            
             String username = this.usernameField.getText().trim();
             if (username.equals("")) {
                 MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
@@ -283,14 +306,16 @@ public class ManageAccount extends javax.swing.JFrame {
             if (AccountService.isExistedUsername(username) && !username.equals(username)) {
                 MessageDialog.showInfoDialog(this, "Tên tài khoản đã tồn tại trong hệ thống, vui lòng chọn tên tài khoản khác", "Thông báo");
             }
-
+            
+            String role = roleInput.getSelectedItem().toString();
             selectedAcc.setUsername(username);
             selectedAcc.setPassword(password);
+            selectedAcc.setRole(role);
             AccountService.updateAccount(selectedAcc);
             MessageDialog.showInfoDialog(this, "Cập nhật tài khoản thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
-
+            
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Cập nhật tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -300,24 +325,24 @@ public class ManageAccount extends javax.swing.JFrame {
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
-
+    
     private DefaultTableModel tableModel;
-
+    
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Tên tài khoản", "Mật khẩu"});
+        tableModel.setColumnIdentifiers(new String[]{"Tên tài khoản", "Mật khẩu", "Quyền trong hệ thống"});
         accountTable.setModel(tableModel);
-
+        
         loadTableData();
     }
-
+    
     private void loadTableData() {
         try {
             List<Account> data = AccountService.getAllAccounts();
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Account acc : data) {
-                    tableModel.addRow(new Object[]{acc.getUsername(), acc.getPassword()});
+                    tableModel.addRow(new Object[]{acc.getUsername(), acc.getPassword(), acc.getRole()});
                 }
             }
             tableModel.fireTableDataChanged();
@@ -369,9 +394,11 @@ public class ManageAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField passwordField;
     private javax.swing.JButton resetButton;
+    private javax.swing.JComboBox<String> roleInput;
     private javax.swing.JButton turnBackHome;
     private javax.swing.JButton updateAccountButton;
     private javax.swing.JTextField usernameField;
