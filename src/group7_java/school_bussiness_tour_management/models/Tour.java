@@ -28,6 +28,18 @@ public class Tour {
 
     public Tour() {
     }
+    
+    public Tour(int id, String code, String name, String description, String startDate, String availables, int companyId, int teacherId, String presentator){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.description = description;
+        this.startDate = startDate;
+        this.availables = availables;
+        this.companyId = companyId;
+        this.teacherId = teacherId;
+        this.presentator = presentator;
+    }
 
     public int getId() {
         return id;

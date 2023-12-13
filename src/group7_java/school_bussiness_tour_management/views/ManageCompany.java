@@ -443,6 +443,7 @@ public class ManageCompany extends javax.swing.JFrame {
                 tocScreen.getCompanyAddressLabel().setText("Ghi chú: " + selectedCom.getAddress());
                 tocScreen.getCompanyEmailLabel().setText("Email: " + selectedCom.getEmail());
                 tocScreen.getCompanyPhoneLabel().setText("Điện thoại: " + selectedCom.getPhoneNumber());
+                tocScreen.setCompanyId(selectedCom.getId());
                 dispose();
             }
 

@@ -6,7 +6,9 @@ package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Company;
+import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
@@ -148,10 +150,10 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                     .addComponent(companyAddressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(companyDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(createCompanyButton)
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         pack();
@@ -160,18 +162,30 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     private void clearAllFields() {
 
     }
+    
+    private int companyId;
+    
+    public void setCompanyId(int comId) {
+        this.companyId = comId; 
+    }
+    
+    public int getCompanyId() {
+        return this.companyId;
+    }
 
     private DefaultTableModel tableModel;
 
     private void loadTableData() {
         try {
-            List<Company> data = CompanyService.getAllCompanies();
+            List<Tour> data = TourService.getAllTours();
             tableModel.setRowCount(0);
             if (data != null) {
-                for (Company com : data) {
-                    tableModel.addRow(new Object[]{com.getCode(), com.getName(),
-                        com.getEmail(), com.getPhoneNumber(),
-                        com.getDescription()});
+                for (Tour tour : data) {
+                    if(tour.getId() == companyId) {
+                        tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
+                        tour.getStartDate(),tour.getDescription(),
+                        tour.getAvailables(),tour.getPresentator()});
+                    }
                 }
             }
             tableModel.fireTableDataChanged();
@@ -183,8 +197,8 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã doanh nghiệp", "Doanh nghiệp",
-            "Email", "Điện thoại", "Mô tả"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã tour", "Tên tour",
+            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình"});
         toursOfCompanyTable.setModel(tableModel);
 
         loadTableData();
@@ -315,6 +329,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     public JLabel getCompanyPhoneLabel() {
         return companyPhoneLabel;
     }
+    
 
     public void setCompanyPhoneLabel(JLabel companyPhoneLabel) {
         this.companyPhoneLabel = companyPhoneLabel;
