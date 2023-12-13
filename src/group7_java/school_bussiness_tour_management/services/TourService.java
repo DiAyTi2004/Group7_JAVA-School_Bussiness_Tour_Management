@@ -45,8 +45,6 @@ public class TourService {
         return tourByComId;
     }
     
-    
-    
     public static int getLastCompanyId() throws Exception{
         List<Student> data = StudentDAO.readFromFile();
         if(data!=null) {
