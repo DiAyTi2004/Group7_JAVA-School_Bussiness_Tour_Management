@@ -29,7 +29,7 @@ public class StudentService {
         return StudentDAO.readFromFile();
     }
     
-    public static int getLastCompanyId() throws Exception{
+    public static int getLastStudentId() throws Exception{
         List<Student> data = StudentDAO.readFromFile();
         if(data!=null) {
             if(data.size() == 0) {
@@ -43,20 +43,7 @@ public class StudentService {
     public static Student getStudentByIndex(int index) throws Exception {
         return StudentDAO.readFromFile().get(index);
     }
-//    public static List<Student> getStudentByClassId(String classId) throws Exception {
-//        List<Student> data = StudentDAO.readFromFile();
-//        List<Student> trueData = null;
-//        if(data != null){
-//            for(Student stu: data){
-//            // sua lai kieu du lieu cua student classId thanh string
-//            if(stu.getClassId().toString().trim().equals(classId)){
-//                trueData.add(stu);
-//            }
-//            }
-//        }
-//        
-//        return trueData;
-//    }
+
     public static List<Student> getStudentByClassId(int classId) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         List<Student> trueData = new ArrayList<Student>();
@@ -73,8 +60,9 @@ public class StudentService {
         return trueData;
     }
     
-    public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {    
-        Student stu = new Student(code, firstName, lastName, address, phoneNumber, email, birthDate,classId);
+    public static void createNewStudent(int id,String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {    
+        id = getLastStudentId();
+        Student stu = new Student(id,code, firstName, lastName, address, phoneNumber, email, birthDate,classId);
         List<Student> data = StudentDAO.readFromFile();
         data.add(stu);
         StudentDAO.writeToFile(data);
@@ -83,7 +71,7 @@ public class StudentService {
     public static void updateStudent(Student student) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         for(Student stu : data) {
-            if(stu.getId()==student.getId()) {
+            if(stu.getCode().equals(student.getCode())) {
                 stu.setCode(student.getCode());
                 stu.setFirstName(student.getFirstName());
                 stu.setLastName(student.getLastName());
