@@ -11,10 +11,12 @@ import static group7_java.school_bussiness_tour_management.common.Validator.isVa
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.Teacher;
+import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import static group7_java.school_bussiness_tour_management.services.StudentService.isExistedStudentCode;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
+import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,7 +48,7 @@ public class ManageTour extends javax.swing.JFrame {
         btn_back = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        studentTable = new javax.swing.JTable();
+        tourTable = new javax.swing.JTable();
         btn_add = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
@@ -80,7 +82,7 @@ public class ManageTour extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Quản lí thông tin chuyến tham quan doanh nghiệp");
 
-        studentTable.setModel(new javax.swing.table.DefaultTableModel(
+        tourTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -91,7 +93,12 @@ public class ManageTour extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(studentTable);
+        tourTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tourTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tourTable);
 
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
@@ -258,7 +265,44 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
-
+            String tourName = this.nameInput.getText().trim();
+            String tourCode = this.codeInput.getText().trim();
+            String tourDes = this.descriptionInput.getText().trim();
+            String tourDate = this.startDateInput.getText().trim();
+            String presentator = this.presentatorInput.getText().trim();
+            int availables = Integer.parseInt(this.availablesInput.getText().trim());
+            Company comp = (Company) companyInput.getSelectedItem();
+            Teacher tea = (Teacher) teacherInput.getSelectedItem();
+            int compId = comp.getId();
+            int teaId = tea.getId();
+            if (tourName.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourCode.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Mã chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourDate.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (presentator.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên người đại diện không được để trống", "Thông báo");
+                return;
+            }
+            if (availables < 10) {
+                MessageDialog.showInfoDialog(this, "Số slot không hợp lệ", "Thông báo");
+                return;
+            }
+            if(TourService.isExistedTourCode(tourCode)) {
+                MessageDialog.showInfoDialog(this, "Trùng mã chuyến đi", "Thông báo");
+            }else{
+                TourService.createNewTour(tourCode, tourName, tourDes, tourDate, availables, compId, teaId, presentator);
+                loadTableData();
+                MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
+                clearAllFields();
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi thêm mới, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -267,7 +311,56 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         try {
-
+            int index = tourTable.getSelectedRow();
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
+                return;
+            }
+            Tour selectedTour = TourService.getTourByIndex(index);
+            String tourName = this.nameInput.getText().trim();
+            String tourCode = this.codeInput.getText().trim();
+            String tourDes = this.descriptionInput.getText().trim();
+            String tourDate = this.startDateInput.getText().trim();
+            String presentator = this.presentatorInput.getText().trim();
+            int availables = Integer.parseInt(this.availablesInput.getText().trim());
+            Company comp = (Company) companyInput.getSelectedItem();
+            Teacher tea = (Teacher) teacherInput.getSelectedItem();
+            int compId = comp.getId();
+            int teaId = tea.getId();
+            if (tourName.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourCode.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Mã chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourDate.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (presentator.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên người đại diện không được để trống", "Thông báo");
+                return;
+            }
+            if (availables < 10) {
+                MessageDialog.showInfoDialog(this, "Số slot không hợp lệ", "Thông báo");
+                return;
+            }
+            
+            selectedTour.setCode(tourCode);
+            selectedTour.setName(tourName);
+            selectedTour.setDescription(tourDes);
+            selectedTour.setStartDate(tourDate);
+            selectedTour.setAvailables(availables);
+            selectedTour.setPresentator(presentator);
+            selectedTour.setTeacherId(teaId);
+            selectedTour.setCompanyId(compId);
+            
+            TourService.updateTour(selectedTour);
+            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
+            clearAllFields();
+            loadTableData();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -276,7 +369,18 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void tourTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tourTableMouseClicked
         try {
-
+            int index = tourTable.getSelectedRow();
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
+                return;
+            }
+            Tour selectedTour = TourService.getTourByIndex(index);
+            codeInput.setText(selectedTour.getCode());
+            nameInput.setText(selectedTour.getName());
+            descriptionInput.setText(selectedTour.getDescription());
+            startDateInput.setText(selectedTour.getStartDate());
+            presentatorInput.setText(selectedTour.getPresentator());
+            availablesInput.setText(String.valueOf(selectedTour.getAvailables()));
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -285,7 +389,18 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         try {
-
+            int index = tourTable.getSelectedRow();
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
+                return;
+            }
+            Tour selectedTour = TourService.getTourByIndex(index);
+            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa chuyến này ", "Xác nhận");
+            if (keyPress == 0) {
+                TourService.deleteTour(selectedTour.getId());
+                loadTableData();
+                clearAllFields();
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -330,18 +445,29 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void loadTableData() {
         try {
-            List<Student> data = StudentService.getAllStudents();
-            tableModel.setRowCount(0);
-            if (data != null) {
-                for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
-                    });
-                }
-            }
-            tableModel.fireTableDataChanged();
+            List<Tour> tour_data = TourService.getAllTours();
             List<Company> company_data = CompanyService.getAllCompanies();
-            for(Company comp : company_data) {
-                companyInput.addItem(comp);
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
+            tableModel.setRowCount(0);
+            if(tour_data != null) {
+                for(Tour tour : tour_data) {
+                    String companyName = "";
+                    String teacherName = "";
+                    for(Company comp : company_data) {
+                        if(comp.getId() == tour.getCompanyId()){
+                            companyName = comp.getName();
+                        }
+                    }
+                    for (Teacher tea : teacher_data) {
+                        if(tea.getId() == tour.getTeacherId()) {
+                            teacherName = tea.getFirstName() + " " + tea.getLastName();
+                        }
+                    }
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
+                                                   tour.getStartDate(),tour.getDescription(),
+                                                   tour.getAvailables(),
+                                                   tour.getPresentator(),companyName,teacherName});
+                }
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
@@ -350,11 +476,12 @@ public class ManageTour extends javax.swing.JFrame {
     }
 
     private void initializeTable() {
-//        tableModel = new DefaultTableModel();
-//        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
-//        tourTable.setModel(tableModel);
-//
-//        loadTableData();
+        tableModel = new DefaultTableModel();
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến","Tên chuyến","Thời gian","Mô tả",
+                                                     "Số lượng","Người đại diện","Công ty","Giáo viên"});
+        tourTable.setModel(tableModel);
+
+        loadTableData();
     }
 
     /**
@@ -416,7 +543,7 @@ public class ManageTour extends javax.swing.JFrame {
     private javax.swing.JTextField nameInput;
     private javax.swing.JTextField presentatorInput;
     private javax.swing.JTextField startDateInput;
-    private javax.swing.JTable studentTable;
     private javax.swing.JComboBox<Object> teacherInput;
+    private javax.swing.JTable tourTable;
     // End of variables declaration//GEN-END:variables
 }

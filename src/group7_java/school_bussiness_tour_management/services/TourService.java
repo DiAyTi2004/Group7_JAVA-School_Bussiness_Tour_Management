@@ -4,6 +4,7 @@
  */
 package group7_java.school_bussiness_tour_management.services;
 
+import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
@@ -80,12 +81,15 @@ public class TourService {
         List<Company> company_data = CompanyDAO.readFromFile();
         for(Company comp : company_data) {
             if(comp.getId() == companyId) {
+                if (comp.getTours() == null) {
+                    comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+                }
                 comp.getTours().add(tour);
             }
         }
         tour_data.add(tour);
         TourDAO.writeToFile(tour_data);
-        CompanyDAO.writeToFile(company_data);
+        CompanyDAO.writeToFile(company_data);        
     }
     
     public static void updateTour(Tour uTour) throws Exception {
@@ -104,6 +108,9 @@ public class TourService {
             }
         }
         for(Company comp : company_data) {
+            if (comp.getTours() == null) {
+                    comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+                }
             for(Tour comp_tour : comp.getTours()){
                 if(comp_tour.getId() == uTour.getId()){
                     comp_tour.setCode(uTour.getCode());
