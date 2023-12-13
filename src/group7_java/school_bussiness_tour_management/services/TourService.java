@@ -8,6 +8,7 @@ import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.Tour;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,16 @@ public class TourService {
     
     public static List<Tour> getAllTours() throws Exception{
         return TourDAO.readFromFile();
+    }
+    
+    public static List<Tour> getAllToursByCompanyId(int companyId) throws Exception{
+        List<Tour> data = TourDAO.readFromFile();
+        List<Tour> tourByComId = new ArrayList<>();
+        for(Tour tour : data) {
+            if(tour.getCompanyId() == companyId)
+                tourByComId.add(tour);
+        }
+        return tourByComId;
     }
     
     
