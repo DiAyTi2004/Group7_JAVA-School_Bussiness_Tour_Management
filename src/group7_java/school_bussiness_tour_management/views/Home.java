@@ -80,6 +80,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         manageClassButton.setText("Quản lí thông tin lớp học");
+        manageClassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageClassButtonActionPerformed(evt);
+            }
+        });
 
         manageAccountButton.setText("Quản lí tài khoản hệ thống");
         manageAccountButton.addActionListener(new java.awt.event.ActionListener() {
@@ -283,6 +288,13 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void manageClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageClassButtonActionPerformed
+        dispose();
+        ManageClassroom manageClassroomScreen = new ManageClassroom();
+        manageClassroomScreen.setLocationRelativeTo(null);
+        manageClassroomScreen.setVisible(true);
+    }//GEN-LAST:event_manageClassButtonActionPerformed
+
     private void tourDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tourDataButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tourDataButtonActionPerformed
@@ -298,6 +310,7 @@ public class Home extends javax.swing.JFrame {
     private void teacherDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherDataButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_teacherDataButtonActionPerformed
+
 
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();
