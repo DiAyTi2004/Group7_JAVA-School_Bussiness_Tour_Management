@@ -25,7 +25,6 @@ public class Classroom {
         this.code = code;
         this.name = name;
     }
-    
 
     public Classroom() {
     }
@@ -64,9 +63,11 @@ public class Classroom {
 
     @Override
     public String toString() {
-        return id + "," + code + "," + name + "," + students;
+        return name;
     }
 
-    
+    public String toStringToFile() {
+        return id + "," + code + "," + name + "," + students;
+    }
 
 }

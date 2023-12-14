@@ -8,8 +8,10 @@ import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import static group7_java.school_bussiness_tour_management.dao.TourDAO.readFromFile;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,68 +21,55 @@ import java.util.List;
  * @author gialo
  */
 public class TourService {
-    
-    public static boolean isExistedStudentCode(String student_code ) throws Exception {
-        List<Student> data = StudentDAO.readFromFile();
-        for(Student stu : data){
-            if(stu.getCode().trim().equals(student_code.trim())){
-                return true;
-            }
-        }
-        return false;
-    }
-    
+
     public static boolean isExistedTourCode(String tourCode) throws Exception {
         List<Tour> data = TourDAO.readFromFile();
-        for(Tour tour : data) {
-            if(tour.getCode().trim().equals(tourCode.trim())) {
+        for (Tour tour : data) {
+            if (tour.getCode().trim().equals(tourCode.trim())) {
                 return true;
             }
         }
         return false;
     }
-    
-    public static List<Student> getAllStudents() throws Exception{
-        return StudentDAO.readFromFile();
-    }
-    
-    public static List<Tour> getAllTours() throws Exception{
+
+    public static List<Tour> getAllTours() throws Exception {
         return TourDAO.readFromFile();
     }
-    
-    public static List<Tour> getAllToursByCompanyId(int companyId) throws Exception{
+
+    public static List<Tour> getAllToursByCompanyId(int companyId) throws Exception {
         List<Tour> data = TourDAO.readFromFile();
         List<Tour> tourByComId = new ArrayList<>();
-        for(Tour tour : data) {
-            if(tour.getCompanyId() == companyId)
+        for (Tour tour : data) {
+            if (tour.getCompanyId() == companyId) {
                 tourByComId.add(tour);
+            }
         }
         return tourByComId;
     }
-    
-    public static int getLastTourId() throws Exception{
+
+    public static int getLastTourId() throws Exception {
         List<Tour> data = TourDAO.readFromFile();
-        if(data!=null) {
-            if(data.size() == 0) {
+        if (data != null) {
+            if (data.size() == 0) {
                 return 0;
             }
             return data.get(data.size() - 1).getId();
         }
         return -1;
     }
-    
+
     public static Tour getTourByIndex(int index) throws Exception {
         return TourDAO.readFromFile().get(index);
     }
-    
-    public static void createNewTour(String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator) throws Exception {    
+
+    public static void createNewTour(String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator) throws Exception {
         int lastId = getLastTourId();
         lastId++;
-        Tour tour = new Tour(lastId, code, name, description, startDate,availables, companyId, teacherId, presentator);
+        Tour tour = new Tour(lastId, code, name, description, startDate, availables, companyId, teacherId, presentator);
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
-        for(Company comp : company_data) {
-            if(comp.getId() == companyId) {
+        for (Company comp : company_data) {
+            if (comp.getId() == companyId) {
                 if (comp.getTours() == null) {
                     comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
                 }
@@ -89,14 +78,14 @@ public class TourService {
         }
         tour_data.add(tour);
         TourDAO.writeToFile(tour_data);
-        CompanyDAO.writeToFile(company_data);        
+        CompanyDAO.writeToFile(company_data);
     }
-    
+
     public static void updateTour(Tour uTour) throws Exception {
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
-        for(Tour tour : tour_data) {
-            if(tour.getId() == uTour.getId()) {
+        for (Tour tour : tour_data) {
+            if (tour.getId() == uTour.getId()) {
                 tour.setCode(uTour.getCode());
                 tour.setName(uTour.getName());
                 tour.setDescription(uTour.getDescription());
@@ -107,12 +96,12 @@ public class TourService {
                 tour.setPresentator(uTour.getPresentator());
             }
         }
-        for(Company comp : company_data) {
+        for (Company comp : company_data) {
             if (comp.getTours() == null) {
-                    comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
-                }
-            for(Tour comp_tour : comp.getTours()){
-                if(comp_tour.getId() == uTour.getId()){
+                comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+            }
+            for (Tour comp_tour : comp.getTours()) {
+                if (comp_tour.getId() == uTour.getId()) {
                     comp_tour.setCode(uTour.getCode());
                     comp_tour.setName(uTour.getName());
                     comp_tour.setDescription(uTour.getDescription());
@@ -127,27 +116,37 @@ public class TourService {
         TourDAO.writeToFile(tour_data);
         CompanyDAO.writeToFile(company_data);
     }
-    
+
     public static void deleteTour(int tourId) throws Exception {
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
-        
+
         Tour delTour = null;
-        for(Tour tour : tour_data) {
-            if(tour.getId()==tourId) {
+        for (Tour tour : tour_data) {
+            if (tour.getId() == tourId) {
                 delTour = tour;
                 break;
             }
         }
-        if(delTour!=null) {
+        if (delTour != null) {
             tour_data.remove(delTour);
-            for(Company comp : company_data) {
-                if(comp.getId() == delTour.getCompanyId()) {
+            for (Company comp : company_data) {
+                if (comp.getId() == delTour.getCompanyId()) {
                     comp.getTours().remove(delTour);
                 }
             }
             CompanyDAO.writeToFile(company_data);
             TourDAO.writeToFile(tour_data);
         }
+    }
+
+    public static Tour getTourById(int tourId) throws Exception{
+        List<Tour> tours = TourDAO.readFromFile();
+        for (Tour tour : tours) {
+            if (tour.getId() == tourId) {
+                return tour;
+            }
+        }
+        return null; // Trả về null nếu không tìm thấy tour có id tương ứng
     }
 }

@@ -150,6 +150,12 @@ public class ManageTour extends javax.swing.JFrame {
             }
         });
 
+        teacherInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                teacherInputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -410,6 +416,10 @@ public class ManageTour extends javax.swing.JFrame {
     private void companyInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_companyInputActionPerformed
+
+    private void teacherInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_teacherInputActionPerformed
 
 
     private boolean isEmpty(String str) {

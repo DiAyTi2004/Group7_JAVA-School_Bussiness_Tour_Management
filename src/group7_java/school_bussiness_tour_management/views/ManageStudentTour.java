@@ -4,7 +4,11 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
+import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.StudentService;
+import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -52,7 +56,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setText("Tours sinh viên tham gia");
+        jLabel1.setText("Chuyến tham quan sinh viên tham gia");
 
         studentCodeLabel.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         studentCodeLabel.setText("Mã sinh viên");
@@ -69,7 +73,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
         birthDateLabel.setText("Ngày sinh");
 
-        classIdLabel.setText("Class id");
+        classIdLabel.setText("Lớp");
 
         studentTourTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -89,10 +93,6 @@ public class ManageStudentTour extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btn_back)
-                .addGap(205, 205, 205))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -101,19 +101,23 @@ public class ManageStudentTour extends javax.swing.JFrame {
                             .addComponent(fullNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(studentCodeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(81, 81, 81)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20))))))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(classIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btn_back))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(288, 288, 288)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,34 +157,24 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
     private DefaultTableModel tableModel;
 
-//    private void loadTableData() {
-//        try {
-//            List<Tour> data = TourService.getAllToursByCompanyId(companyId);
-//            tableModel.setRowCount(0);            
-//            if (data != null) {
-//                for (Tour tour : data) {
-//                    if(true) {
-//                        tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
-//                        tour.getStartDate(),tour.getDescription(),
-//                        tour.getAvailables(),tour.getPresentator()});
-//                    }
-//                }
-//            }
-//            tableModel.fireTableDataChanged();
-//        } catch (Exception ex) {
-//            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
-//            ex.printStackTrace();
-//        }
-//    }
-
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã tour", "Tên tour",
-            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Mã giáo viên", "Người đại diện"});
         studentTourTable.setModel(tableModel);
 
-//        loadTableData();
+        loadTableData();
     }
+
+    private void loadTableData() {
+//        if (studentTours != null) {
+//            for (Tour tour : studentTours) {
+//                tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
+//                    tour.getAvailables(), tour.getCompanyId(), tour.getTeacherId(), tour.getPresentator()});
+//            }
+//        }
+    }
+
+
     /**
      * @param args the command line arguments
      */
@@ -271,8 +265,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
     public void setStudentCodeLabel(JLabel studentCodeLabel) {
         this.studentCodeLabel = studentCodeLabel;
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;

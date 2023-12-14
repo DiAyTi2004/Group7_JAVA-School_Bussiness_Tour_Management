@@ -8,9 +8,14 @@ import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.common.Validator;
 import static group7_java.school_bussiness_tour_management.common.Validator.isNumeric;
 import static group7_java.school_bussiness_tour_management.common.Validator.isValidEmail;
+import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import static group7_java.school_bussiness_tour_management.services.StudentService.isExistedStudentCode;
+import group7_java.school_bussiness_tour_management.services.StudentTourService;
+import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -27,8 +32,8 @@ public class ManageStudent extends javax.swing.JFrame {
     public ManageStudent() {
         initComponents();
         setLocationRelativeTo(null);
+        loadComboBox();
         initializeTable();
-        showClassIdData();
     }
 
     /**
@@ -63,7 +68,7 @@ public class ManageStudent extends javax.swing.JFrame {
         btn_clear = new javax.swing.JButton();
         SĐT = new javax.swing.JLabel();
         txt_phone_number = new javax.swing.JTextField();
-        cb_classId = new javax.swing.JComboBox<>();
+        classroomInput = new javax.swing.JComboBox<>();
         btn_StudentTours = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,7 +113,7 @@ public class ManageStudent extends javax.swing.JFrame {
 
         jLabel7.setText("Ngày sinh");
 
-        jLabel8.setText("Class ID");
+        jLabel8.setText("Lớp");
 
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
@@ -140,13 +145,13 @@ public class ManageStudent extends javax.swing.JFrame {
 
         SĐT.setText("SĐT");
 
-        cb_classId.addActionListener(new java.awt.event.ActionListener() {
+        classroomInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_classIdActionPerformed(evt);
+                classroomInputActionPerformed(evt);
             }
         });
 
-        btn_StudentTours.setText("Tours sinh viên tham gia");
+        btn_StudentTours.setText("Chuyến tham quan sinh viên tham gia");
         btn_StudentTours.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_StudentToursActionPerformed(evt);
@@ -201,7 +206,7 @@ public class ManageStudent extends javax.swing.JFrame {
                                             .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                                             .addComponent(txt_first_name, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                                             .addComponent(txt_code, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                            .addComponent(cb_classId, 0, 300, Short.MAX_VALUE)))
+                                            .addComponent(classroomInput, 0, 300, Short.MAX_VALUE)))
                                     .addComponent(btn_StudentTours, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
@@ -249,7 +254,7 @@ public class ManageStudent extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8)
-                                    .addComponent(cb_classId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(classroomInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,7 +288,6 @@ public class ManageStudent extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
-//            isCheckInput();
             int id = StudentService.getLastStudentId();
             String code = txt_code.getText().trim();
             String firstName = txt_first_name.getText().trim();
@@ -292,8 +296,8 @@ public class ManageStudent extends javax.swing.JFrame {
             String phoneNumber = txt_phone_number.getText().trim();
             String email = txt_email.getText().trim();
             String birthDate = txt_birth_date.getText().trim();
-            int index = cb_classId.getSelectedIndex();
-            int classId = cb_classId.getItemAt(index);
+            Classroom classroom = (Classroom) classroomInput.getSelectedItem();
+            int classId = classroom.getId();
 
             if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate)) {
                 MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
@@ -312,7 +316,7 @@ public class ManageStudent extends javax.swing.JFrame {
                 MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
                 return;
             } else {
-                StudentService.createNewStudent(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+                StudentService.createNewStudent(code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
@@ -338,8 +342,8 @@ public class ManageStudent extends javax.swing.JFrame {
             String phoneNumber = this.txt_phone_number.getText().trim();
             String email = this.txt_email.getText().trim();
             String birthDate = this.txt_birth_date.getText().trim();
-
-            int classId = cb_classId.getItemAt(cb_classId.getSelectedIndex());
+            Classroom classroom = (Classroom) classroomInput.getSelectedItem();
+            int classId = classroom.getId();
 
             if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate)) {
                 MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
@@ -355,10 +359,6 @@ public class ManageStudent extends javax.swing.JFrame {
                 return;
             }
 
-//            if (isExistedStudentCode(code)) {
-//                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
-//                return;
-//            }
             selectedStudent.setCode(code);
             selectedStudent.setFirstName(firstName);
             selectedStudent.setLastName(lastName);
@@ -382,7 +382,7 @@ public class ManageStudent extends javax.swing.JFrame {
         try {
             int index = studentTable.getSelectedRow();
             if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Vui chọn chọn sinh viên", "Thông báo");
                 return;
             }
             Student selectedStudent = StudentService.getStudentByIndex(index);
@@ -393,7 +393,7 @@ public class ManageStudent extends javax.swing.JFrame {
             txt_phone_number.setText(selectedStudent.getPhoneNumber());
             txt_email.setText(selectedStudent.getEmail());
             txt_birth_date.setText(selectedStudent.getBirthDate());
-            cb_classId.setSelectedItem(selectedStudent.getClassId());
+            classroomInput.setSelectedItem(selectedStudent.getClassId());
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -420,15 +420,15 @@ public class ManageStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
-    private void cb_classIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_classIdActionPerformed
+    private void classroomInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classroomInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb_classIdActionPerformed
+    }//GEN-LAST:event_classroomInputActionPerformed
 
     private void btn_StudentToursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StudentToursActionPerformed
         try {
             int index = studentTable.getSelectedRow();
             if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Chọn sinh viên cần xem tours", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Chọn sinh viên cần xem các chuyến tham quan", "Thông báo");
                 return;
             }
             Student selectedStudent = StudentService.getStudentByIndex(index);
@@ -436,12 +436,13 @@ public class ManageStudent extends javax.swing.JFrame {
             dispose();
             ManageStudentTour manageStudentTourScreen = new ManageStudentTour();
             manageStudentTourScreen.getStudentCodeLabel().setText("Mã sinh viên: " + selectedStudent.getCode());
-            manageStudentTourScreen.getFullNameLabel().setText("Họ tên: " +selectedStudent.getFirstName() + " " + selectedStudent.getLastName());
+            manageStudentTourScreen.getFullNameLabel().setText("Họ tên: " + selectedStudent.getFirstName() + " " + selectedStudent.getLastName());
             manageStudentTourScreen.getAddressLabel().setText("Địa chỉ: " + selectedStudent.getAddress());
             manageStudentTourScreen.getPhoneNumberLabel().setText("Số điện thoại: " + selectedStudent.getPhoneNumber());
             manageStudentTourScreen.getEmailLabel().setText("Email: " + selectedStudent.getEmail());
             manageStudentTourScreen.getBirthDateLabel().setText("Ngày sinh: " + selectedStudent.getBirthDate());
             manageStudentTourScreen.getClassIdLabel().setText("Class id: " + Integer.toString(selectedStudent.getClassId()));
+            
 
             manageStudentTourScreen.setLocationRelativeTo(null);
             manageStudentTourScreen.setVisible(true);
@@ -463,7 +464,7 @@ public class ManageStudent extends javax.swing.JFrame {
         txt_email.setText("");
         txt_phone_number.setText("");
         txt_birth_date.setText("");
-        cb_classId.setSelectedIndex(0);
+        classroomInput.setSelectedIndex(0);
         txt_code.requestFocus();
     }
 
@@ -471,15 +472,21 @@ public class ManageStudent extends javax.swing.JFrame {
 
     private void loadTableData() {
         try {
-            List<Student> data = StudentService.getAllStudents();
+            List<Student> student_data = StudentService.getAllStudents();
+            List<Classroom> classroom_data = ClassroomService.getAllClassroom();
             tableModel.setRowCount(0);
-            if (data != null) {
-                for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
-                    });
+            if (student_data != null) {
+                for (Student student : student_data) {
+                    String classroomName = "";
+                    for (Classroom classroom : classroom_data) {
+                        if (classroom.getId() == student.getClassId()) {
+                            classroomName = classroom.getName();
+                        }
+                    }
+                    tableModel.addRow(new Object[]{student.getCode(), student.getFirstName(),
+                        student.getLastName(), student.getAddress(), student.getPhoneNumber(), student.getEmail(), student.getBirthDate(), classroomName});
                 }
             }
-            tableModel.fireTableDataChanged();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -488,7 +495,7 @@ public class ManageStudent extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Lớp"});
         studentTable.setModel(tableModel);
 
         loadTableData();
@@ -529,23 +536,19 @@ public class ManageStudent extends javax.swing.JFrame {
         });
     }
 
-    private List<Integer> classId = new ArrayList<>();
+    private void loadComboBox() {
+        try {
+            List<Classroom> classroom_data = ClassroomService.getAllClassroom();
+            for (Classroom classroom : classroom_data) {
+                classroomInput.addItem(classroom);
+            }
 
-    private List<Integer> getClassIdData() {
-        classId.add(1);
-        classId.add(2);
-        classId.add(3);
-        classId.add(4);
-        classId.add(5);
-        return classId;
-    }
-
-    private void showClassIdData() {
-        List<Integer> data = getClassIdData();
-        for (Integer classId : data) {
-            cb_classId.addItem(classId);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho combobox có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel SĐT;
@@ -555,7 +558,7 @@ public class ManageStudent extends javax.swing.JFrame {
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
-    private javax.swing.JComboBox<Integer> cb_classId;
+    private javax.swing.JComboBox<Object> classroomInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
