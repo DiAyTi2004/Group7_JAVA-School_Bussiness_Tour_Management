@@ -6,6 +6,7 @@ package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.StudentService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -20,9 +21,15 @@ public class ManageStudentTour extends javax.swing.JFrame {
     /**
      * Creates new form ManageStudentTour
      */
+    private List<Tour> tours = new ArrayList<>();
+    
     public ManageStudentTour() {
         initComponents();
         initializeTable();
+    }
+    
+    public void setTours(List<Tour>tours){
+        this.tours = tours;
     }
 
     /**
@@ -166,12 +173,12 @@ public class ManageStudentTour extends javax.swing.JFrame {
     }
 
     private void loadTableData() {
-//        if (studentTours != null) {
-//            for (Tour tour : studentTours) {
-//                tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
-//                    tour.getAvailables(), tour.getCompanyId(), tour.getTeacherId(), tour.getPresentator()});
-//            }
-//        }
+        if (tours != null) {
+            for (Tour tour : tours) {
+                tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
+                    tour.getAvailables(), tour.getCompanyId(), tour.getTeacherId(), tour.getPresentator()});
+            }
+        }
     }
 
 

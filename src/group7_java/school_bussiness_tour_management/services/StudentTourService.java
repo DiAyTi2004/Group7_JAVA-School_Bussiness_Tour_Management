@@ -15,15 +15,15 @@ import java.util.List;
  * @author gialo
  */
 public class StudentTourService {
+
     // Phương thức để lấy danh sách Tours của một sinh viên dựa trên studentId
     public static List<Tour> getToursForStudent(int studentId) throws Exception{
         List<Tour> toursForStudent = new ArrayList<>();
-        List<StudentTour> studentTours = StudentTourDAO.readFromFile();
-
+        List<StudentTour>studentTours = StudentTourDAO.readFromFile();
         for (StudentTour studentTour : studentTours) {
             if (studentTour.getStudentId() == studentId) {
                 int tourId = studentTour.getTourId();
-                Tour tour = TourService.getTourById(tourId); // Assuming you have a method to get a Tour by ID
+                Tour tour = TourService.getTourById(tourId); // Sử dụng phương thức getTourById đã được triển khai
                 if (tour != null) {
                     toursForStudent.add(tour);
                 }

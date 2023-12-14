@@ -434,15 +434,19 @@ public class ManageStudent extends javax.swing.JFrame {
             Student selectedStudent = StudentService.getStudentByIndex(index);
 
             dispose();
+            int studentId = selectedStudent.getId();
+            List<Tour> tours = StudentTourService.getToursForStudent(studentId);
+            Classroom classroom = (Classroom) classroomInput.getSelectedItem();
+
             ManageStudentTour manageStudentTourScreen = new ManageStudentTour();
+            manageStudentTourScreen.setTours(tours);
             manageStudentTourScreen.getStudentCodeLabel().setText("Mã sinh viên: " + selectedStudent.getCode());
             manageStudentTourScreen.getFullNameLabel().setText("Họ tên: " + selectedStudent.getFirstName() + " " + selectedStudent.getLastName());
             manageStudentTourScreen.getAddressLabel().setText("Địa chỉ: " + selectedStudent.getAddress());
             manageStudentTourScreen.getPhoneNumberLabel().setText("Số điện thoại: " + selectedStudent.getPhoneNumber());
             manageStudentTourScreen.getEmailLabel().setText("Email: " + selectedStudent.getEmail());
             manageStudentTourScreen.getBirthDateLabel().setText("Ngày sinh: " + selectedStudent.getBirthDate());
-            manageStudentTourScreen.getClassIdLabel().setText("Class id: " + Integer.toString(selectedStudent.getClassId()));
-            
+            manageStudentTourScreen.getClassIdLabel().setText("Lớp: " + classroom);
 
             manageStudentTourScreen.setLocationRelativeTo(null);
             manageStudentTourScreen.setVisible(true);

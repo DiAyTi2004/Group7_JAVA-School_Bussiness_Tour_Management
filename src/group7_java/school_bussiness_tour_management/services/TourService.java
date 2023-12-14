@@ -140,6 +140,7 @@ public class TourService {
         }
     }
 
+    // Phương thức để lấy thông tin Tour dựa trên tourId
     public static Tour getTourById(int tourId) throws Exception{
         List<Tour> tours = TourDAO.readFromFile();
         for (Tour tour : tours) {
@@ -147,6 +148,6 @@ public class TourService {
                 return tour;
             }
         }
-        return null; // Trả về null nếu không tìm thấy tour có id tương ứng
+        return null; // Trả về null nếu không tìm thấy Tour có id tương ứng
     }
 }
