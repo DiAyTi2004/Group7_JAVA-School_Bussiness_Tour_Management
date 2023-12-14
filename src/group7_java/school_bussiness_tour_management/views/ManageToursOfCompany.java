@@ -6,8 +6,10 @@ package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Company;
+import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.JLabel;
@@ -19,13 +21,21 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageToursOfCompany extends javax.swing.JFrame {
 
+    private int companyId;
+    
+    public void setCompanyId(int comId) {
+        this.companyId = comId; 
+    }
+    
+    public int getCompanyId() {
+        return companyId;
+    }
     /**
      * Creates new form ManageBusssiness
      */
     public ManageToursOfCompany() {
         initComponents();
         setLocationRelativeTo(null);
-        initializeTable();
     }
 
     /**
@@ -171,29 +181,27 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
 
     }
     
-    private int companyId;
     
-    public void setCompanyId(int comId) {
-        this.companyId = comId; 
-    }
-    
-    public int getCompanyId() {
-        return companyId;
-    }
 
     private DefaultTableModel tableModel;
 
     private void loadTableData() {
         try {
             List<Tour> data = TourService.getAllToursByCompanyId(companyId);
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
             tableModel.setRowCount(0);            
             if (data != null) {
                 for (Tour tour : data) {
-                    if(true) {
-                        tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
-                        tour.getStartDate(),tour.getDescription(),
-                        tour.getAvailables(),tour.getPresentator()});
+                    String teacherName = "";
+                    for (Teacher tea : teacher_data) {
+                        if(tea.getId() == tour.getTeacherId()) {
+                            teacherName = tea.getFirstName() + " " + tea.getLastName();
+                        }
                     }
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
+                        tour.getStartDate(),tour.getDescription(),
+                        tour.getAvailables(),tour.getPresentator(),teacherName});
+                    
                 }
             }
             tableModel.fireTableDataChanged();
@@ -203,10 +211,10 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         }
     }
 
-    private void initializeTable() {
+    public void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã tour", "Tên tour",
-            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến",
+            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình","Giáo viên"});
         toursOfCompanyTable.setModel(tableModel);
 
         loadTableData();

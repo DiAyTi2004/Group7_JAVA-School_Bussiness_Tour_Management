@@ -444,6 +444,7 @@ public class ManageCompany extends javax.swing.JFrame {
                 tocScreen.getCompanyEmailLabel().setText("Email: " + selectedCom.getEmail());
                 tocScreen.getCompanyPhoneLabel().setText("Điện thoại: " + selectedCom.getPhoneNumber());
                 tocScreen.setCompanyId(selectedCom.getId());
+                tocScreen.initializeTable();
                 dispose();
             }
 
