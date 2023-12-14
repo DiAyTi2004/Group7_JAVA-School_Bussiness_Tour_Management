@@ -45,6 +45,26 @@ public class StudentTourService {
             }
         }
         StudentTourDAO.writeToFile(data);
+
+        List<Student> studentData = StudentDAO.readFromFile();
+        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
+        for (StudentTour stuTour : needUpdateStudent.getStudentTours()) {
+            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
+                stuTour.setRate(rate);
+                break;
+            }
+        }
+        StudentDAO.writeToFile(studentData);
+
+        List<Tour> tourData = TourDAO.readFromFile();
+        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
+        for (StudentTour stuTour : needUpdateTour.getStudentTours()) {
+            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
+                stuTour.setRate(rate);
+                break;
+            }
+        }
+        TourDAO.writeToFile(tourData);
     }
 
     public static void createStudentTour(int studentId, int tourId) throws Exception {
@@ -54,6 +74,16 @@ public class StudentTourService {
         List<StudentTour> data = StudentTourDAO.readFromFile();
         data.add(stuTour);
         StudentTourDAO.writeToFile(data);
+
+        List<Student> studentData = StudentDAO.readFromFile();
+        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
+        needUpdateStudent.getStudentTours().add(stuTour);
+        StudentDAO.writeToFile(studentData);
+
+        List<Tour> tourData = TourDAO.readFromFile();
+        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
+        needUpdateTour.getStudentTours().add(stuTour);
+        TourDAO.writeToFile(tourData);
     }
 
     public static void deleteStudentTour(int studentId, int tourId) throws Exception {
@@ -67,6 +97,34 @@ public class StudentTourService {
         }
         data.remove(deleteItem);
         StudentTourDAO.writeToFile(data);
+
+        List<Student> studentData = StudentDAO.readFromFile();
+        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
+        StudentTour needDelete = null;
+        for (StudentTour stuTour : needUpdateStudent.getStudentTours()) {
+            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
+                needDelete = stuTour;
+                break;
+            }
+        }
+        if (needDelete != null) {
+            needUpdateStudent.getStudentTours().remove(needDelete);
+        }
+        StudentDAO.writeToFile(studentData);
+
+        List<Tour> tourData = TourDAO.readFromFile();
+        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
+        needDelete = null;
+        for (StudentTour stuTour : needUpdateTour.getStudentTours()) {
+            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
+                needDelete = stuTour;
+                break;
+            }
+        }
+        if (needDelete != null) {
+            needUpdateTour.getStudentTours().remove(needDelete);
+        }
+        TourDAO.writeToFile(tourData);
     }
 
     public static List<Student> getStudentsByTourId(int tourId) throws Exception {

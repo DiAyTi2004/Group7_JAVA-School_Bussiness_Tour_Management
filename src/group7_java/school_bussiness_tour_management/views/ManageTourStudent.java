@@ -10,7 +10,10 @@ import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.ClassroomService;
+import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,12 +37,17 @@ public class ManageTourStudent extends javax.swing.JFrame {
     private Tour selectedTour;
 
     public ManageTourStudent(Tour tour) {
-        this.selectedTour = tour;
-        initComponents();
-        setLocationRelativeTo(null);
-        initializeTable();
-        String tourTitle = "Công ty " + tour.getName() + " (Mã: " + tour.getCode() + ") - Ngày: " + tour.getStartDate();
-        tourNameTitle.setText(tourTitle);
+        try {
+            this.selectedTour = tour;
+            initComponents();
+            setLocationRelativeTo(null);
+            initializeTable();
+            String tourTitle = tour.getName() + " (Mã: " + tour.getCode() + ", công ty: " + CompanyService.getById(tour.getCompanyId()).getName() + ") - Ngày: " + tour.getStartDate();
+            tourNameTitle.setText(tourTitle);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "lỗi");
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -58,11 +66,12 @@ public class ManageTourStudent extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         searchInput = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         exportPDFButton = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         exportExcelButton = new javax.swing.JButton();
         tourNameTitle = new javax.swing.JLabel();
+        resetButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,19 +106,42 @@ public class ManageTourStudent extends javax.swing.JFrame {
 
         jLabel9.setText("Tìm kiếm sinh viên:");
 
-        searchButton.setText("Tìm kiếm");
+        searchInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchInputKeyPressed(evt);
+            }
+        });
 
-        jButton2.setText("Thêm sinh viên");
+        searchButton.setText("Tìm kiếm");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setText("Thêm sinh viên");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         exportPDFButton.setText("Xuất danh sách bản PDF");
 
-        jButton4.setText("Xóa khỏi danh sách");
+        deleteButton.setText("Xóa khỏi danh sách");
 
         exportExcelButton.setText("Xuất danh sách bản Excel");
 
         tourNameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         tourNameTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tourNameTitle.setText("Tên công ty - Ngày diễn ra");
+
+        resetButton.setText("Nhập lại");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,10 +157,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchInput)
                             .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(exportPDFButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                            .addComponent(exportExcelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                            .addComponent(exportExcelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_back)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -148,22 +181,25 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(exportExcelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGap(67, 67, 67))))
         );
 
         pack();
@@ -184,12 +220,64 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 return;
             }
             Student selectedStudent = StudentService.getStudentByIndex(index);
-
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_studentTableMouseClicked
+
+    private void handleSearchByKeyword() {
+        try {
+            String keyword = searchInput.getText().trim();
+            if (keyword.trim().equals("")) {
+                MessageDialog.showInfoDialog(this, "Chưa có từ khóa tìm kiếm", "Thông báo");
+                return;
+            }
+            List<StudentTour> data = selectedTour.getStudentTours();
+            tableModel.setRowCount(0);
+            if (data != null) {
+                for (StudentTour stuTour : data) {
+                    Student stu = StudentService.getById(stuTour.getStudentId());
+                    if (stu.getAddress().contains(keyword) || stu.getCode().contains(keyword) || stu.getFirstName().contains(keyword) || stu.getLastName().contains(keyword) || stu.getPhoneNumber().contains(keyword)) {
+                        tableModel.addRow(
+                                new Object[]{
+                                    stu.getCode(),
+                                    stu.getFirstName(),
+                                    stu.getLastName(),
+                                    ClassroomService.getById(stu.getClassId()).getName(),
+                                    stu.getBirthDate(),
+                                    stu.getPhoneNumber(),
+                                    stu.getEmail(),
+                                    stu.getAddress()
+                                });
+                    }
+                }
+            }
+            tableModel.fireTableDataChanged();
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        handleSearchByKeyword();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        loadTableData();
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void searchInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchInputKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Handle Enter key press
+            handleSearchByKeyword();
+        }
+    }//GEN-LAST:event_searchInputKeyPressed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private DefaultTableModel tableModel;
 
@@ -267,13 +355,14 @@ public class ManageTourStudent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JButton btn_back;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JButton exportExcelButton;
     private javax.swing.JButton exportPDFButton;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton resetButton;
     private javax.swing.JLabel screenTitle;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;

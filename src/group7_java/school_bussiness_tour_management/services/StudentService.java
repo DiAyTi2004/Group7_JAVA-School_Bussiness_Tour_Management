@@ -111,4 +111,13 @@ public class StudentService {
         }
         return null;
     }
+
+    public static Student getByIdFromList(int studentId, List<Student> data) {
+        for (Student student : data) {
+            if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        return null;
+    }
 }
