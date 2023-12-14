@@ -501,12 +501,10 @@ public class Home extends javax.swing.JFrame {
         // </editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Home view = new Home();
-                view.setLocationRelativeTo(null);
-                view.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Home view = new Home();
+            view.setLocationRelativeTo(null);
+            view.setVisible(true);
         });
     }
 

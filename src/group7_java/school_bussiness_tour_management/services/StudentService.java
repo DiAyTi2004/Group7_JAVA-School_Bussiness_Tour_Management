@@ -14,32 +14,32 @@ import java.util.List;
  * @author gialo
  */
 public class StudentService {
-    
-    public static boolean isExistedStudentCode(String student_code ) throws Exception {
+
+    public static boolean isExistedStudentCode(String student_code) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
-        for(Student stu : data){
-            if(stu.getCode().trim().equals(student_code.trim())){
+        for (Student stu : data) {
+            if (stu.getCode().trim().equals(student_code.trim())) {
                 return true;
             }
         }
         return false;
     }
-    
-    public static List<Student> getAllStudents() throws Exception{
+
+    public static List<Student> getAllStudents() throws Exception {
         return StudentDAO.readFromFile();
     }
-    
-    public static int getLastStudentId() throws Exception{
+
+    public static int getLastStudentId() throws Exception {
         List<Student> data = StudentDAO.readFromFile();
-        if(data!=null) {
-            if(data.size() == 0) {
+        if (data != null) {
+            if (data.size() == 0) {
                 return 0;
             }
             return data.get(data.size() - 1).getId();
         }
         return -1;
     }
-    
+
     public static Student getStudentByIndex(int index) throws Exception {
         return StudentDAO.readFromFile().get(index);
     }
@@ -47,31 +47,31 @@ public class StudentService {
     public static List<Student> getStudentByClassId(int classId) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         List<Student> trueData = new ArrayList<Student>();
-        if(data != null){
-            for(Student stu: data){
-            // sua lai kieu du lieu cua student classId thanh string
-            if(stu.getClassId() == classId){
-                trueData.add(stu);
+        if (data != null) {
+            for (Student stu : data) {
+                // sua lai kieu du lieu cua student classId thanh string
+                if (stu.getClassId() == classId) {
+                    trueData.add(stu);
+                }
             }
-            }
-            
+
         }
-        
+
         return trueData;
     }
-    
-    public static void createNewStudent(int id,String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {    
-        id = getLastStudentId();
-        Student stu = new Student(id,code, firstName, lastName, address, phoneNumber, email, birthDate,classId);
+
+    public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {
+        int id = getLastStudentId();
+        Student stu = new Student(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
         List<Student> data = StudentDAO.readFromFile();
         data.add(stu);
         StudentDAO.writeToFile(data);
     }
-    
+
     public static void updateStudent(Student student) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
-        for(Student stu : data) {
-            if(stu.getCode().equals(student.getCode())) {
+        for (Student stu : data) {
+            if (stu.getCode().equals(student.getCode())) {
                 stu.setCode(student.getCode());
                 stu.setFirstName(student.getFirstName());
                 stu.setLastName(student.getLastName());
@@ -80,25 +80,46 @@ public class StudentService {
                 stu.setEmail(student.getEmail());
                 stu.setBirthDate(student.getBirthDate());
                 stu.setClassId(student.getClassId());
-               
+
                 break;
             }
         }
         StudentDAO.writeToFile(data);
     }
-    
+
     public static void deleteStudent(int studentId) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         Student delStu = null;
-        for(Student stu : data) {
-            if(stu.getId()==studentId) {
+        for (Student stu : data) {
+            if (stu.getId() == studentId) {
                 delStu = stu;
                 break;
             }
         }
-        if(delStu!=null) {
+        if (delStu != null) {
             data.remove(delStu);
             StudentDAO.writeToFile(data);
         }
     }
+
+
+    public static Student getById(int studentId) throws Exception {
+        List<Student> data = StudentDAO.readFromFile();
+        for (Student student : data) {
+            if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public static Student getByIdFromList(int studentId, List<Student> data) {
+        for (Student student : data) {
+            if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        return null;
+    }
 }
+

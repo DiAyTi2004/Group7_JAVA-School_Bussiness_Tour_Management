@@ -15,6 +15,16 @@ import java.util.List;
  */
 public class ClassroomService {
 
+    public static Classroom getById(int classId) throws Exception {
+        List<Classroom> data = ClassroomDAO.readFromFile();
+        for (Classroom item : data) {
+            if (item.getId() == classId) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     public static boolean isExisted(Classroom classroom) throws Exception {
         List<Classroom> data = ClassroomDAO.readFromFile();
         for (Classroom item : data) {
