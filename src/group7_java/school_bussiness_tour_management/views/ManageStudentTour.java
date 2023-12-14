@@ -22,14 +22,16 @@ public class ManageStudentTour extends javax.swing.JFrame {
      * Creates new form ManageStudentTour
      */
     private List<Tour> tours = new ArrayList<>();
-    
+
     public ManageStudentTour() {
         initComponents();
         initializeTable();
     }
-    
-    public void setTours(List<Tour>tours){
+
+   
+    public void setTours(List<Tour> tours) {
         this.tours = tours;
+        loadTableData();
     }
 
     /**
@@ -166,9 +168,8 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Mã giáo viên", "Người đại diện"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Mã doanh nghiệp", "Mã giáo viên", "Người đại diện"});
         studentTourTable.setModel(tableModel);
-
         loadTableData();
     }
 
@@ -180,7 +181,6 @@ public class ManageStudentTour extends javax.swing.JFrame {
             }
         }
     }
-
 
     /**
      * @param args the command line arguments
@@ -287,6 +287,5 @@ public class ManageStudentTour extends javax.swing.JFrame {
     private javax.swing.JLabel studentCodeLabel;
     private javax.swing.JTable studentTourTable;
     // End of variables declaration//GEN-END:variables
-
 
 }

@@ -10,6 +10,7 @@ import static group7_java.school_bussiness_tour_management.common.Validator.isNu
 import static group7_java.school_bussiness_tour_management.common.Validator.isValidEmail;
 import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
@@ -436,10 +437,12 @@ public class ManageStudent extends javax.swing.JFrame {
             dispose();
             int studentId = selectedStudent.getId();
             List<Tour> tours = StudentTourService.getToursForStudent(studentId);
+            List<StudentTour> studentTours = StudentTourService.getStudentTour(studentId);
             Classroom classroom = (Classroom) classroomInput.getSelectedItem();
 
             ManageStudentTour manageStudentTourScreen = new ManageStudentTour();
             manageStudentTourScreen.setTours(tours);
+
             manageStudentTourScreen.getStudentCodeLabel().setText("Mã sinh viên: " + selectedStudent.getCode());
             manageStudentTourScreen.getFullNameLabel().setText("Họ tên: " + selectedStudent.getFirstName() + " " + selectedStudent.getLastName());
             manageStudentTourScreen.getAddressLabel().setText("Địa chỉ: " + selectedStudent.getAddress());
@@ -450,6 +453,7 @@ public class ManageStudent extends javax.swing.JFrame {
 
             manageStudentTourScreen.setLocationRelativeTo(null);
             manageStudentTourScreen.setVisible(true);
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
