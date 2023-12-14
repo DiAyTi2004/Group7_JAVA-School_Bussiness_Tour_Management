@@ -283,8 +283,6 @@ public class ManageStudent extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
-//            isCheckInput();
-            int id = StudentService.getLastStudentId();
             String code = txt_code.getText().trim();
             String firstName = txt_first_name.getText().trim();
             String lastName = txt_last_name.getText().trim();
@@ -312,7 +310,7 @@ public class ManageStudent extends javax.swing.JFrame {
                 MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
                 return;
             } else {
-                StudentService.createNewStudent(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+                StudentService.createNewStudent(code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
