@@ -5,6 +5,7 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
+import group7_java.school_bussiness_tour_management.common.GetSizeOfDataFromJson;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 
 /**
@@ -21,6 +22,11 @@ public class Home extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
+    
+//    public void changeText()
+//    {
+//        teacherDataButton.setText("123");
+//    }  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -296,7 +302,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_studentDataButtonActionPerformed
 
     private void teacherDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherDataButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_teacherDataButtonActionPerformed
 
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed

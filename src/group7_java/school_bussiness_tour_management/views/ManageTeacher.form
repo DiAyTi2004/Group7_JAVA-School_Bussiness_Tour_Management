@@ -25,53 +25,47 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="usernameTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="addressTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="teacherIDLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="birthdayTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="addressTeacherField" pref="322" max="32767" attributes="0"/>
-                                  <Component id="usernameTeacherField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="teacherIDField" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="birthdayTeacherField" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="phoneNumberTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="emailTeacherLabel" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                  <Component id="passwordTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="nameTeacherLabel" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="phoneNumberTeacherField" alignment="1" pref="321" max="32767" attributes="0"/>
-                                  <Component id="passwordTeacherField" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="nameTeacherField" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="emailTeacherField" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                  </Group>
                   <Group type="102" attributes="0">
                       <Component id="btnBackHome" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="306" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="272" max="-2" attributes="0"/>
                       <Component id="mainTitle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="addressTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="teacherIDLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="birthdayTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="birthdayTeacherField" alignment="0" min="-2" pref="322" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="addressTeacherField" pref="322" max="32767" attributes="0"/>
+                              <Component id="teacherIDField" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="phoneNumberTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailTeacherLabel" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                          <Component id="nameTeacherLabel" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="phoneNumberTeacherField" alignment="1" pref="321" max="32767" attributes="0"/>
+                          <Component id="nameTeacherField" alignment="1" max="32767" attributes="0"/>
+                          <Component id="emailTeacherField" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="187" max="-2" attributes="0"/>
               <Component id="createTeacherBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Component id="updateTeacherBtn" min="-2" max="-2" attributes="0"/>
@@ -81,7 +75,7 @@
               <Component id="clearTeacherBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
               <Component id="detailTour" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="226" max="32767" attributes="0"/>
+              <EmptySpace pref="224" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -105,28 +99,21 @@
                   <Component id="teacherIDField" alignment="2" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="nameTeacherField" alignment="2" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="usernameTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="usernameTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="passwordTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="passwordTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="addressTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="addressTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="phoneNumberTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="phoneNumberTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="phoneNumberTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="birthdayTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="birthdayTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="emailTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="birthdayTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="emailTeacherField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="emailTeacherLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="217" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="2" attributes="0">
@@ -136,7 +123,7 @@
                   <Component id="createTeacherBtn" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="detailTour" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -172,20 +159,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nameTeacherField">
-    </Component>
-    <Component class="javax.swing.JLabel" name="usernameTeacherLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="T&#xea;n &#x111;&#x103;ng nh&#x1ead;p: "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="usernameTeacherField">
-    </Component>
-    <Component class="javax.swing.JLabel" name="passwordTeacherLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="M&#x1ead;t kh&#x1ea9;u: "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JPasswordField" name="passwordTeacherField">
     </Component>
     <Component class="javax.swing.JLabel" name="addressTeacherLabel">
       <Properties>
@@ -260,6 +233,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="birthdayTeacherField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="birthdayTeacherFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="emailTeacherLabel">
       <Properties>

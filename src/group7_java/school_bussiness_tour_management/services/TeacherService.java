@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TeacherService {
 
-    public static String FirstName(String name)
+    public static String LastName(String name)
     {
         String[] splitName = formatName(name).split(" ");
         String firstName = "";
@@ -19,7 +19,7 @@ public class TeacherService {
         return firstName.trim();
     }
     
-    public static String LastName(String name)
+    public static String FirstName(String name)
     {
         String[] splitName = formatName(name).split(" ");
         return splitName[splitName.length - 1].trim();
@@ -51,12 +51,12 @@ public class TeacherService {
         return -1;
     }
 
-    public static void createNewTeacher(String code, String name, String address, String phoneNumber, String email, String birthDate, String username, String password) throws Exception {
+    public static void createNewTeacher(String code, String name, String address, String phoneNumber, String email, String birthDate) throws Exception {
         if (!isCheckCodeTeacher(code)) {
             int lastId = getLastTeacherId();
             int id = ++lastId;
             List<Teacher> data = TeacherDAO.readFromFile();
-            Teacher tea = new Teacher(id, code,FirstName(name), LastName(name), address, phoneNumber, email, birthDate, username, password);
+            Teacher tea = new Teacher(id, code,FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
             data.add(tea);
             TeacherDAO.writeToFile(data);
         }
@@ -77,8 +77,6 @@ public class TeacherService {
                 tea.setBirthDate(teacher.getBirthDate());
                 tea.setEmail(teacher.getEmail());
                 tea.setAddress(teacher.getAddress());
-                tea.setUsername(teacher.getUsername());
-                tea.setPassword(teacher.getPassword());
                 break;
             }
         }
@@ -86,7 +84,7 @@ public class TeacherService {
     }
     
     public static void deleteTeacher(int teacherId) throws Exception {
-         List<Teacher> data = TeacherDAO.readFromFile();
+        List<Teacher> data = TeacherDAO.readFromFile();
         Teacher delTea = null;
         for(Teacher tea : data) {
             if(tea.getId()==teacherId) {

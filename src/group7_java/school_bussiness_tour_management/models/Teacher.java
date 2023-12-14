@@ -12,33 +12,12 @@ import java.util.List;
  * @author PC
  */
 public class Teacher extends Person{
-    private String username;
-    private String password;
     private List<Tour> tours;
     public Teacher() {
     }
 
-    public Teacher( int id, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, String username, String password) {
+    public Teacher( int id, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate) {
         super(id, code, firstName, lastName, address, phoneNumber, email, birthDate);
-        this.username = username;
-        this.password = password;
-    }
-
-
-    public String getUsername() { 
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public static int getCount() {
@@ -143,8 +122,7 @@ public class Teacher extends Person{
     }
 
     public String toStringFile() {
-        System.out.println(id + "," + code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + getBirthDate() + "," + getUsername()+ "," + getPassword());
-        return id + "," + code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + getBirthDate() + "," + getUsername()+ "," + getPassword();
+        return id + "," + code + "," + firstName + "," + lastName + "," + address + "," + phoneNumber + "," + email + "," + getBirthDate() ;
     }
 
 }
