@@ -165,6 +165,7 @@ public class Login extends javax.swing.JFrame {
             }
             Account acc = new Account(username, password);
             if (AccountService.isExisted(acc)) {
+                AccountService.currentLoginUser = AccountService.getAccountByUsername(acc.getUsername());
                 dispose();
                 Home homeScreen = new Home();
                 homeScreen.setVisible(true);

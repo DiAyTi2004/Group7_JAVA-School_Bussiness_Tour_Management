@@ -11,6 +11,7 @@ import static group7_java.school_bussiness_tour_management.common.Validator.isVa
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import static group7_java.school_bussiness_tour_management.services.StudentService.isExistedStudentCode;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +28,7 @@ public class ManageStudent extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         initializeTable();
+        showClassIdData();
     }
 
     /**
@@ -55,13 +57,14 @@ public class ManageStudent extends javax.swing.JFrame {
         txt_address = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
         txt_birth_date = new javax.swing.JTextField();
-        txt_class_id = new javax.swing.JTextField();
         btn_add = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         SĐT = new javax.swing.JLabel();
         txt_phone_number = new javax.swing.JTextField();
+        cb_classId = new javax.swing.JComboBox<>();
+        btn_StudentTours = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,12 +110,6 @@ public class ManageStudent extends javax.swing.JFrame {
 
         jLabel8.setText("Class ID");
 
-        txt_class_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_class_idActionPerformed(evt);
-            }
-        });
-
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,6 +140,19 @@ public class ManageStudent extends javax.swing.JFrame {
 
         SĐT.setText("SĐT");
 
+        cb_classId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_classIdActionPerformed(evt);
+            }
+        });
+
+        btn_StudentTours.setText("Tours sinh viên tham gia");
+        btn_StudentTours.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_StudentToursActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,8 +165,7 @@ public class ManageStudent extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btn_delete)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_clear)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btn_clear))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,29 +178,32 @@ public class ManageStudent extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(29, 29, 29))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btn_add)
-                                            .addComponent(SĐT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_birth_date, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_class_id, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_phone_number, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_last_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_first_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_code, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))))))
-                .addGap(22, 22, 22))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(29, 29, 29))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(btn_add)
+                                                    .addComponent(SĐT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_birth_date, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_phone_number, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_last_name, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_first_name, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(txt_code, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                            .addComponent(cb_classId, 0, 300, Short.MAX_VALUE)))
+                                    .addComponent(btn_StudentTours, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
                 .addGap(332, 332, 332)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,30 +247,28 @@ public class ManageStudent extends javax.swing.JFrame {
                                 .addGap(12, 12, 12)
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel8))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(cb_classId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_birth_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_class_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                .addComponent(txt_birth_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_add)
                             .addComponent(btn_edit)
                             .addComponent(btn_delete)
-                            .addComponent(btn_clear)))
+                            .addComponent(btn_clear))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_StudentTours))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txt_class_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_class_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_class_idActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
         clearAllFields();
@@ -274,7 +284,7 @@ public class ManageStudent extends javax.swing.JFrame {
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
 //            isCheckInput();
-
+            int id = StudentService.getLastStudentId();
             String code = txt_code.getText().trim();
             String firstName = txt_first_name.getText().trim();
             String lastName = txt_last_name.getText().trim();
@@ -282,14 +292,15 @@ public class ManageStudent extends javax.swing.JFrame {
             String phoneNumber = txt_phone_number.getText().trim();
             String email = txt_email.getText().trim();
             String birthDate = txt_birth_date.getText().trim();
-            String classId = txt_class_id.getText().trim();
-            int ClassId = Integer.parseInt(classId);
-            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
+            int index = cb_classId.getSelectedIndex();
+            int classId = cb_classId.getItemAt(index);
+
+            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate)) {
                 MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
                 return;
             }
 
-            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
+            if (!isNumeric(phoneNumber)) {
                 MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
                 return;
             }
@@ -301,7 +312,7 @@ public class ManageStudent extends javax.swing.JFrame {
                 MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
                 return;
             } else {
-                StudentService.createNewStudent(code, firstName, lastName, address, phoneNumber, email, birthDate, ClassId);
+                StudentService.createNewStudent(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
@@ -327,15 +338,15 @@ public class ManageStudent extends javax.swing.JFrame {
             String phoneNumber = this.txt_phone_number.getText().trim();
             String email = this.txt_email.getText().trim();
             String birthDate = this.txt_birth_date.getText().trim();
-            String classId = this.txt_class_id.getText().trim();
-            
 
-            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
+            int classId = cb_classId.getItemAt(cb_classId.getSelectedIndex());
+
+            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate)) {
                 MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
                 return;
             }
 
-            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
+            if (!isNumeric(phoneNumber)) {
                 MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
                 return;
             }
@@ -343,11 +354,11 @@ public class ManageStudent extends javax.swing.JFrame {
                 MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
                 return;
             }
-            if (isExistedStudentCode(code)) {
-                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
-                return;
-            }
 
+//            if (isExistedStudentCode(code)) {
+//                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
+//                return;
+//            }
             selectedStudent.setCode(code);
             selectedStudent.setFirstName(firstName);
             selectedStudent.setLastName(lastName);
@@ -355,14 +366,14 @@ public class ManageStudent extends javax.swing.JFrame {
             selectedStudent.setPhoneNumber(phoneNumber);
             selectedStudent.setEmail(email);
             selectedStudent.setBirthDate(birthDate);
-            selectedStudent.setClassId(Integer.parseInt(classId));
+            selectedStudent.setClassId(classId);
             StudentService.updateStudent(selectedStudent);
 
             MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
         } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
+            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin sinh viên, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btn_editActionPerformed
@@ -382,7 +393,7 @@ public class ManageStudent extends javax.swing.JFrame {
             txt_phone_number.setText(selectedStudent.getPhoneNumber());
             txt_email.setText(selectedStudent.getEmail());
             txt_birth_date.setText(selectedStudent.getBirthDate());
-            txt_class_id.setText(Integer.toString(selectedStudent.getClassId()));
+            cb_classId.setSelectedItem(selectedStudent.getClassId());
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -390,7 +401,7 @@ public class ManageStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_studentTableMouseClicked
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        try{
+        try {
             int index = studentTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Chọn sinh viên muốn xóa", "Thông báo");
@@ -399,40 +410,47 @@ public class ManageStudent extends javax.swing.JFrame {
             Student selectedStudent = StudentService.getStudentByIndex(index);
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
             if (keyPress == 0) {
-               StudentService.deleteStudent(selectedStudent.getId());
+                StudentService.deleteStudent(selectedStudent.getId());
                 loadTableData();
                 clearAllFields();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
-//    private void isCheckInput() {
-//        String code = txt_code.getText().trim();
-//        String first_name = txt_first_name.getText().trim();
-//        String last_name = txt_last_name.getText().trim();
-//        String address = txt_address.getText().trim();
-//        String phone_number = txt_address.getText().trim();
-//        String email = txt_email.getText().trim();
-//        String birth_date = txt_birth_date.getText().trim();
-//        String classId = txt_class_id.getText().trim();
-//
-//        if (isEmpty(code) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(address) || isEmpty(phone_number) || isEmpty(email) || isEmpty(birth_date) || isEmpty(classId)) {
-//            MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
-//            return;
-//        }
-//
-//        if (!isNumeric(phone_number) || !isNumeric(classId)) {
-//            MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
-//            return;
-//        }
-//        if (!isValidEmail(email)) {
-//            MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
-//            return;
-//        }
-//    }
+    private void cb_classIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_classIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_classIdActionPerformed
+
+    private void btn_StudentToursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StudentToursActionPerformed
+        try {
+            int index = studentTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Chọn sinh viên cần xem tours", "Thông báo");
+                return;
+            }
+            Student selectedStudent = StudentService.getStudentByIndex(index);
+
+            dispose();
+            ManageStudentTour manageStudentTourScreen = new ManageStudentTour();
+            manageStudentTourScreen.getStudentCodeLabel().setText("Mã sinh viên: " + selectedStudent.getCode());
+            manageStudentTourScreen.getFullNameLabel().setText("Họ tên: " +selectedStudent.getFirstName() + " " + selectedStudent.getLastName());
+            manageStudentTourScreen.getAddressLabel().setText("Địa chỉ: " + selectedStudent.getAddress());
+            manageStudentTourScreen.getPhoneNumberLabel().setText("Số điện thoại: " + selectedStudent.getPhoneNumber());
+            manageStudentTourScreen.getEmailLabel().setText("Email: " + selectedStudent.getEmail());
+            manageStudentTourScreen.getBirthDateLabel().setText("Ngày sinh: " + selectedStudent.getBirthDate());
+            manageStudentTourScreen.getClassIdLabel().setText("Class id: " + Integer.toString(selectedStudent.getClassId()));
+
+            manageStudentTourScreen.setLocationRelativeTo(null);
+            manageStudentTourScreen.setVisible(true);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_StudentToursActionPerformed
+
     private boolean isEmpty(String str) {
         return str.isEmpty();
     }
@@ -445,7 +463,7 @@ public class ManageStudent extends javax.swing.JFrame {
         txt_email.setText("");
         txt_phone_number.setText("");
         txt_birth_date.setText("");
-        txt_class_id.setText("");
+        cb_classId.setSelectedIndex(0);
         txt_code.requestFocus();
     }
 
@@ -511,13 +529,33 @@ public class ManageStudent extends javax.swing.JFrame {
         });
     }
 
+    private List<Integer> classId = new ArrayList<>();
+
+    private List<Integer> getClassIdData() {
+        classId.add(1);
+        classId.add(2);
+        classId.add(3);
+        classId.add(4);
+        classId.add(5);
+        return classId;
+    }
+
+    private void showClassIdData() {
+        List<Integer> data = getClassIdData();
+        for (Integer classId : data) {
+            cb_classId.addItem(classId);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel SĐT;
+    private javax.swing.JButton btn_StudentTours;
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
+    private javax.swing.JComboBox<Integer> cb_classId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -530,7 +568,6 @@ public class ManageStudent extends javax.swing.JFrame {
     private javax.swing.JTable studentTable;
     private javax.swing.JTextField txt_address;
     private javax.swing.JTextField txt_birth_date;
-    private javax.swing.JTextField txt_class_id;
     private javax.swing.JTextField txt_code;
     private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_first_name;

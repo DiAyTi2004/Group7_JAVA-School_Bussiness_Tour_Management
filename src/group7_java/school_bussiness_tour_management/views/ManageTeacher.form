@@ -48,7 +48,7 @@
                               <Component id="teacherIDField" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="74" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="phoneNumberTeacherLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="emailTeacherLabel" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
@@ -65,7 +65,7 @@
               <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="187" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
               <Component id="createTeacherBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
               <Component id="updateTeacherBtn" min="-2" max="-2" attributes="0"/>
@@ -75,7 +75,7 @@
               <Component id="clearTeacherBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
               <Component id="detailTour" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="224" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -246,7 +246,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="detailTour">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Xem chi ti&#x1ebf;t tour"/>
+        <Property name="text" type="java.lang.String" value="Xem danh s&#xe1;ch chuy&#x1ebf;n tham quan c&#x1ee7;a gi&#xe1;o vi&#xea;n"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detailTourActionPerformed"/>

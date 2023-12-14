@@ -124,7 +124,7 @@ public class ManageTeacher extends javax.swing.JFrame {
 
         emailTeacherLabel.setText("Email:");
 
-        detailTour.setText("Xem chi tiết tour");
+        detailTour.setText("Xem danh sách chuyến tham quan của giáo viên");
         detailTour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 detailTourActionPerformed(evt);
@@ -155,7 +155,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(addressTeacherField, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                                 .addComponent(teacherIDField, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(phoneNumberTeacherLabel)
                             .addComponent(emailTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,7 +167,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                             .addComponent(emailTeacherField))))
                 .addGap(68, 68, 68))
             .addGroup(layout.createSequentialGroup()
-                .addGap(187, 187, 187)
+                .addGap(116, 116, 116)
                 .addComponent(createTeacherBtn)
                 .addGap(66, 66, 66)
                 .addComponent(updateTeacherBtn)
@@ -177,7 +177,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                 .addComponent(clearTeacherBtn)
                 .addGap(52, 52, 52)
                 .addComponent(detailTour)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,6 +457,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                 manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
                 manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
                 manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                manageToursOfTeacherScreen.initializeTable();
                 dispose();
             }
         } catch (Exception e) {

@@ -255,7 +255,7 @@ public class ManageCompany extends javax.swing.JFrame {
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Company com : data) {
-                    tableModel.addRow(new Object[]{com.getCode(), com.getName(),
+                    tableModel.addRow(new Object[]{com.getCode(), com.getName(),com.getAddress(),
                         com.getEmail(), com.getPhoneNumber(),
                         com.getDescription()});
                 }
@@ -269,7 +269,7 @@ public class ManageCompany extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã doanh nghiệp", "Doanh nghiệp",
+        tableModel.setColumnIdentifiers(new String[]{"Mã doanh nghiệp", "Doanh nghiệp","Địa chỉ",
             "Email", "Điện thoại", "Mô tả"});
         companyTable.setModel(tableModel);
 
@@ -439,11 +439,12 @@ public class ManageCompany extends javax.swing.JFrame {
                 tocScreen.setVisible(true);
                 tocScreen.getCompanyCodeLabel().setText("Mã doanh nghiệp: " + selectedCom.getCode());
                 tocScreen.getCompanyNameLabel().setText("Tên doanh nghiệp: " + selectedCom.getName());
-                tocScreen.getCompanyDescriptionLabel().setText("Mã doanh nghiệp: " + selectedCom.getDescription());
-                tocScreen.getCompanyAddressLabel().setText("Ghi chú: " + selectedCom.getAddress());
+                tocScreen.getCompanyDescriptionLabel().setText("Mô tả: " + selectedCom.getDescription());
+                tocScreen.getCompanyAddressLabel().setText("Địa chỉ: " + selectedCom.getAddress());
                 tocScreen.getCompanyEmailLabel().setText("Email: " + selectedCom.getEmail());
                 tocScreen.getCompanyPhoneLabel().setText("Điện thoại: " + selectedCom.getPhoneNumber());
                 tocScreen.setCompanyId(selectedCom.getId());
+                tocScreen.initializeTable();
                 dispose();
             }
 

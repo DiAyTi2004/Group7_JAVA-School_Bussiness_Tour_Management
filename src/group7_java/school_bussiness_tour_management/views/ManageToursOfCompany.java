@@ -6,8 +6,10 @@ package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Company;
+import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.JLabel;
@@ -19,13 +21,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManageToursOfCompany extends javax.swing.JFrame {
 
+    private int companyId;
+    
+    public void setCompanyId(int comId) {
+        this.companyId = comId; 
+    }
+    
+    public int getCompanyId() {
+        return companyId;
+    }
     /**
      * Creates new form ManageBusssiness
      */
     public ManageToursOfCompany() {
         initComponents();
         setLocationRelativeTo(null);
-        initializeTable();
+        System.out.println("CompanyID: " + companyId);
     }
 
     /**
@@ -48,6 +59,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         createCompanyButton = new javax.swing.JButton();
         companyCodeLabel = new javax.swing.JLabel();
         returnBackButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,7 +138,10 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(createCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(returnBackButton)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(returnBackButton)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(28, Short.MAX_VALUE))))
         );
@@ -134,7 +149,9 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(returnBackButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(returnBackButton)
+                    .addComponent(jLabel2))
                 .addGap(5, 5, 5)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -156,6 +173,8 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel2.getAccessibleContext().setAccessibleName("jLabelCompanyId");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -163,29 +182,27 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
 
     }
     
-    private int companyId;
     
-    public void setCompanyId(int comId) {
-        this.companyId = comId; 
-    }
-    
-    public int getCompanyId() {
-        return this.companyId;
-    }
 
     private DefaultTableModel tableModel;
 
     private void loadTableData() {
         try {
-            List<Tour> data = TourService.getAllTours();
-            tableModel.setRowCount(0);
+            List<Tour> data = TourService.getAllToursByCompanyId(companyId);
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
+            tableModel.setRowCount(0);            
             if (data != null) {
                 for (Tour tour : data) {
-                    if(tour.getId() == companyId) {
-                        tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
-                        tour.getStartDate(),tour.getDescription(),
-                        tour.getAvailables(),tour.getPresentator()});
+                    String teacherName = "";
+                    for (Teacher tea : teacher_data) {
+                        if(tea.getId() == tour.getTeacherId()) {
+                            teacherName =  tea.getLastName()  + " " + tea.getFirstName();
+                        }
                     }
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
+                        tour.getStartDate(),tour.getDescription(),
+                        tour.getAvailables(),tour.getPresentator(),teacherName});
+                    
                 }
             }
             tableModel.fireTableDataChanged();
@@ -195,10 +212,10 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         }
     }
 
-    private void initializeTable() {
+    public void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã tour", "Tên tour",
-            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến",
+            "Ngày khởi hành", "Mô tả", "Số ghế","Người thuyết trình","Giáo viên"});
         toursOfCompanyTable.setModel(tableModel);
 
         loadTableData();
@@ -281,6 +298,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     private javax.swing.JLabel companyPhoneLabel;
     private javax.swing.JButton createCompanyButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton returnBackButton;
     private javax.swing.JTable toursOfCompanyTable;

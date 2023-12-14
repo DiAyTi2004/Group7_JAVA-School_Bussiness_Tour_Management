@@ -8,9 +8,15 @@ import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.common.Validator;
 import static group7_java.school_bussiness_tour_management.common.Validator.isNumeric;
 import static group7_java.school_bussiness_tour_management.common.Validator.isValidEmail;
+import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Teacher;
+import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import static group7_java.school_bussiness_tour_management.services.StudentService.isExistedStudentCode;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
+import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +32,7 @@ public class ManageTour extends javax.swing.JFrame {
     public ManageTour() {
         initComponents();
         setLocationRelativeTo(null);
+        loadComboBox();
         initializeTable();
     }
 
@@ -59,9 +66,9 @@ public class ManageTour extends javax.swing.JFrame {
         descriptionInput = new javax.swing.JTextField();
         startDateInput = new javax.swing.JTextField();
         companyInput = new javax.swing.JComboBox<>();
-        presentator = new javax.swing.JTextField();
+        presentatorInput = new javax.swing.JTextField();
         teacherInput = new javax.swing.JComboBox<>();
-        availables = new javax.swing.JTextField();
+        availablesInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,9 +144,11 @@ public class ManageTour extends javax.swing.JFrame {
 
         jLabel16.setText("Số lượng sinh viên có thể đi:");
 
-        companyInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        teacherInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        companyInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                companyInputActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,9 +185,9 @@ public class ManageTour extends javax.swing.JFrame {
                                     .addComponent(descriptionInput)
                                     .addComponent(startDateInput)
                                     .addComponent(companyInput, 0, 214, Short.MAX_VALUE)
-                                    .addComponent(presentator)
+                                    .addComponent(presentatorInput)
                                     .addComponent(teacherInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(availables))))
+                                    .addComponent(availablesInput))))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -217,7 +226,7 @@ public class ManageTour extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(presentator, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(presentatorInput, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,7 +234,7 @@ public class ManageTour extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(availables, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(availablesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -237,6 +246,8 @@ public class ManageTour extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11))
         );
+
+        jLabel14.getAccessibleContext().setAccessibleName("Người đại diện doanh nghiệp:");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -254,39 +265,44 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
-//            isCheckInput();
-
-//            String code = txt_code.getText().trim();
-//            String firstName = txt_first_name.getText().trim();
-//            String lastName = txt_last_name.getText().trim();
-//            String address = txt_address.getText().trim();
-//            String phoneNumber = txt_phone_number.getText().trim();
-//            String email = txt_email.getText().trim();
-//            String birthDate = txt_birth_date.getText().trim();
-//            String classId = txt_class_id.getText().trim();
-//            int ClassId = Integer.parseInt(classId);
-//            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
-//                MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
-//                return;
-//            }
-//
-//            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
-//                MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
-//                return;
-//            }
-//            if (!isValidEmail(email)) {
-//                MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
-//                return;
-//            }
-//            if (isExistedStudentCode(code)) {
-//                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
-//                return;
-//            } else {
-//                StudentService.createNewStudent(code, firstName, lastName, address, phoneNumber, email, birthDate, ClassId);
-//                loadTableData();
-//                MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
-//                clearAllFields();
-//            }
+            String tourName = this.nameInput.getText().trim();
+            String tourCode = this.codeInput.getText().trim();
+            String tourDes = this.descriptionInput.getText().trim();
+            String tourDate = this.startDateInput.getText().trim();
+            String presentator = this.presentatorInput.getText().trim();
+            int availables = Integer.parseInt(this.availablesInput.getText().trim());
+            Company comp = (Company) companyInput.getSelectedItem();
+            Teacher tea = (Teacher) teacherInput.getSelectedItem();
+            int compId = comp.getId();
+            int teaId = tea.getId();
+            if (tourName.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourCode.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Mã chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourDate.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (presentator.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên người đại diện không được để trống", "Thông báo");
+                return;
+            }
+            if (availables < 10) {
+                MessageDialog.showInfoDialog(this, "Số slot không hợp lệ", "Thông báo");
+                return;
+            }
+            if(TourService.isExistedTourCode(tourCode)) {
+                MessageDialog.showInfoDialog(this, "Trùng mã chuyến đi", "Thông báo");
+            }else{
+                TourService.createNewTour(tourCode, tourName, tourDes, tourDate, availables, compId, teaId, presentator);
+                loadTableData();
+                MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
+                clearAllFields();
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi thêm mới, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -295,52 +311,56 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         try {
-//            int index = tourTable.getSelectedRow();
-//            if (index == -1) {
-//                MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp muốn sửa", "Thông báo");
-//                return;
-//            }
-//            Student selectedStudent = StudentService.getStudentByIndex(index);
-//            String code = this.txt_code.getText().trim();
-//            String firstName = this.txt_first_name.getText().trim();
-//            String lastName = this.txt_last_name.getText().trim();
-//            String address = this.txt_address.getText().trim();
-//            String phoneNumber = this.txt_phone_number.getText().trim();
-//            String email = this.txt_email.getText().trim();
-//            String birthDate = this.txt_birth_date.getText().trim();
-//            String classId = this.txt_class_id.getText().trim();
-//
-//            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
-//                MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
-//                return;
-//            }
-//
-//            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
-//                MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
-//                return;
-//            }
-//            if (!isValidEmail(email)) {
-//                MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
-//                return;
-//            }
-//            if (isExistedStudentCode(code)) {
-//                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
-//                return;
-//            }
-//
-//            selectedStudent.setCode(code);
-//            selectedStudent.setFirstName(firstName);
-//            selectedStudent.setLastName(lastName);
-//            selectedStudent.setAddress(address);
-//            selectedStudent.setPhoneNumber(phoneNumber);
-//            selectedStudent.setEmail(email);
-//            selectedStudent.setBirthDate(birthDate);
-//            selectedStudent.setClassId(Integer.parseInt(classId));
-//            StudentService.updateStudent(selectedStudent);
-//
-//            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
-//            clearAllFields();
-//            loadTableData();
+            int index = tourTable.getSelectedRow();
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
+                return;
+            }
+            Tour selectedTour = TourService.getTourByIndex(index);
+            String tourName = this.nameInput.getText().trim();
+            String tourCode = this.codeInput.getText().trim();
+            String tourDes = this.descriptionInput.getText().trim();
+            String tourDate = this.startDateInput.getText().trim();
+            String presentator = this.presentatorInput.getText().trim();
+            int availables = Integer.parseInt(this.availablesInput.getText().trim());
+            Company comp = (Company) companyInput.getSelectedItem();
+            Teacher tea = (Teacher) teacherInput.getSelectedItem();
+            int compId = comp.getId();
+            int teaId = tea.getId();
+            if (tourName.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourCode.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Mã chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (tourDate.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (presentator.equalsIgnoreCase("")) {
+                MessageDialog.showInfoDialog(this, "Tên người đại diện không được để trống", "Thông báo");
+                return;
+            }
+            if (availables < 10) {
+                MessageDialog.showInfoDialog(this, "Số slot không hợp lệ", "Thông báo");
+                return;
+            }
+            
+            selectedTour.setCode(tourCode);
+            selectedTour.setName(tourName);
+            selectedTour.setDescription(tourDes);
+            selectedTour.setStartDate(tourDate);
+            selectedTour.setAvailables(availables);
+            selectedTour.setPresentator(presentator);
+            selectedTour.setTeacherId(teaId);
+            selectedTour.setCompanyId(compId);
+            
+            TourService.updateTour(selectedTour);
+            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
+            clearAllFields();
+            loadTableData();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -349,20 +369,18 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void tourTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tourTableMouseClicked
         try {
-//            int index = tourTable.getSelectedRow();
-//            if (index == -1) {
-//                MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp", "Thông báo");
-//                return;
-//            }
-//            Student selectedStudent = StudentService.getStudentByIndex(index);
-//            txt_code.setText(selectedStudent.getCode());
-//            txt_first_name.setText(selectedStudent.getFirstName());
-//            txt_last_name.setText(selectedStudent.getLastName());
-//            txt_address.setText(selectedStudent.getAddress());
-//            txt_phone_number.setText(selectedStudent.getPhoneNumber());
-//            txt_email.setText(selectedStudent.getEmail());
-//            txt_birth_date.setText(selectedStudent.getBirthDate());
-//            txt_class_id.setText(Integer.toString(selectedStudent.getClassId()));
+            int index = tourTable.getSelectedRow();
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
+                return;
+            }
+            Tour selectedTour = TourService.getTourByIndex(index);
+            codeInput.setText(selectedTour.getCode());
+            nameInput.setText(selectedTour.getName());
+            descriptionInput.setText(selectedTour.getDescription());
+            startDateInput.setText(selectedTour.getStartDate());
+            presentatorInput.setText(selectedTour.getPresentator());
+            availablesInput.setText(String.valueOf(selectedTour.getAvailables()));
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -372,14 +390,14 @@ public class ManageTour extends javax.swing.JFrame {
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         try {
             int index = tourTable.getSelectedRow();
-            if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Chọn sinh viên muốn xóa", "Thông báo");
+            if(index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chuyến tham quan doanh nghiệp", "Thông báo");
                 return;
             }
-            Student selectedStudent = StudentService.getStudentByIndex(index);
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
+            Tour selectedTour = TourService.getTourByIndex(index);
+            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa chuyến này ", "Xác nhận");
             if (keyPress == 0) {
-                StudentService.deleteStudent(selectedStudent.getId());
+                TourService.deleteTour(selectedTour.getId());
                 loadTableData();
                 clearAllFields();
             }
@@ -389,59 +407,69 @@ public class ManageTour extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
-//    private void isCheckInput() {
-//        String code = txt_code.getText().trim();
-//        String first_name = txt_first_name.getText().trim();
-//        String last_name = txt_last_name.getText().trim();
-//        String address = txt_address.getText().trim();
-//        String phone_number = txt_address.getText().trim();
-//        String email = txt_email.getText().trim();
-//        String birth_date = txt_birth_date.getText().trim();
-//        String classId = txt_class_id.getText().trim();
-//
-//        if (isEmpty(code) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(address) || isEmpty(phone_number) || isEmpty(email) || isEmpty(birth_date) || isEmpty(classId)) {
-//            MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
-//            return;
-//        }
-//
-//        if (!isNumeric(phone_number) || !isNumeric(classId)) {
-//            MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
-//            return;
-//        }
-//        if (!isValidEmail(email)) {
-//            MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
-//            return;
-//        }
-//    }
+    private void companyInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_companyInputActionPerformed
+
+
     private boolean isEmpty(String str) {
         return str.isEmpty();
     }
 
     private void clearAllFields() {
-//        txt_code.setText("");
-//        txt_first_name.setText("");
-//        txt_last_name.setText("");
-//        txt_address.setText("");
-//        txt_email.setText("");
-//        txt_phone_number.setText("");
-//        txt_birth_date.setText("");
-//        txt_class_id.setText("");
-//        txt_code.requestFocus();
+        codeInput.setText("");
+        nameInput.setText("");
+        descriptionInput.setText("");
+        startDateInput.setText("");
+        presentatorInput.setText("");
+        availablesInput.setText("");
     }
 
     private DefaultTableModel tableModel;
+    
+    private void loadComboBox() {
+        try {            
+            List<Company> company_data = CompanyService.getAllCompanies();
+            for(Company comp : company_data) {
+                companyInput.addItem(comp);
+            }
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
+            for(Teacher teacher : teacher_data) {
+                teacherInput.addItem(teacher);
+                System.out.println(teacher);
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho combobox có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }
 
     private void loadTableData() {
         try {
-            List<Student> data = StudentService.getAllStudents();
+            List<Tour> tour_data = TourService.getAllTours();
+            List<Company> company_data = CompanyService.getAllCompanies();
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
             tableModel.setRowCount(0);
-            if (data != null) {
-                for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
-                    });
+            if(tour_data != null) {
+                for(Tour tour : tour_data) {
+                    String companyName = "";
+                    String teacherName = "";
+                    for(Company comp : company_data) {
+                        if(comp.getId() == tour.getCompanyId()){
+                            companyName = comp.getName();
+                        }
+                    }
+                    for (Teacher tea : teacher_data) {
+                        if(tea.getId() == tour.getTeacherId()) {
+                            teacherName = tea.getLastName() + " " + tea.getFirstName();
+                        }
+                    }
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
+                                                   tour.getStartDate(),tour.getDescription(),
+                                                   tour.getAvailables(),
+                                                   tour.getPresentator(),companyName,teacherName});
                 }
             }
-            tableModel.fireTableDataChanged();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -450,7 +478,8 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến","Tên chuyến","Thời gian","Mô tả",
+                                                     "Số lượng","Người đại diện","Công ty","Giáo viên"});
         tourTable.setModel(tableModel);
 
         loadTableData();
@@ -493,14 +522,14 @@ public class ManageTour extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField availables;
+    private javax.swing.JTextField availablesInput;
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
     private javax.swing.JTextField codeInput;
-    private javax.swing.JComboBox<String> companyInput;
+    private javax.swing.JComboBox<Object> companyInput;
     private javax.swing.JTextField descriptionInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -513,9 +542,9 @@ public class ManageTour extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameInput;
-    private javax.swing.JTextField presentator;
+    private javax.swing.JTextField presentatorInput;
     private javax.swing.JTextField startDateInput;
+    private javax.swing.JComboBox<Object> teacherInput;
     private javax.swing.JTable tourTable;
-    private javax.swing.JComboBox<String> teacherInput;
     // End of variables declaration//GEN-END:variables
 }

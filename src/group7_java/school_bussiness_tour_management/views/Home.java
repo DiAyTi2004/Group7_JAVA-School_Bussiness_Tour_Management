@@ -5,8 +5,24 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
-import group7_java.school_bussiness_tour_management.common.GetSizeOfDataFromJson;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
+import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.models.Company;
+import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Teacher;
+import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.AccountService;
+import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
+import group7_java.school_bussiness_tour_management.services.TourService;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,12 +37,66 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        Account currentLoginUser = AccountService.currentLoginUser;
+        if (!currentLoginUser.getRole().equals("Toàn quyền hệ thống")) {
+            manageAccountButton.setVisible(false);
+        }
+        loadTextButton();
+        initializeTableOfTours();
     }
-    
-//    public void changeText()
-//    {
-//        teacherDataButton.setText("123");
-//    }  
+
+    private DefaultTableModel tableModel;
+
+    private void loadTableDataOfTours() {
+        try {
+            List<Tour> tour_data = TourService.getAllTours();
+            List<Company> company_data = CompanyService.getAllCompanies();
+            List<Teacher> teacher_data = TeacherService.getAllTeachers();
+            tableModel.setRowCount(0);
+            if (tour_data != null) {
+                for (Tour tour : tour_data) {
+                    String dateString = tour.getStartDate();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    try {
+                        LocalDate inputDate = LocalDate.parse(dateString, formatter);
+                        LocalDate currentDate = LocalDate.now();
+                        if (currentDate.equals(inputDate)) {
+                            String companyName = "";
+                            String teacherName = "";
+                            for (Company comp : company_data) {
+                                if (comp.getId() == tour.getCompanyId()) {
+                                    companyName = comp.getName();
+                                }
+                            }
+                            for (Teacher tea : teacher_data) {
+                                if (tea.getId() == tour.getTeacherId()) {
+                                    teacherName = tea.getLastName() + " " + tea.getFirstName();
+                                }
+                            }
+                            tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(),
+                                tour.getAvailables(),
+                                tour.getPresentator(), companyName, teacherName});
+                        }
+                    } catch (Exception ex) {
+                        MessageDialog.showErrorDialog(this, "Có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }
+
+    private void initializeTableOfTours() {
+        tableModel = new DefaultTableModel();
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến", "Mô tả",
+            "Số lượng", "Người đại diện", "Công ty", "Giáo viên"});
+        tourNowTable.setModel(tableModel);
+
+        loadTableDataOfTours();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,11 +126,12 @@ public class Home extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         todayTourTable = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tourNowTable = new javax.swing.JTable();
         exportExcelButton = new javax.swing.JButton();
         exportPDFButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Trang chủ");
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -86,6 +157,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         manageClassButton.setText("Quản lí thông tin lớp học");
+        manageClassButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageClassButtonActionPerformed(evt);
+            }
+        });
 
         manageAccountButton.setText("Quản lí tài khoản hệ thống");
         manageAccountButton.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +279,7 @@ public class Home extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨ TRONG NGÀY");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tourNowTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -214,7 +290,7 @@ public class Home extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        todayTourTable.setViewportView(jTable1);
+        todayTourTable.setViewportView(tourNowTable);
 
         exportExcelButton.setText("Xuất danh sách Excel");
 
@@ -289,20 +365,63 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void manageClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageClassButtonActionPerformed
+        dispose();
+        ManageClassroom manageClassroomScreen = new ManageClassroom();
+        manageClassroomScreen.setLocationRelativeTo(null);
+        manageClassroomScreen.setVisible(true);
+    }//GEN-LAST:event_manageClassButtonActionPerformed
+
     private void tourDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tourDataButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            dispose();
+            ShowData screen = new ShowData();
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+            screen.setBackToPage("home");
+            screen.setTypeData("tours");
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
+        }
     }//GEN-LAST:event_tourDataButtonActionPerformed
 
     private void companyDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyDataButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            dispose();
+            ShowData screen = new ShowData();
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+            screen.setBackToPage("home");
+            screen.setTypeData("companys");
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
+        }
     }//GEN-LAST:event_companyDataButtonActionPerformed
 
     private void studentDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentDataButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            dispose();
+            ShowData screen = new ShowData();
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+            screen.setBackToPage("home");
+            screen.setTypeData("students");
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
+        }
     }//GEN-LAST:event_studentDataButtonActionPerformed
 
     private void teacherDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherDataButtonActionPerformed
-        
+        try {
+            dispose();
+            ShowData screen = new ShowData();
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+            screen.setBackToPage("home");
+            screen.setTypeData("teachers");
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
+        }
     }//GEN-LAST:event_teacherDataButtonActionPerformed
 
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
@@ -391,6 +510,42 @@ public class Home extends javax.swing.JFrame {
         });
     }
 
+    public void loadTextButton() {
+        try {
+            List<Student> students = StudentDAO.readFromFile();
+            List<Tour> tours = TourDAO.readFromFile();
+            List<Teacher> teachers = TeacherDAO.readFromFile();
+            List<Company> companys = CompanyDAO.readFromFile();
+
+            if (students == null) {
+                studentDataButton.setText("0 sinh viên được quản lí");
+            } else {
+                studentDataButton.setText(students.size() + " sinh viên được quản lí");
+            }
+
+            if (tours == null) {
+                tourDataButton.setText("0 chuyến tham quan được tổ chức");
+            } else {
+                tourDataButton.setText(tours.size() + " chuyến tham quan được tổ chức");
+            }
+
+            if (teachers == null) {
+                teacherDataButton.setText("0 giáo viên đại diện doanh nghiệp");
+            } else {
+                teacherDataButton.setText(teachers.size() + " giáo viên đại diện doanh nghiệp");
+            }
+
+            if (companys == null) {
+                companyDataButton.setText("0 doanh nghiệp được liên kết với nhà trường");
+            } else {
+                companyDataButton.setText(companys.size() + " doanh nghiệp được liên kết với nhà trường");
+            }
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jPanel1, "Lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton companyDataButton;
     private javax.swing.JButton exportExcelButton;
@@ -401,7 +556,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton manageAccountButton;
     private javax.swing.JButton manageClassButton;
@@ -413,5 +567,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton teacherDataButton;
     private javax.swing.JScrollPane todayTourTable;
     private javax.swing.JButton tourDataButton;
+    private javax.swing.JTable tourNowTable;
     // End of variables declaration//GEN-END:variables
 }

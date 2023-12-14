@@ -50,8 +50,8 @@ public class CompanyService {
     
     public static int getLastCompanyId() throws Exception{
         List<Company> data = CompanyDAO.readFromFile();
-        if(data!=null) {
-            if(data.size() == 0) {
+        if (data != null) {
+            if (data.size() == 0) {
                 return 0;
             }
             return data.get(data.size() - 1).getId();
@@ -65,8 +65,8 @@ public class CompanyService {
     
     public static void createNewCompany(String code, String name, String description, String email, String phone, String address) throws Exception {
         int lastId = getLastCompanyId();
-        int id = lastId++;
-        Company com = new Company(id, code, name, description, email, phone, address);
+        lastId++;
+        Company com = new Company(lastId, code, name, description, email, phone, address);
         List<Company> data = CompanyDAO.readFromFile();
         data.add(com);
         CompanyDAO.writeToFile(data);

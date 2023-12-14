@@ -1,10 +1,15 @@
 package group7_java.school_bussiness_tour_management.services;
 
-import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import static group7_java.school_bussiness_tour_management.common.Validator.formatName;
+import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import group7_java.school_bussiness_tour_management.models.Company;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Teacher;
-import java.util.Iterator;
+import group7_java.school_bussiness_tour_management.models.Tour;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherService {
@@ -12,11 +17,11 @@ public class TeacherService {
     public static String LastName(String name)
     {
         String[] splitName = formatName(name).split(" ");
-        String firstName = "";
+        String lastName = "";
         for (int i = 0; i < splitName.length - 1; i++) {
-            firstName += (splitName[i] + " ");
+            lastName += (splitName[i] + " ");
         }
-        return firstName.trim();
+        return lastName.trim();
     }
     
     public static String FirstName(String name)
@@ -96,5 +101,43 @@ public class TeacherService {
             data.remove(delTea);
             TeacherDAO.writeToFile(data);
         }
+    }
+    
+    public static List listToursOfTeacher(int teacherId) throws Exception {
+        List<Tour> data = TourDAO.readFromFile();        
+        List<Tour> teacherTours = new ArrayList<>();
+
+        for(Tour tourItem : data)
+        {
+            if(tourItem.getTeacherId() == teacherId)
+            {
+                teacherTours.add(tourItem);
+            }
+        }
+        
+        if(!teacherTours.isEmpty()) return teacherTours;
+        return null;
+    }
+    
+    public static String getNameCompanyFromIdCompany(int companyID) throws Exception
+    {
+        String name = "";
+        List<Company> data = CompanyDAO.readFromFile();
+        for(Company com : data)
+        {
+            if(com.getId() == companyID)
+            {
+                name = com.getName();break;
+            }
+        }
+        return name;
+    }
+    public static int getNumberOfStudents(List<StudentTour> students) throws IOException
+    {
+        if(students != null)
+        {
+            if(!students.isEmpty()) return students.size();
+        }
+        return 0;
     }
 }

@@ -57,7 +57,7 @@ public class CompanyDAO {
                             tour.setName((String) tourJson.get("name"));
                             tour.setDescription((String) tourJson.get("description"));
                             tour.setStartDate((String) tourJson.get("startDate"));
-                            tour.setAvailables((String) tourJson.get("availables"));
+                            tour.setAvailables(Integer.parseInt(tourJson.get("availables").toString()));
                             tour.setCompanyId(Integer.parseInt(tourJson.get("companyId").toString()));
                             tour.setTeacherId(Integer.parseInt(tourJson.get("teacherId").toString()));
                             tour.setPresentator((String) tourJson.get("presentator"));
