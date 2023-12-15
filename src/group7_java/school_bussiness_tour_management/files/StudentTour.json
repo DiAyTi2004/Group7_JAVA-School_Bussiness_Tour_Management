@@ -8,5 +8,15 @@
     "studentId": 1,
     "tourId": 2,
     "rate": 4
+  },
+  {
+    "studentId": 2,
+    "tourId": 1,
+    "rate": 5
+  },
+  {
+    "studentId": 2,
+    "tourId": 3,
+    "rate": 4
   }
 ]
