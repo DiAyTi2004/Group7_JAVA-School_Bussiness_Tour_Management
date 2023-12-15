@@ -112,5 +112,15 @@ public class CompanyService {
             CompanyDAO.writeToFile(data);
         }
     }
+    
+    public static String getCompanyNameById(int companyId)throws Exception{
+        List<Company> companies = CompanyDAO.readFromFile();
+        for(Company comp : companies){
+            if(comp.getId() == companyId){
+                return comp.getName();
+            }
+        }
+        return null;
+    }
 
 }
