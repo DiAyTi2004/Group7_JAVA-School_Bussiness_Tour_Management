@@ -116,6 +116,16 @@ public class StudentService {
         }
         return null;
     }
+    
+    public static Student getByCode(String code) throws Exception{
+        List<Student> data = StudentDAO.readFromFile();
+        for (Student student : data) {
+            if (student.getCode().equals(code.trim())) {
+                return student;
+            }
+        }
+        return null;
+    }
 
     public static Student getByIdFromList(int studentId, List<Student> data) {
         for (Student student : data) {

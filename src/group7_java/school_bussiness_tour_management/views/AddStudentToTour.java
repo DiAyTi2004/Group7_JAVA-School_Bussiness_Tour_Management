@@ -5,6 +5,9 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
+import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
@@ -12,8 +15,6 @@ import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
-import group7_java.school_bussiness_tour_management.services.StudentTourService;
-import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,31 +24,35 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author gialo
  */
-public class ManageTourStudent extends javax.swing.JFrame {
+public class AddStudentToTour extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageStudent
      */
-    public Classroom classroomm = new Classroom();
-
-    public ManageTourStudent() {
+    public AddStudentToTour() {
         initComponents();
         setLocationRelativeTo(null);
         initializeTable();
     }
 
+    private void initializeTable() {
+        tableModel = new DefaultTableModel();
+        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ",});
+        studentTable.setModel(tableModel);
+        loadTableData();
+    }
+
     private Tour selectedTour;
 
-    public ManageTourStudent(Tour tour) {
+    public AddStudentToTour(Tour tour) {
         try {
             this.selectedTour = tour;
             initComponents();
             setLocationRelativeTo(null);
             initializeTable();
-            String tourTitle = tour.getName() + " (Mã: " + tour.getCode() + ", công ty: " + CompanyService.getById(tour.getCompanyId()).getName() + ") - Ngày: " + tour.getStartDate();
-            tourNameTitle.setText(tourTitle);
+            screenTitle.setText("Thêm sinh viên tham gia chuyến tham quan " + tour.getName() + " (Mã: " + tour.getCode() + ", công ty: " + CompanyService.getById(tour.getCompanyId()).getName() + ") - Ngày: " + tour.getStartDate());
         } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "lỗi");
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }
@@ -65,19 +70,15 @@ public class ManageTourStudent extends javax.swing.JFrame {
         screenTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
+        addToListButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        findButton = new javax.swing.JButton();
         searchInput = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
-        exportPDFButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        exportExcelButton = new javax.swing.JButton();
-        tourNameTitle = new javax.swing.JLabel();
         resetButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn_back.setText("Trở lại trang chủ");
+        btn_back.setText("Quay lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);
@@ -86,7 +87,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
 
         screenTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         screenTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        screenTitle.setText("Danh sách sinh viên tham gia chuyến tham quan");
+        screenTitle.setText("Danh sách sinh viên");
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,42 +107,22 @@ public class ManageTourStudent extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(studentTable);
 
-        jLabel9.setText("Tìm kiếm sinh viên:");
+        addToListButton.setText("Thêm sinh viên vào chuyến đi");
+        addToListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToListButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Tìm kiếm sinh viên:");
+
+        findButton.setText("Tìm kiếm");
 
         searchInput.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 searchInputKeyPressed(evt);
             }
         });
-
-        searchButton.setText("Tìm kiếm");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-
-        addButton.setText("Thêm sinh viên vào chuyến đi");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
-
-        exportPDFButton.setText("Xuất danh sách bản PDF");
-
-        deleteButton.setText("Xóa khỏi danh sách");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
-        exportExcelButton.setText("Xuất danh sách bản Excel");
-
-        tourNameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        tourNameTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tourNameTitle.setText("Tên công ty - Ngày diễn ra");
 
         resetButton.setText("Nhập lại");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -154,26 +135,25 @@ public class ManageTourStudent extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(screenTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(222, 222, 222))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addToListButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(findButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchInput)
-                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(exportPDFButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                            .addComponent(exportExcelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_back)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(screenTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tourNameTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -181,32 +161,24 @@ public class ManageTourStudent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_back)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(screenTitle)
-                .addGap(2, 2, 2)
-                .addComponent(tourNameTitle)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(findButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(exportExcelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))))
+                        .addGap(90, 90, 90)
+                        .addComponent(addToListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -214,18 +186,80 @@ public class ManageTourStudent extends javax.swing.JFrame {
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         dispose();
-        ManageTour screen = new ManageTour();
+        ManageTourStudent screen = new ManageTourStudent(selectedTour);
         screen.setLocationRelativeTo(null);
         screen.setVisible(true);
     }//GEN-LAST:event_btn_backActionPerformed
+
+    private void addToListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToListButtonActionPerformed
+        try {
+            int chosenIndex[] = studentTable.getSelectedRows();
+            if (chosenIndex.length == 0) {
+                MessageDialog.showInfoDialog(this, "Chưa có sinh viên nào được chọn để thực hiện chức năng này", "Thông báo");
+                return;
+            }
+            List<Student> chosenStudents = new ArrayList<>();
+            for (int index : chosenIndex) {
+                Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
+                if (student != null) {
+                    chosenStudents.add(student);
+                }
+            }
+            List<StudentTour> studentTourData = StudentTourDAO.readFromFile();
+            if (selectedTour.getStudentTours() == null) {
+                selectedTour.setStudentTours(new ArrayList<>());
+            }
+
+            for (Student student : chosenStudents) {
+                StudentTour relationship = new StudentTour();
+                relationship.setStudentId(student.getId());
+                relationship.setRate(0);
+                relationship.setTourId(selectedTour.getId());
+                studentTourData.add(relationship);
+                selectedTour.getStudentTours().add(relationship);
+                if (student.getStudentTours() == null) {
+                    student.setStudentTours(new ArrayList<>());
+                }
+                student.getStudentTours().add(relationship);
+            }
+            StudentTourDAO.writeToFile(studentTourData);
+
+            List<Student> studentData = StudentDAO.readFromFile();
+            for (Student student : studentData) {
+                for (Student tempStudent : chosenStudents) {
+                    if (student.getId() == tempStudent.getId()) {
+                        student = tempStudent;
+                    }
+                }
+            }
+            StudentDAO.writeToFile(studentData);
+
+            List<Tour> tourData = TourDAO.readFromFile();
+            for (Tour tour : tourData) {
+                if (tour.getId() == selectedTour.getId()) {
+                    tour = selectedTour;
+                    break;
+                }
+            }
+            TourDAO.writeToFile(tourData);
+
+            clearAllFields();
+            MessageDialog.showInfoDialog(this, "Đã thêm thành công " + chosenIndex.length + " sinh viên vào chuyến tham quan!", "Thông báo");
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi thêm mới, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_addToListButtonActionPerformed
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
         try {
             int index = studentTable.getSelectedRow();
             if (index == -1) {
-//                MessageDialog.showInfoDialog(this, "Vui chọn chọn sinh viên", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Vui chọn chọn sinh viên", "Thông báo");
                 return;
             }
+            Student selectedStudent = StudentService.getStudentByIndex(index);
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -239,11 +273,27 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Chưa có từ khóa tìm kiếm", "Thông báo");
                 return;
             }
-            List<StudentTour> data = selectedTour.getStudentTours();
+            List<Student> data = StudentDAO.readFromFile();
+            List<Student> displayData = new ArrayList<>();
+            List<StudentTour> selectedData = new ArrayList<>();
+            if (selectedTour.getStudentTours() != null) {
+                selectedData = selectedTour.getStudentTours();
+            }
+            for (Student student : data) {
+                boolean isExisted = false;
+                for (StudentTour selectedRel : selectedData) {
+                    if (selectedRel.getStudentId() == student.getId()) {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if (!isExisted) {
+                    displayData.add(student);
+                }
+            }
             tableModel.setRowCount(0);
-            if (data != null) {
-                for (StudentTour stuTour : data) {
-                    Student stu = StudentService.getById(stuTour.getStudentId());
+            if (displayData != null) {
+                for (Student stu : displayData) {
                     if (stu.getAddress().contains(keyword) || stu.getCode().contains(keyword) || stu.getFirstName().contains(keyword) || stu.getLastName().contains(keyword) || stu.getPhoneNumber().contains(keyword)) {
                         tableModel.addRow(
                                 new Object[]{
@@ -266,19 +316,6 @@ public class ManageTourStudent extends javax.swing.JFrame {
         }
     }
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        handleSearchByKeyword();
-    }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        loadTableData();
-    }//GEN-LAST:event_resetButtonActionPerformed
-
-    private void reinitialize() {
-        searchInput.setText("");
-        loadTableData();
-    }
-
     private void searchInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchInputKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             // Handle Enter key press
@@ -286,49 +323,48 @@ public class ManageTourStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchInputKeyPressed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        AddStudentToTour screen = new AddStudentToTour(selectedTour);
-        screen.setLocationRelativeTo(null);
-        dispose();
-        screen.setVisible(true);
-    }//GEN-LAST:event_addButtonActionPerformed
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        clearAllFields();
+    }//GEN-LAST:event_resetButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        try {
-            int index = studentTable.getSelectedRow();
-            if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn sinh viên để thực hiện chức năng này", "Thông báo");
-                return;
-            }
-            Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
-
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên này khỏi danh sách tham gia chuyến tham quan?", "Xác nhận");
-            if (keyPress == 0) {
-                StudentTourService.deleteStudentTour(student.getId(), selectedTour.getId());
-                reinitialize();
-            }
-        } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    private void clearAllFields() {
+        searchInput.setText("");
+        loadTableData();
+    }
 
     private DefaultTableModel tableModel;
 
     private void loadTableData() {
         try {
-            List<StudentTour> data = selectedTour.getStudentTours();
+            List<Student> data = StudentDAO.readFromFile();
+            List<Student> displayData = new ArrayList<>();
+            List<StudentTour> selectedData = new ArrayList<>();
+            if (selectedTour.getStudentTours() != null) {
+                selectedData = selectedTour.getStudentTours();
+            }
+
+            for (Student student : data) {
+                boolean isExisted = false;
+                for (StudentTour selectedRel : selectedData) {
+                    if (selectedRel.getStudentId() == student.getId()) {
+                        isExisted = true;
+                        break;
+                    }
+                }
+                if (!isExisted) {
+                    displayData.add(student);
+                }
+            }
             tableModel.setRowCount(0);
-            if (data != null) {
-                for (StudentTour stuTour : data) {
-                    Student stu = StudentService.getById(stuTour.getStudentId());
+            if (displayData != null) {
+                for (Student stu : displayData) {
                     tableModel.addRow(
                             new Object[]{
                                 stu.getCode(),
                                 stu.getFirstName(),
                                 stu.getLastName(),
-                                stu.getBirthDate(),
                                 ClassroomService.getById(stu.getClassId()).getName(),
+                                stu.getBirthDate(),
                                 stu.getPhoneNumber(),
                                 stu.getEmail(),
                                 stu.getAddress()
@@ -340,13 +376,6 @@ public class ManageTourStudent extends javax.swing.JFrame {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
             ex.printStackTrace();
         }
-    }
-
-    private void initializeTable() {
-        tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ",});
-        studentTable.setModel(tableModel);
-        loadTableData();
     }
 
     /**
@@ -366,13 +395,13 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageTourStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudentToTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageTourStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudentToTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageTourStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudentToTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageTourStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudentToTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -382,25 +411,21 @@ public class ManageTourStudent extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageTourStudent().setVisible(true);
+                new AddStudentToTour().setVisible(true);
 
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    private javax.swing.JButton addToListButton;
     private javax.swing.JButton btn_back;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JButton exportExcelButton;
-    private javax.swing.JButton exportPDFButton;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JButton findButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton resetButton;
     private javax.swing.JLabel screenTitle;
-    private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchInput;
     private javax.swing.JTable studentTable;
-    private javax.swing.JLabel tourNameTitle;
     // End of variables declaration//GEN-END:variables
 }

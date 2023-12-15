@@ -1,7 +1,1 @@
-[
-    {"studentId": 0,"tourId": 4, "rate": 4},
-    {"studentId": 1,"tourId": 4, "rate": 4},
-    {"studentId": 1,"tourId": 1, "rate": 4},
-    {"studentId": 0,"tourId": 1, "rate": 4},
-    {"studentId": 2,"tourId": 4, "rate": 4}
-]
+[{"studentId":0,"rate":4,"tourId":4},{"studentId":1,"rate":4,"tourId":4},{"studentId":1,"rate":4,"tourId":1},{"studentId":0,"rate":4,"tourId":1},{"studentId":2,"rate":4,"tourId":4},{"studentId":0,"rate":0,"tourId":5},{"studentId":1,"rate":0,"tourId":5},{"studentId":2,"rate":0,"tourId":5},{"studentId":0,"rate":0,"tourId":5},{"studentId":1,"rate":0,"tourId":5},{"studentId":2,"rate":0,"tourId":5},{"studentId":3,"rate":0,"tourId":5},{"studentId":4,"rate":0,"tourId":5}]
