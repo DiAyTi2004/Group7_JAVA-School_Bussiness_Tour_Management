@@ -140,4 +140,14 @@ public class TeacherService {
         }
         return 0;
     }
+    
+    public static String getTeacherNameById(int teacherId)throws Exception{
+        List<Teacher> teachers = TeacherDAO.readFromFile();
+        for(Teacher teacher : teachers){
+            if(teacher.getId() == teacherId){
+                return teacher.getFirstName() + teacher.getLastName();
+            }
+        }
+        return null;
+    }
 }

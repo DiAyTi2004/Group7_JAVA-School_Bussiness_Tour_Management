@@ -4,8 +4,11 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
+import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -166,19 +169,25 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
     private DefaultTableModel tableModel;
 
-    private void initializeTable() {
+    private void initializeTable(){
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Mã doanh nghiệp", "Mã giáo viên", "Người đại diện"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Tên doanh nghiệp", "Tên giáo viên", "Người đại diện"});
         studentTourTable.setModel(tableModel);
         loadTableData();
     }
 
-    private void loadTableData() {
+    private void loadTableData(){
+        try{
         if (tours != null) {
             for (Tour tour : tours) {
+                String companyName = CompanyService.getCompanyNameById(tour.getCompanyId());
+                String teacherName = TeacherService.getTeacherNameById(tour.getTeacherId());
                 tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
-                    tour.getAvailables(), tour.getCompanyId(), tour.getTeacherId(), tour.getPresentator()});
+                    tour.getAvailables(),companyName, teacherName , tour.getPresentator()});
             }
+        }
+        }catch(Exception e){
+            MessageDialog.showErrorDialog(this, "Có lỗi khi tải dữ liệu", "Thông báo");
         }
     }
 
