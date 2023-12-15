@@ -33,7 +33,7 @@ public class TourDAO {
 
         Path path = Paths.get(filePath);
         if (Files.exists(path) && Files.size(path) > 0) {
-            try (Reader reader = new FileReader(filePath)) {
+            try ( Reader reader = new FileReader(filePath)) {
                 JSONArray tourArray = (JSONArray) new org.json.simple.parser.JSONParser().parse(reader);
 
                 for (Object tourObject : tourArray) {
@@ -54,7 +54,7 @@ public class TourDAO {
                     JSONArray studentToursArray = (JSONArray) tourJson.get("studentTours");
                     if (studentToursArray != null) {
                         List<StudentTour> studentTours = new ArrayList<>();
-                        for (Object studentTourObject : studentToursArray) { 
+                        for (Object studentTourObject : studentToursArray) {
                             JSONObject studentTourJson = (JSONObject) studentTourObject;
                             StudentTour studentTour = new StudentTour();
                             studentTour.setStudentId(Integer.parseInt(studentTourJson.get("studentId").toString()));
@@ -90,6 +90,9 @@ public class TourDAO {
             tourJson.put("presentator", tour.getPresentator());
 
             List<StudentTour> studentTours = tour.getStudentTours();
+            if (tour.getId() == 5) {
+                System.out.println("studenttours before store in json: " + studentTours);
+            }
             if (studentTours != null && !studentTours.isEmpty()) {
                 JSONArray studentToursArray = new JSONArray();
                 for (StudentTour studentTour : studentTours) {
@@ -97,7 +100,6 @@ public class TourDAO {
                     studentTourJson.put("studentId", studentTour.getStudentId());
                     studentTourJson.put("tourId", studentTour.getTourId());
                     studentTourJson.put("rate", studentTour.getRate());
-
                     studentToursArray.add(studentTourJson);
                 }
                 tourJson.put("studentTours", studentToursArray);
@@ -105,7 +107,7 @@ public class TourDAO {
             tourArray.add(tourJson);
         }
 
-        try (FileWriter file = new FileWriter(filePath)) {
+        try ( FileWriter file = new FileWriter(filePath)) {
             file.write(tourArray.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();

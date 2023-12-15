@@ -271,7 +271,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        loadTableData();
+        reinitialize();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void reinitialize() {
