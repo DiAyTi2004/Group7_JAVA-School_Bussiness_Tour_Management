@@ -18,6 +18,14 @@ public class StudentTour {
     public StudentTour() {
     }
 
+    public StudentTour(int studentId, int tourId, int rate) {
+        this.studentId = studentId;
+        this.tourId = tourId;
+        this.rate = rate;
+    }
+    
+    
+
     public int getStudentId() {
         return studentId;
     }

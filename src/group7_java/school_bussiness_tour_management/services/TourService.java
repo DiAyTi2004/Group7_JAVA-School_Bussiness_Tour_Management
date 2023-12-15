@@ -170,4 +170,14 @@ public class TourService {
             TourDAO.writeToFile(tour_data);
         }
     }
+    
+    public static Tour getTourById(int tourId) throws Exception{
+        List<Tour> tours = TourDAO.readFromFile();
+        for (Tour tour : tours) {
+            if (tour.getId() == tourId) {
+                return tour;
+            }
+        }
+        return null; 
+    }
 }
