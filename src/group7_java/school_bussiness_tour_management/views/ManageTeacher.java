@@ -45,6 +45,7 @@ public class ManageTeacher extends javax.swing.JFrame {
         emailTeacherLabel = new javax.swing.JLabel();
         emailTeacherField = new javax.swing.JTextField();
         detailTour = new javax.swing.JButton();
+        addTourForTeacher = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý giáo viên");
@@ -116,18 +117,19 @@ public class ManageTeacher extends javax.swing.JFrame {
 
         birthdayTeacherLabel.setText("Ngày sinh:");
 
-        birthdayTeacherField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                birthdayTeacherFieldActionPerformed(evt);
-            }
-        });
-
         emailTeacherLabel.setText("Email:");
 
         detailTour.setText("Xem danh sách chuyến tham quan của giáo viên");
         detailTour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 detailTourActionPerformed(evt);
+            }
+        });
+
+        addTourForTeacher.setText("Thêm chuyến tham quan cho giáo viên");
+        addTourForTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTourForTeacherActionPerformed(evt);
             }
         });
 
@@ -138,6 +140,18 @@ public class ManageTeacher extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(createTeacherBtn)
+                        .addGap(31, 31, 31)
+                        .addComponent(updateTeacherBtn)
+                        .addGap(31, 31, 31)
+                        .addComponent(deleteTeacherBtn)
+                        .addGap(27, 27, 27)
+                        .addComponent(clearTeacherBtn)
+                        .addGap(24, 24, 24)
+                        .addComponent(addTourForTeacher)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addComponent(detailTour))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBackHome)
                         .addGap(272, 272, 272)
@@ -155,7 +169,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(addressTeacherField, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                                 .addComponent(teacherIDField, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(phoneNumberTeacherLabel)
                             .addComponent(emailTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,19 +179,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                             .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                             .addComponent(nameTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(emailTeacherField))))
-                .addGap(68, 68, 68))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(createTeacherBtn)
-                .addGap(66, 66, 66)
-                .addComponent(updateTeacherBtn)
-                .addGap(69, 69, 69)
-                .addComponent(deleteTeacherBtn)
-                .addGap(52, 52, 52)
-                .addComponent(clearTeacherBtn)
-                .addGap(52, 52, 52)
-                .addComponent(detailTour)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +217,8 @@ public class ManageTeacher extends javax.swing.JFrame {
                     .addComponent(deleteTeacherBtn)
                     .addComponent(updateTeacherBtn)
                     .addComponent(createTeacherBtn)
-                    .addComponent(detailTour))
+                    .addComponent(detailTour)
+                    .addComponent(addTourForTeacher))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -236,8 +239,15 @@ public class ManageTeacher extends javax.swing.JFrame {
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Teacher tea : data) {
-                    tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate()
-                    });
+                    if (tea.getTours() != null) {
+                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
+                            tea.getTours().size()
+                        });
+                    } else {
+                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
+                            0
+                        });
+                    }
                 }
             }
             tableModel.fireTableDataChanged();
@@ -250,7 +260,7 @@ public class ManageTeacher extends javax.swing.JFrame {
     private void initializeTable() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã giáo viên", "Họ tên",
-            "Địa chỉ", "Điện thoại", "Email", "Ngày sinh"});
+            "Địa chỉ", "Điện thoại", "Email", "Ngày sinh", "Số lượng chuyến tham quan"});
         teacherTable.setModel(tableModel);
         loadTableData();
     }
@@ -406,7 +416,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên muốn xóa", "Thông báo");
                 return;
             }
-             Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa giáo viên " + selectedTea.getLastName() + " " + selectedTea.getFirstName(), "Xác nhận");
             if (keyPress == 0) {
                 TeacherService.deleteTeacher(selectedTea.getId());
@@ -447,7 +457,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                 return;
             }
             Teacher selectedTea = TeacherService.getTeacherByIndex(index);
-            ManageToursOfTeacher  manageToursOfTeacherScreen = new ManageToursOfTeacher();
+            ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher();
             if (manageToursOfTeacherScreen != null) {
                 manageToursOfTeacherScreen.setLocationRelativeTo(null);
                 manageToursOfTeacherScreen.setVisible(true);
@@ -465,9 +475,25 @@ public class ManageTeacher extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_detailTourActionPerformed
 
-    private void birthdayTeacherFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birthdayTeacherFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_birthdayTeacherFieldActionPerformed
+    private void addTourForTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTourForTeacherActionPerformed
+
+        try {
+            int index = teacherTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên để thêm chuyến tham quan", "Thông báo");
+                return;
+            }
+            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            ManageTour tourScreen = new ManageTour(selectedTea.getId());
+            if (tourScreen != null) {
+                dispose();
+                tourScreen.setLocationRelativeTo(null);
+                tourScreen.setVisible(true);
+            }
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
+        }
+    }//GEN-LAST:event_addTourForTeacherActionPerformed
 
     public void clearField() {
         teacherIDField.setText("");
@@ -489,6 +515,7 @@ public class ManageTeacher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addTourForTeacher;
     private javax.swing.JTextField addressTeacherField;
     private javax.swing.JLabel addressTeacherLabel;
     private javax.swing.JTextField birthdayTeacherField;

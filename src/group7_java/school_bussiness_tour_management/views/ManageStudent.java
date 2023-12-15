@@ -473,7 +473,7 @@ public class ManageStudent extends javax.swing.JFrame {
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
+                    tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
                     });
                 }
             }

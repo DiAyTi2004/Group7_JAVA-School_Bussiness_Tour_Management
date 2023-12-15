@@ -6,6 +6,8 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.PDFExporter;
+import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
@@ -19,6 +21,7 @@ import group7_java.school_bussiness_tour_management.services.AccountService;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
+import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -295,6 +298,11 @@ public class Home extends javax.swing.JFrame {
         exportExcelButton.setText("Xuất danh sách Excel");
 
         exportPDFButton.setText("Xuất danh sách PDF");
+        exportPDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportPDFButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -305,12 +313,12 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(studentDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(tourDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(companyDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(teacherDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(studentDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tourDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(teacherDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                            .addComponent(companyDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jSeparator1)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -375,11 +383,13 @@ public class Home extends javax.swing.JFrame {
     private void tourDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tourDataButtonActionPerformed
         try {
             dispose();
-            ShowData screen = new ShowData();
-            screen.setLocationRelativeTo(null);
-            screen.setVisible(true);
-            screen.setBackToPage("home");
-            screen.setTypeData("tours");
+            TransmittedDataShowData data = new TransmittedDataShowData("tours", "home");
+            ShowData screen = new ShowData(data);
+            if (screen != null) {
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            }
+
         } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
         }
@@ -388,11 +398,12 @@ public class Home extends javax.swing.JFrame {
     private void companyDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyDataButtonActionPerformed
         try {
             dispose();
-            ShowData screen = new ShowData();
-            screen.setLocationRelativeTo(null);
-            screen.setVisible(true);
-            screen.setBackToPage("home");
-            screen.setTypeData("companys");
+            TransmittedDataShowData data = new TransmittedDataShowData("companys", "home");
+            ShowData screen = new ShowData(data);
+            if (screen != null) {
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            }
         } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
         }
@@ -401,11 +412,12 @@ public class Home extends javax.swing.JFrame {
     private void studentDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentDataButtonActionPerformed
         try {
             dispose();
-            ShowData screen = new ShowData();
-            screen.setLocationRelativeTo(null);
-            screen.setVisible(true);
-            screen.setBackToPage("home");
-            screen.setTypeData("students");
+            TransmittedDataShowData data = new TransmittedDataShowData("students", "home");
+            ShowData screen = new ShowData(data);
+            if (screen != null) {
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            }
         } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
         }
@@ -414,15 +426,25 @@ public class Home extends javax.swing.JFrame {
     private void teacherDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherDataButtonActionPerformed
         try {
             dispose();
-            ShowData screen = new ShowData();
-            screen.setLocationRelativeTo(null);
-            screen.setVisible(true);
-            screen.setBackToPage("home");
-            screen.setTypeData("teachers");
+            TransmittedDataShowData data = new TransmittedDataShowData("teachers", "home");
+            ShowData screen = new ShowData(data);
+            if (screen != null) {
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            }
         } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
         }
     }//GEN-LAST:event_teacherDataButtonActionPerformed
+
+    private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = currentDate.format(formatter);
+        String title = "BẢNG DANH SÁCH CHUYẾN THAM QUAN TRONG NGÀY " + formattedDate;
+        String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/dayTours.pdf";
+        PDFExporter.exportJTableToPDF(title, outputFileName, tourNowTable);
+    }//GEN-LAST:event_exportPDFButtonActionPerformed
 
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();

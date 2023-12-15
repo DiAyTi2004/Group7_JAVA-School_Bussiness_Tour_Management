@@ -36,7 +36,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     public ManageToursOfCompany() {
         initComponents();
         setLocationRelativeTo(null);
-        System.out.println("CompanyID: " + companyId);
+        System.out.println("CompanyID: " +  getCompanyId());
     }
 
     /**

@@ -161,7 +161,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btn_back">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tr&#x1edf; l&#x1ea1;i trang ch&#x1ee7;"/>
+        <Property name="text" type="java.lang.String" value="Tr&#x1edf; l&#x1ea1;i trang tr&#x1b0;&#x1edb;c"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_backActionPerformed"/>

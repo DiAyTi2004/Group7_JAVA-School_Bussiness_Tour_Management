@@ -221,7 +221,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="T&#xea;n chuy&#x1ebf;n: tham quan:"/>
+        <Property name="text" type="java.lang.String" value="T&#xea;n chuy&#x1ebf;n tham quan:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel11">

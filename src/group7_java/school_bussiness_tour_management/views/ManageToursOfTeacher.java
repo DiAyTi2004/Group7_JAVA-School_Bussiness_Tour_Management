@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package group7_java.school_bussiness_tour_management.views;
+
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
@@ -11,6 +13,7 @@ import group7_java.school_bussiness_tour_management.services.TourService;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author NGUYEN TRANG
@@ -23,21 +26,22 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
     public ManageToursOfTeacher() {
         initComponents();
     }
-    
+
     private int teacherId;
-    
+
     public void setTeacherID(int teaID) {
-        this.teacherId = teaID; 
+        this.teacherId = teaID;
     }
     private DefaultTableModel tableModel;
+
     private void loadTableData() {
         try {
             List<Tour> data = TeacherService.listToursOfTeacher(teacherId);
-             tableModel.setRowCount(0);
+            tableModel.setRowCount(0);
             if (data != null) {
                 for (Tour tourItem : data) {
                     tableModel.addRow(new Object[]{
-                        tourItem.getCode(), tourItem.getName(), tourItem.getStartDate(), 
+                        tourItem.getCode(), tourItem.getName(), tourItem.getStartDate(),
                         TeacherService.getNameCompanyFromIdCompany(tourItem.getCompanyId()),
                         TeacherService.getNumberOfStudents(tourItem.getStudentTours())
                     });
@@ -49,10 +53,10 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     public void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Ngày tham quan", "Doanh nghiệp chủ quản", "Số lượng sinh viên tham gia" });
+        tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Ngày tham quan", "Doanh nghiệp chủ quản", "Số lượng sinh viên tham gia"});
         toursTable.setModel(tableModel);
         loadTableData();
     }
@@ -185,13 +189,10 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
             }
             Tour selectedTour = TourService.getTourByIndex(index);
             dispose();
-            ShowData  showDataScreen = new ShowData();
+            TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", selectedTour.getId(), teacherId);
+            ShowData showDataScreen = new ShowData(data);
             if (showDataScreen != null) {
                 showDataScreen.setLocationRelativeTo(null);
-                showDataScreen.setTypeData("studentTours");
-                showDataScreen.setBackToPage("managetoursofteacher");
-                showDataScreen.setTeacherIDOfShowData(teacherId);
-                showDataScreen.setTourID(selectedTour.getId());
                 showDataScreen.setVisible(true);
             }
         } catch (Exception e) {
@@ -255,18 +256,21 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
     public JLabel getTeacherIdLabel() {
         return teacherIdLabel;
     }
+
     public JLabel getTeacherNameLabel() {
         return teacherNameLabel;
     }
+
     public JLabel getTeacherPhoneNumberLabel() {
         return teacherPhoneNumberLabel;
     }
+
     public JLabel getTeacherEmailLable() {
         return teacherEmailLable;
-    }public JLabel getTeacherAdressLable() {
+    }
+
+    public JLabel getTeacherAdressLable() {
         return teacherAdressLable;
     }
-    
-}
-    
 
+}

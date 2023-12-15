@@ -5,6 +5,8 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.SynchronizeData;
+import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
@@ -23,8 +25,18 @@ public class ManageTour extends javax.swing.JFrame {
     /**
      * Creates new form ManageStudent
      */
+    private int teacherId = -200;
+
     public ManageTour() {
         initComponents();
+        setLocationRelativeTo(null);
+        loadComboBox();
+        initializeTable();
+    }
+
+    public ManageTour(int index) {
+        initComponents();
+        this.teacherId = index;
         setLocationRelativeTo(null);
         loadComboBox();
         initializeTable();
@@ -125,7 +137,7 @@ public class ManageTour extends javax.swing.JFrame {
 
         jLabel9.setText("Mã chuyến tham quan:");
 
-        jLabel10.setText("Tên chuyến: tham quan:");
+        jLabel10.setText("Tên chuyến tham quan:");
 
         jLabel11.setText("Mô tả hoạt động chuyến đi:");
 
@@ -262,10 +274,19 @@ public class ManageTour extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_clearActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-        dispose();
-        Home homeScreen = new Home();
-        homeScreen.setLocationRelativeTo(null);
-        homeScreen.setVisible(true);
+        if (teacherId < 0) {
+            dispose();
+            Home homeScreen = new Home();
+            homeScreen.setLocationRelativeTo(null);
+            homeScreen.setVisible(true);
+        } else {
+            dispose();
+            ManageTeacher teacherScreen = new ManageTeacher();
+            teacherScreen.setLocationRelativeTo(null);
+            teacherScreen.setVisible(true);
+
+        }
+
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
@@ -307,6 +328,12 @@ public class ManageTour extends javax.swing.JFrame {
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
+                if (!(teacherId < 0)) {
+                    dispose();
+                    ManageTeacher teacherScreen = new ManageTeacher();
+                    teacherScreen.setLocationRelativeTo(null);
+                    teacherScreen.setVisible(true);
+                }
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi thêm mới, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
@@ -447,14 +474,26 @@ public class ManageTour extends javax.swing.JFrame {
 
     private void loadComboBox() {
         try {
-            List<Company> company_data = CompanyService.getAllCompanies();
-            for (Company comp : company_data) {
-                companyInput.addItem(comp);
-            }
-            List<Teacher> teacher_data = TeacherService.getAllTeachers();
-            for (Teacher teacher : teacher_data) {
-                teacherInput.addItem(teacher);
-                System.out.println(teacher);
+            if (teacherId < 0) {
+                List<Company> company_data = CompanyService.getAllCompanies();
+                for (Company comp : company_data) {
+                    companyInput.addItem(comp);
+                }
+                List<Teacher> teacher_data = TeacherService.getAllTeachers();
+                for (Teacher teacher : teacher_data) {
+                    teacherInput.addItem(teacher);
+                }
+            } else {
+                List<Company> company_data = CompanyService.getAllCompanies();
+                for (Company comp : company_data) {
+                    companyInput.addItem(comp);
+                }
+                List<Teacher> teacher_data = TeacherService.getAllTeachers();
+                for (Teacher teacher : teacher_data) {
+                    if (teacher.getId() == teacherId) {
+                        teacherInput.addItem(teacher);
+                    }
+                }
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho combobox có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
@@ -478,7 +517,7 @@ public class ManageTour extends javax.swing.JFrame {
                         }
                     }
                     for (Teacher tea : teacher_data) {
-                        if(tea.getId() == tour.getTeacherId()) {
+                        if (tea.getId() == tour.getTeacherId()) {
                             teacherName = tea.getLastName() + " " + tea.getFirstName();
                         }
                     }
@@ -499,7 +538,10 @@ public class ManageTour extends javax.swing.JFrame {
         tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến", "Thời gian", "Mô tả",
             "Số lượng", "Người đại diện", "Công ty", "Giáo viên"});
         tourTable.setModel(tableModel);
-
+        if (teacherId >= 0) {
+            btn_delete.setEnabled(false);
+            btn_back.setText("Quay lại trang trước");
+        }
         loadTableData();
     }
 

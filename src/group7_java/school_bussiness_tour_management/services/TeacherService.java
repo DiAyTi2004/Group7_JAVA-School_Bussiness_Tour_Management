@@ -34,6 +34,18 @@ public class TeacherService {
     public static List<Teacher> getAllTeachers() throws Exception {
         return TeacherDAO.readFromFile();
     }
+    
+     public static Teacher getTeacherById(int index) throws Exception {
+        List<Teacher> data = TeacherDAO.readFromFile();
+        if (data != null) {
+            for(Teacher item : data)
+            {
+                if(item.getId() == index)
+                    return item;
+            }
+        }
+        return null;
+    }
 
     public static boolean isCheckCodeTeacher(String newCode) throws Exception {
         List<Teacher> teachers = TeacherDAO.readFromFile();

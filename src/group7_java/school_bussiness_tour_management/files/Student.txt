@@ -1,9 +1,0 @@
-0,2021603631,123,123,123,123,13@gmail.com,1,1
-0,1234,123,123,123,123,123@gmail.com,2,2
-0,12345,trinh,gia,123,123,123@gmail.com,2,2
-0,1238,trinh,gia linh,123,123,123@gmail.com,123,23
-0,2021603632,trinh,gia loc,hoa loc,096522828,gialoc26@gmail.com,26/02/2002,6166
-0,2021605532,Le Thi,Ngoc,Ha Noi,0963805355,anh@gmail.com,16/09/2003,1
-0,2021605,le,ngoc,hanoi,0963805355,anh@gmail.com,16/09/2003,2
-0,122,123,123,123,123,123@gmail.com,2,2
-0,12343,trinh,gia,123,123,123@gmail.com,2,2

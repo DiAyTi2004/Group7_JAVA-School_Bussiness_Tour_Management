@@ -5,6 +5,7 @@
 package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.SynchronizeData;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
@@ -92,6 +93,18 @@ public class TourService {
     public static Tour getTourByIndex(int index) throws Exception {
         return TourDAO.readFromFile().get(index);
     }
+    
+     public static Tour getTourById(int index) throws Exception {
+        List<Tour> data = TourDAO.readFromFile();
+        if (data != null) {
+            for(Tour item : data)
+            {
+                if(item.getId() == index)
+                    return item;
+            }
+        }
+        return null;
+    }
 
     public static void createNewTour(String code, String name, String description, String startDate, int availables, int companyId, int teacherId, String presentator) throws Exception {
         int lastId = getLastTourId();
@@ -110,6 +123,7 @@ public class TourService {
         tour_data.add(tour);
         TourDAO.writeToFile(tour_data);
         CompanyDAO.writeToFile(company_data);
+        SynchronizeData.addTourForTeacher(teacherId, tour);
     }
 
     public static void updateTour(Tour uTour) throws Exception {

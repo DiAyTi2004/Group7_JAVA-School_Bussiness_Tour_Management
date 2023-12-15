@@ -77,7 +77,7 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn_back.setText("Trở lại trang chủ");
+        btn_back.setText("Trở lại trang trước");
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);
@@ -279,7 +279,7 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
         dispose();
-        Home homeScreen = new Home();
+        ManageClassroom homeScreen = new ManageClassroom();
         homeScreen.setLocationRelativeTo(null);
         homeScreen.setVisible(true);
     }//GEN-LAST:event_btn_backActionPerformed
