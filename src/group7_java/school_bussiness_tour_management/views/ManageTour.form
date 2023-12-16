@@ -31,8 +31,8 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" min="-2" pref="547" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jScrollPane1" min="-2" pref="656" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btn_edit" alignment="0" max="32767" attributes="0"/>
@@ -56,7 +56,7 @@
                                   <Component id="nameInput" max="32767" attributes="0"/>
                                   <Component id="descriptionInput" alignment="0" max="32767" attributes="0"/>
                                   <Component id="startDateInput" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="companyInput" alignment="0" pref="214" max="32767" attributes="0"/>
+                                  <Component id="companyInput" alignment="0" pref="180" max="32767" attributes="0"/>
                                   <Component id="presentatorInput" alignment="0" max="32767" attributes="0"/>
                                   <Component id="teacherInput" alignment="0" max="32767" attributes="0"/>
                                   <Component id="availablesInput" alignment="0" max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
                           <Component id="viewStudentListButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="btn_back" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>

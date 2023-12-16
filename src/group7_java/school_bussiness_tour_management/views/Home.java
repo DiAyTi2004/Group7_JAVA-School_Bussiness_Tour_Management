@@ -95,7 +95,7 @@ public class Home extends javax.swing.JFrame {
     private void initializeTableOfTours() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến", "Mô tả",
-            "Số lượng", "Người đại diện", "Công ty", "Giáo viên"});
+            "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên"});
         tourNowTable.setModel(tableModel);
 
         loadTableDataOfTours();
