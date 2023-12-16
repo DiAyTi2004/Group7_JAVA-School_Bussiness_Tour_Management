@@ -113,7 +113,7 @@ public class StudentTourService {
     }
 
     public static void updateStudentTour(int studentId, int tourId, int rate) throws Exception {
-        List<StudentTour> studentTourData = new ArrayList<>();
+        List<StudentTour> studentTourData = StudentTourDAO.readFromFile();
         for (int i = 0; i < studentTourData.size(); i++) {
             if (studentTourData.get(i).getStudentId() == studentId && studentTourData.get(i).getTourId() == tourId) {
                 studentTourData.get(i).setRate(rate);
@@ -122,10 +122,10 @@ public class StudentTourService {
         }
         StudentTourDAO.writeToFile(studentTourData);
 
-        List<Tour> tourData = new ArrayList<>();
+        List<Tour> tourData = new TourDAO().readFromFile();
         for (int i = 0; i < tourData.size(); i++) {
             if (tourData.get(i).getId() == tourId) {
-                for (int j = 0; j < tourData.get(i).getStudentTours().size(); i++) {
+                for (int j = 0; j < tourData.get(i).getStudentTours().size(); j++) {
                     if (tourData.get(i).getStudentTours().get(j).getStudentId() == studentId) {
                         tourData.get(i).getStudentTours().get(j).setRate(rate);
                         break;
@@ -135,10 +135,10 @@ public class StudentTourService {
         }
         TourDAO.writeToFile(tourData);
 
-        List<Student> studentData = new ArrayList<>();
+        List<Student> studentData = StudentDAO.readFromFile();
         for (int i = 0; i < studentData.size(); i++) {
             if (studentData.get(i).getId() == studentId) {
-                for (int j = 0; j < studentData.get(i).getStudentTours().size(); i++) {
+                for (int j = 0; j < studentData.get(i).getStudentTours().size(); j++) {
                     if (studentData.get(i).getStudentTours().get(j).getTourId() == tourId) {
                         studentData.get(i).getStudentTours().get(j).setRate(rate);
                         break;

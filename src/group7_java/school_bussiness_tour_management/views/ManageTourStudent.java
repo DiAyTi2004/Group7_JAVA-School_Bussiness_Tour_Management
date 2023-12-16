@@ -366,7 +366,6 @@ public class ManageTourStudent extends javax.swing.JFrame {
                             });
                 }
             }
-            System.out.println("table reloaded");
             tableModel.fireTableDataChanged();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
