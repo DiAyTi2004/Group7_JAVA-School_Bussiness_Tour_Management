@@ -65,12 +65,12 @@ public class TeacherService {
         return -1;
     }
 
-    public static void createNewTeacher(String code, String name, String address, String phoneNumber, String email, String birthDate) throws Exception {
+    public static void createNewTeacher(String imagePath, String code, String name, String address, String phoneNumber, String email, String birthDate) throws Exception {
         if (!isCheckCodeTeacher(code)) {
             int lastId = getLastTeacherId();
             int id = ++lastId;
             List<Teacher> data = TeacherDAO.readFromFile();
-            Teacher tea = new Teacher(id, code, FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
+            Teacher tea = new Teacher(id, code, imagePath, FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
             data.add(tea);
             TeacherDAO.writeToFile(data);
         }
@@ -92,6 +92,7 @@ public class TeacherService {
                 tea.setBirthDate(teacher.getBirthDate());
                 tea.setEmail(teacher.getEmail());
                 tea.setAddress(teacher.getAddress());
+                tea.setImagePath(teacher.getImagePath());
                 break;
             }
         }

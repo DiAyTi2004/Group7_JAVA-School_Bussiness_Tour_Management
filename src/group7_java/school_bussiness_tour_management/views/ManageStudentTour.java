@@ -9,8 +9,10 @@ import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +26,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
     /**
      * Creates new form ManageStudentTour
      */
+    private String imagePath;
     private List<Tour> tours = new ArrayList<>();
 
     public ManageStudentTour() {
@@ -31,7 +34,6 @@ public class ManageStudentTour extends javax.swing.JFrame {
         initializeTable();
     }
 
-   
     public void setTours(List<Tour> tours) {
         this.tours = tours;
         loadTableData();
@@ -57,6 +59,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
         classIdLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTourTable = new javax.swing.JTable();
+        imageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,38 +103,41 @@ public class ManageStudentTour extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(studentTourTable);
 
+        imageLabel.setText("Ảnh");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(288, 288, 288)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btn_back)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(fullNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(studentCodeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                            .addComponent(studentCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(classIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(classIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btn_back))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(288, 288, 288)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,21 +146,27 @@ public class ManageStudentTour extends javax.swing.JFrame {
                 .addComponent(btn_back)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentCodeLabel)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(emailLabel)
-                        .addComponent(classIdLabel)))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fullNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(phoneNumberLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addressLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(birthDateLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(studentCodeLabel)
+                            .addComponent(emailLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(phoneNumberLabel)
+                        .addGap(5, 5, 5)
+                        .addComponent(fullNameLabel)
+                        .addGap(4, 4, 4)
+                        .addComponent(birthDateLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addressLabel)
+                            .addComponent(classIdLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -171,26 +183,36 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
     private DefaultTableModel tableModel;
 
-    private void initializeTable(){
+    private void initializeTable() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Tên doanh nghiệp", "Tên giáo viên", "Người đại diện"});
         studentTourTable.setModel(tableModel);
         loadTableData();
     }
 
-    private void loadTableData(){
-        try{
-        if (tours != null) {
-            for (Tour tour : tours) {
-                String companyName = CompanyService.getCompanyNameById(tour.getCompanyId());
-                String teacherName = TeacherService.getTeacherNameById(tour.getTeacherId());
-                tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
-                    tour.getAvailables(),companyName, teacherName , tour.getPresentator()});
+    private void loadTableData() {
+        try {
+            if (tours != null) {
+                for (Tour tour : tours) {
+                    String companyName = CompanyService.getCompanyNameById(tour.getCompanyId());
+                    String teacherName = TeacherService.getTeacherNameById(tour.getTeacherId());
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
+                        tour.getAvailables(), companyName, teacherName, tour.getPresentator()});
+                }
             }
-        }
-        }catch(Exception e){
+        } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi khi tải dữ liệu", "Thông báo");
         }
+    }
+
+    private void showImage() {
+        // Hiển thị ảnh
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+
+        // Chỉnh kích thước ảnh vừa với khung 
+        Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+        imageLabel.setIcon(imageIcon);
     }
 
     /**
@@ -228,6 +250,10 @@ public class ManageStudentTour extends javax.swing.JFrame {
         });
     }
 
+    public JLabel getImageLabel() {
+        return imageLabel;
+    }
+
     public JLabel getAddressLabel() {
         return addressLabel;
     }
@@ -254,6 +280,10 @@ public class ManageStudentTour extends javax.swing.JFrame {
 
     public JLabel getStudentCodeLabel() {
         return studentCodeLabel;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public void setAddressLabel(JLabel addressLabel) {
@@ -284,6 +314,15 @@ public class ManageStudentTour extends javax.swing.JFrame {
         this.studentCodeLabel = studentCodeLabel;
     }
 
+    public void setImageLabel(JLabel imageLabel) {
+        this.imageLabel = imageLabel;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+        showImage();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
@@ -292,6 +331,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
     private javax.swing.JLabel classIdLabel;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel fullNameLabel;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel phoneNumberLabel;

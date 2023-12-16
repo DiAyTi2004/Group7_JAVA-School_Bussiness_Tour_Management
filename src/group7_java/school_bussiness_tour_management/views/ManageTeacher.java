@@ -6,7 +6,17 @@ import static group7_java.school_bussiness_tour_management.common.Validator.isNu
 import static group7_java.school_bussiness_tour_management.common.Validator.isValidEmail;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
+import java.awt.Image;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,6 +24,9 @@ import javax.swing.table.DefaultTableModel;
  * @author NGUYEN TRANG
  */
 public class ManageTeacher extends javax.swing.JFrame {
+
+    private String selectedImagePath = "";
+    private static final String imageFolderPath = "src/group7_java/school_bussiness_tour_management/resources/";
 
     public ManageTeacher() {
         initComponents();
@@ -46,6 +59,9 @@ public class ManageTeacher extends javax.swing.JFrame {
         emailTeacherField = new javax.swing.JTextField();
         detailTour = new javax.swing.JButton();
         addTourForTeacher = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
+        imageBrowse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý giáo viên");
@@ -133,6 +149,26 @@ public class ManageTeacher extends javax.swing.JFrame {
             }
         });
 
+        imageLabel.setText("Ảnh");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+        );
+
+        imageBrowse.setText("Tải ảnh lên");
+        imageBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imageBrowseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,45 +177,52 @@ public class ManageTeacher extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(createTeacherBtn)
-                        .addGap(31, 31, 31)
-                        .addComponent(updateTeacherBtn)
-                        .addGap(31, 31, 31)
-                        .addComponent(deleteTeacherBtn)
-                        .addGap(27, 27, 27)
-                        .addComponent(clearTeacherBtn)
-                        .addGap(24, 24, 24)
-                        .addComponent(addTourForTeacher)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                        .addComponent(detailTour))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBackHome)
-                        .addGap(272, 272, 272)
-                        .addComponent(mainTitle)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
+                        .addComponent(imageBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addressTeacherLabel)
-                            .addComponent(teacherIDLabel)
-                            .addComponent(birthdayTeacherLabel))
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(birthdayTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(addressTeacherField, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
-                                .addComponent(teacherIDField, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(phoneNumberTeacherLabel)
-                            .addComponent(emailTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                            .addComponent(nameTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(emailTeacherField))))
-                .addGap(52, 52, 52))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createTeacherBtn)
+                                .addGap(31, 31, 31)
+                                .addComponent(updateTeacherBtn)
+                                .addGap(31, 31, 31)
+                                .addComponent(deleteTeacherBtn)
+                                .addGap(27, 27, 27)
+                                .addComponent(clearTeacherBtn)
+                                .addGap(24, 24, 24)
+                                .addComponent(addTourForTeacher)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
+                                .addComponent(detailTour))
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBackHome)
+                                .addGap(272, 272, 272)
+                                .addComponent(mainTitle)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addressTeacherLabel)
+                                    .addComponent(teacherIDLabel)
+                                    .addComponent(birthdayTeacherLabel))
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(birthdayTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(addressTeacherField)
+                                        .addComponent(teacherIDField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(phoneNumberTeacherLabel)
+                                    .addComponent(emailTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nameTeacherLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nameTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(emailTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(52, 52, 52))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,25 +234,32 @@ public class ManageTeacher extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(mainTitle)))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(nameTeacherLabel)
-                    .addComponent(teacherIDLabel)
-                    .addComponent(teacherIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressTeacherLabel)
-                    .addComponent(addressTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(phoneNumberTeacherLabel)
-                    .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(birthdayTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(birthdayTeacherLabel)
-                    .addComponent(emailTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailTeacherLabel))
-                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(nameTeacherLabel)
+                            .addComponent(teacherIDLabel)
+                            .addComponent(teacherIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(nameTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addressTeacherLabel)
+                            .addComponent(addressTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phoneNumberTeacherLabel)
+                            .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(birthdayTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(birthdayTeacherLabel)
+                            .addComponent(emailTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailTeacherLabel))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imageBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -219,7 +269,7 @@ public class ManageTeacher extends javax.swing.JFrame {
                     .addComponent(createTeacherBtn)
                     .addComponent(detailTour)
                     .addComponent(addTourForTeacher))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(82, 82, 82))
         );
 
         pack();
@@ -276,6 +326,32 @@ public class ManageTeacher extends javax.swing.JFrame {
                 return;
             }
             Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            String imagePath = selectedTea.getImagePath();
+
+            if (!selectedImagePath.equals(imagePath)) {
+                //xóa ảnh cũ
+                try {
+                    // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
+                    File imageFile = new File(imagePath);
+
+                    if (imageFile.exists()) {
+                        // Kiểm tra quyền truy cập và xóa tập tin
+                        if (imageFile.canWrite() && imageFile.canRead()) {
+                            if (!imageFile.delete()) {
+                                JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
+                        }
+                    }
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                }
+                selectedTea.setImagePath(selectedImagePath);
+
+            }
+
             String teacherID = this.teacherIDField.getText().trim();
             String teacherName = this.nameTeacherField.getText().trim();
             String teacherAddress = this.addressTeacherField.getText().trim();
@@ -351,6 +427,15 @@ public class ManageTeacher extends javax.swing.JFrame {
             String teacherPhoneNumber = this.phoneNumberTeacherField.getText().trim();
             String teacherBirthday = this.birthdayTeacherField.getText().trim();
             String teacherEmail = this.emailTeacherField.getText().trim();
+            String imagePath = selectedImagePath;
+
+            // Hiển thị ảnh
+            ImageIcon imageIcon = new ImageIcon(selectedImagePath);
+
+            // Chỉnh kích thước ảnh vừa với khung 
+            Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(image);
+            imageLabel.setIcon(imageIcon);
 
             // Bắt lỗi, không nhập đủ
             if (teacherID.equals("")) {
@@ -393,7 +478,7 @@ public class ManageTeacher extends javax.swing.JFrame {
             }
             // Thêm giáo viên
             if (!TeacherService.isCheckCodeTeacher(teacherID)) {
-                TeacherService.createNewTeacher(teacherID, teacherName, teacherAddress, teacherPhoneNumber, teacherEmail, teacherBirthday);
+                TeacherService.createNewTeacher(teacherID, imagePath, teacherName, teacherAddress, teacherPhoneNumber, teacherEmail, teacherBirthday);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Đã thêm thành công", "Thông  báo");
                 clearField();
@@ -417,6 +502,31 @@ public class ManageTeacher extends javax.swing.JFrame {
                 return;
             }
             Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            String imagePath = selectedTea.getImagePath();
+
+            if (imagePath == null) {
+                return;
+            }
+            try {
+                // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
+                File imageFile = new File(imagePath);
+
+                if (imageFile.exists()) {
+                    // Kiểm tra quyền truy cập và xóa tập tin
+                    if (imageFile.canWrite() && imageFile.canRead()) {
+                        if (!imageFile.delete()) {
+                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                }
+            } catch (SecurityException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+            }
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa giáo viên " + selectedTea.getLastName() + " " + selectedTea.getFirstName(), "Xác nhận");
             if (keyPress == 0) {
                 TeacherService.deleteTeacher(selectedTea.getId());
@@ -443,6 +553,14 @@ public class ManageTeacher extends javax.swing.JFrame {
             birthdayTeacherField.setText(selectedTea.getBirthDate());
             emailTeacherField.setText(selectedTea.getEmail());
             addressTeacherField.setText(selectedTea.getAddress());
+            // Hiển thị ảnh
+            ImageIcon imageIcon = new ImageIcon(selectedTea.getImagePath());
+
+            // Chỉnh kích thước ảnh vừa với khung 
+            Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(image);
+            imageLabel.setIcon(imageIcon);
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -461,6 +579,7 @@ public class ManageTeacher extends javax.swing.JFrame {
             if (manageToursOfTeacherScreen != null) {
                 manageToursOfTeacherScreen.setLocationRelativeTo(null);
                 manageToursOfTeacherScreen.setVisible(true);
+                manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
                 manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
                 manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
                 manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
@@ -495,6 +614,43 @@ public class ManageTeacher extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addTourForTeacherActionPerformed
 
+    private void imageBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageBrowseActionPerformed
+        JFileChooser browseImageFile = new JFileChooser();
+
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpeg", "jpg", "jfif", "svg");
+        browseImageFile.addChoosableFileFilter(fnef);
+
+        int showOpenDialogue = browseImageFile.showOpenDialog(null);
+
+        if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+            File selectedImageFile = browseImageFile.getSelectedFile();
+
+            // Tạo đường dẫn mới cho tập tin hình ảnh đến thư mục đích
+            Path currentDirectory = Paths.get("").toAbsolutePath();
+            Path destinationDirectory = currentDirectory.resolve(Paths.get("src", "group7_java", "school_bussiness_tour_management", "resources"));
+            Path destinationPath = destinationDirectory.resolve(selectedImageFile.getName());
+
+            try {
+                // Sao chép tập tin vào thư mục đích
+                Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(null, "Tải tệp thành công");
+
+                // Lấy đường dẫn tương đối của tập tin đã lưu
+                Path relativePath = currentDirectory.relativize(destinationPath);
+                selectedImagePath = relativePath.toString();
+
+                // Hiển thị ảnh
+                ImageIcon imageIcon = new ImageIcon(selectedImageFile.toURI().toURL()); // Chuyển đổi File thành URL
+                Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+                imageIcon = new ImageIcon(image);
+                imageLabel.setIcon(imageIcon);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Có lỗi trong quá trình lưu tệp");
+            }
+        }
+    }//GEN-LAST:event_imageBrowseActionPerformed
+
     public void clearField() {
         teacherIDField.setText("");
         nameTeacherField.setText("");
@@ -502,6 +658,14 @@ public class ManageTeacher extends javax.swing.JFrame {
         addressTeacherField.setText("");
         emailTeacherField.setText("");
         birthdayTeacherField.setText("");
+        String imagePath = "";
+        // Hiển thị ảnh
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+
+        // Chỉnh kích thước ảnh vừa với khung 
+        Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(image);
+        imageLabel.setIcon(imageIcon);
     }
 
     /**
@@ -527,6 +691,9 @@ public class ManageTeacher extends javax.swing.JFrame {
     private javax.swing.JButton detailTour;
     private javax.swing.JTextField emailTeacherField;
     private javax.swing.JLabel emailTeacherLabel;
+    private javax.swing.JButton imageBrowse;
+    private javax.swing.JLabel imageLabel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mainTitle;
     private javax.swing.JTextField nameTeacherField;
