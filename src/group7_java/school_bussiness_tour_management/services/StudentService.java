@@ -68,7 +68,16 @@ public class StudentService {
         int lastId = getLastStudentId();
         lastId++;
         Student student = new Student(lastId, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
-        List<Student> data = StudentDAO.readFromFile();
+        List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
+        List<Student>data = StudentDAO.readFromFile();
+        for(StudentTour studentTour : studentTour_data){
+            if(lastId == studentTour.getStudentId()){
+                if(student.getStudentTours() == null){
+                    student.setStudentTours(new ArrayList<>());
+                }
+                student.getStudentTours().add(studentTour);
+            }
+        }
         data.add(student);
         StudentDAO.writeToFile(data);
     }

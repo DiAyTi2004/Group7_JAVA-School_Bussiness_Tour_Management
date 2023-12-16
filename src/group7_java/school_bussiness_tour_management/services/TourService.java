@@ -189,7 +189,6 @@ public class TourService {
                         tea_tour.setCompanyId(uTour.getCompanyId());
                         tea_tour.setTeacherId(uTour.getTeacherId());
                         tea_tour.setPresentator(uTour.getPresentator());
-
                         tourUpdated = true;
                         break; // Kết thúc vòng lặp nếu đã cập nhật tour
                     }
@@ -200,12 +199,15 @@ public class TourService {
                 }
             } else {
                 Iterator<Tour> iterator = tea.getTours().iterator();
-                while (iterator.hasNext()) {
-                    Tour tea_tour = iterator.next();
-                    if (tea_tour.getId() == uTour.getId()) {
-                        iterator.remove();
-                        tourUpdated = true;
-                        break; // Kết thúc vòng lặp nếu đã xóa tour
+                if(iterator != null)
+                {
+                    while (iterator.hasNext()) {
+                        Tour tea_tour = iterator.next();
+                        if (tea_tour.getId() == uTour.getId()) {
+                            iterator.remove();
+                            tourUpdated = true;
+                            break; // Kết thúc vòng lặp nếu đã xóa tour
+                        }
                     }
                 }
             }
