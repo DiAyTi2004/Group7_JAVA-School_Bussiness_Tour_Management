@@ -361,7 +361,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
     private void exportExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelButtonActionPerformed
         try {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Chọn vị trí để lưu file");
+            fileChooser.setDialogTitle("Chọn vị trí để xuất file Excel");
             fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx"));
 
             int userSelection = fileChooser.showSaveDialog(this);
@@ -406,6 +406,17 @@ public class ManageTourStudent extends javax.swing.JFrame {
                         cell.setCellStyle(headerStyle);
                     }
 
+                    // Set cell style with borders
+                    CellStyle cellStyle = workbook.createCellStyle();
+                    cellStyle.setBorderBottom(BorderStyle.THIN);
+                    cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderTop(BorderStyle.THIN);
+                    cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderLeft(BorderStyle.THIN);
+                    cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderRight(BorderStyle.THIN);
+                    cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+
                     // Write data to the Excel sheet
                     List<StudentTour> data = selectedTour.getStudentTours();
                     if (data != null) {
@@ -413,16 +424,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
                         for (StudentTour stuTour : data) {
                             Student stu = StudentService.getById(stuTour.getStudentId());
                             Row row = sheet.createRow(rowNum++);
-                            row.createCell(0).setCellValue(stu.getCode());
-                            row.createCell(1).setCellValue(stu.getFirstName());
-                            row.createCell(2).setCellValue(stu.getLastName());
-                            row.createCell(3).setCellValue(stu.getBirthDate());
-                            row.createCell(4).setCellValue(ClassroomService.getById(stu.getClassId()).getName());
-                            row.createCell(5).setCellValue(stu.getPhoneNumber());
-                            row.createCell(6).setCellValue(stu.getEmail());
-                            row.createCell(7).setCellValue(stu.getAddress());
-                            row.createCell(8).setCellValue(stuTour.getRate());
-                            row.createCell(9).setCellValue(stuTour.getResult());
+                            for (int i = 0; i < headers.length; i++) {
+                                Cell cell = row.createCell(i);
+                                cell.setCellValue(getCellValue(stu, stuTour, i));
+                                cell.setCellStyle(cellStyle);
+                            }
                         }
                     }
 
@@ -443,6 +449,34 @@ public class ManageTourStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exportExcelButtonActionPerformed
 
+    private String getCellValue(Student stu, StudentTour stuTour, int columnIndex) throws Exception{
+        switch (columnIndex) {
+            case 0:
+                return stu.getCode();
+            case 1:
+                return stu.getFirstName();
+            case 2:
+                return stu.getLastName();
+            case 3:
+                return stu.getBirthDate();
+            case 4:
+                return ClassroomService.getById(stu.getClassId()).getName();
+            case 5:
+                return stu.getPhoneNumber();
+            case 6:
+                return stu.getEmail();
+            case 7:
+                return stu.getAddress();
+            case 8:
+                return String.valueOf(stuTour.getRate());
+            case 9:
+                return stuTour.getResult();
+            default:
+                return "";
+        }
+    }
+
+    
     private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_exportPDFButtonActionPerformed
