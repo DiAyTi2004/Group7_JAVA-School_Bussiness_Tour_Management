@@ -327,8 +327,8 @@ public class ManageStudent extends javax.swing.JFrame {
             int id = StudentService.getLastStudentId();
             String imagePath = selectedImagePath;
             String code = txt_code.getText().trim();
-            String firstName = txt_last_name.getText().trim();
-            String lastName = txt_first_name.getText().trim();
+            String lastName = txt_last_name.getText().trim();
+            String firstName = txt_first_name.getText().trim();
             String address = txt_address.getText().trim();
             String phoneNumber = txt_phone_number.getText().trim();
             String email = txt_email.getText().trim();
@@ -404,8 +404,8 @@ public class ManageStudent extends javax.swing.JFrame {
 
             //cập nhật thông tin sinh viên
             String code = this.txt_code.getText().trim();
-            String firstName = this.txt_last_name.getText().trim();
-            String lastName = this.txt_first_name.getText().trim();
+            String lastName = this.txt_last_name.getText().trim();
+            String firstName = this.txt_first_name.getText().trim();
             String address = this.txt_address.getText().trim();
             String phoneNumber = this.txt_phone_number.getText().trim();
             String email = this.txt_email.getText().trim();
@@ -457,8 +457,8 @@ public class ManageStudent extends javax.swing.JFrame {
             imageLabel.setIcon(imageIcon);
 
             txt_code.setText(selectedStudent.getCode());
-            txt_last_name.setText(selectedStudent.getFirstName());
-            txt_first_name.setText(selectedStudent.getLastName());
+            txt_last_name.setText(selectedStudent.getLastName());
+            txt_first_name.setText(selectedStudent.getFirstName());
             txt_address.setText(selectedStudent.getAddress());
             txt_phone_number.setText(selectedStudent.getPhoneNumber());
             txt_email.setText(selectedStudent.getEmail());
