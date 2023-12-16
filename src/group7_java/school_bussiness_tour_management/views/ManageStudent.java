@@ -381,25 +381,30 @@ public class ManageStudent extends javax.swing.JFrame {
             }
             Student selectedStudent = StudentService.getStudentByIndex(index);
             String imagePath = selectedStudent.getImagePath();
+            
 
-            //xóa ảnh cũ
-            try {
-                // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
-                File imageFile = new File(imagePath);
+            if (!selectedImagePath.equals(imagePath)) {
+                //xóa ảnh cũ
+                try {
+                    // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
+                    File imageFile = new File(imagePath);
 
-                if (imageFile.exists()) {
-                    // Kiểm tra quyền truy cập và xóa tập tin
-                    if (imageFile.canWrite() && imageFile.canRead()) {
-                        if (!imageFile.delete()) {
-                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                    if (imageFile.exists()) {
+                        // Kiểm tra quyền truy cập và xóa tập tin
+                        if (imageFile.canWrite() && imageFile.canRead()) {
+                            if (!imageFile.delete()) {
+                                JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
                     }
-                } 
-            } catch (SecurityException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                }
+
+                selectedStudent.setImagePath(selectedImagePath);
             }
 
             //cập nhật thông tin sinh viên
@@ -422,9 +427,6 @@ public class ManageStudent extends javax.swing.JFrame {
             selectedStudent.setEmail(email);
             selectedStudent.setBirthDate(birthDate);
             selectedStudent.setClassId(classId);
-            selectedStudent.setImagePath(selectedImagePath);
-            System.out.println(selectedStudent.getImagePath());
-            System.out.println(code);
 
             // Cập nhật thông tin sinh viên
             StudentService.updateStudent(selectedStudent);
@@ -559,7 +561,7 @@ public class ManageStudent extends javax.swing.JFrame {
 
         JFileChooser browseImageFile = new JFileChooser();
 
-        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpeg", "jpg", "jfif","svg");
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpeg", "jpg", "jfif", "svg");
         browseImageFile.addChoosableFileFilter(fnef);
 
         int showOpenDialogue = browseImageFile.showOpenDialog(null);

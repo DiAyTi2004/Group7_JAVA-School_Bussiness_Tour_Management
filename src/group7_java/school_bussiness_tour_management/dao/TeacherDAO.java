@@ -32,6 +32,7 @@ public class TeacherDAO {
                 for (Object teacherObject : teacherArray) {
                     JSONObject teacherJson = (JSONObject) teacherObject;
                     int id = Integer.parseInt(teacherJson.get("id").toString());
+                    String imagePath = (String)teacherJson.get("imagePath");
                     String code = (String) teacherJson.get("code");
                     String firstname = (String) teacherJson.get("firstname");
                     String lastname = (String) teacherJson.get("lastname");
@@ -39,7 +40,7 @@ public class TeacherDAO {
                     String address = (String) teacherJson.get("address");
                     String phone = (String) teacherJson.get("phoneNumber");
                     String birthDate = (String) teacherJson.get("birthDate");
-                    Teacher tea = new Teacher(id, code, firstname, lastname, address, phone, email, birthDate);
+                    Teacher tea = new Teacher(id,imagePath, code, firstname, lastname, address, phone, email, birthDate);
                     JSONArray toursArray = (JSONArray) teacherJson.get("tours");
                     if (toursArray != null) {
                         List<Tour> tours = new ArrayList<>();
@@ -76,6 +77,7 @@ public class TeacherDAO {
         for (Teacher teacher : teachers) {
             JSONObject teacherJson = new JSONObject();
             teacherJson.put("id", teacher.getId());
+            teacherJson.put("imagePath", teacher.getImagePath());
             teacherJson.put("code", teacher.getCode());
             teacherJson.put("firstname", teacher.getFirstName());
             teacherJson.put("lastname", teacher.getLastName());
