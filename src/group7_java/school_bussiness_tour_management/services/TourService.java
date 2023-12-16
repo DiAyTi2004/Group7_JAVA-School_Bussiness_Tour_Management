@@ -141,6 +141,42 @@ public class TourService {
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
         List<Teacher> teacher_data = TeacherDAO.readFromFile();
+        
+        for(Tour tour : tour_data) {
+            if(tour.getId() == uTour.getId()) {
+                if(tour.getCompanyId() == uTour.getCompanyId()) {
+                    for (Company comp : company_data) {
+                        if (comp.getTours() == null) {
+                            comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+                        }
+                        for (Tour comp_tour : comp.getTours()) {
+                            if (comp_tour.getId() == uTour.getId()) {
+                                comp_tour.setCode(uTour.getCode());
+                                comp_tour.setName(uTour.getName());
+                                comp_tour.setDescription(uTour.getDescription());
+                                comp_tour.setStartDate(uTour.getStartDate());
+                                comp_tour.setAvailables(uTour.getAvailables());
+                                comp_tour.setCompanyId(uTour.getCompanyId());
+                                comp_tour.setTeacherId(uTour.getTeacherId());
+                                comp_tour.setPresentator(uTour.getPresentator());
+                            }
+                        }
+                    }
+                }else{
+                    for(Company comp : company_data) {
+                        if (comp.getTours() == null) {
+                            comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+                        }
+                        if(comp.getId() == uTour.getCompanyId()) {
+                            comp.getTours().add(uTour);
+                        }
+                        if(comp.getId() == tour.getCompanyId()) {
+                            comp.getTours().remove(tour);
+                        }
+                    }
+                }
+            }
+        }
 
         for (Tour tour : tour_data) {
             if (tour.getId() == uTour.getId()) {
@@ -154,23 +190,8 @@ public class TourService {
                 tour.setPresentator(uTour.getPresentator());
             }
         }
-        for (Company comp : company_data) {
-            if (comp.getTours() == null) {
-                comp.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
-            }
-            for (Tour comp_tour : comp.getTours()) {
-                if (comp_tour.getId() == uTour.getId()) {
-                    comp_tour.setCode(uTour.getCode());
-                    comp_tour.setName(uTour.getName());
-                    comp_tour.setDescription(uTour.getDescription());
-                    comp_tour.setStartDate(uTour.getStartDate());
-                    comp_tour.setAvailables(uTour.getAvailables());
-                    comp_tour.setCompanyId(uTour.getCompanyId());
-                    comp_tour.setTeacherId(uTour.getTeacherId());
-                    comp_tour.setPresentator(uTour.getPresentator());
-                }
-            }
-        }
+        
+        
         boolean tourUpdated = false;
 
         for (Teacher tea : teacher_data) {
