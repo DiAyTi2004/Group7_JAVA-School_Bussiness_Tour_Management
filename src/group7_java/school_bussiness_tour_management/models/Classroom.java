@@ -63,7 +63,10 @@ public class Classroom {
     }
 
     @Override
-    public String toString() {
+    public String toString(){
+        return name;
+    }
+    public String toStringFile() {
         return id + "," + code + "," + name + "," + students;
     }
 

@@ -30,11 +30,10 @@ public class ShowData extends javax.swing.JFrame {
     /**
      * Creates new form ShowData
      */
-
     TransmittedDataShowData dataOfShowData;
-    
+
     public ShowData(TransmittedDataShowData data) {
-         try {
+        try {
             this.dataOfShowData = data;
             initComponents();
             setLocationRelativeTo(null);
@@ -265,8 +264,10 @@ public class ShowData extends javax.swing.JFrame {
     }//GEN-LAST:event_exportExcelFileButtonActionPerformed
 
     private void exportPDFFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFFileButtonActionPerformed
-        String title = "";
-        if (dataOfShowData.getTypeData() != null) {
+        try {
+
+            String title = "";
+            if (dataOfShowData.getTypeData() != null) {
                 if (dataOfShowData.getTypeData().equalsIgnoreCase("teachers")) {
                     title = "DANH SÁCH GIÁO VIÊN ĐẠI DIỆN DOANH NGHIỆP";
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("students")) {
@@ -274,15 +275,18 @@ public class ShowData extends javax.swing.JFrame {
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("companys")) {
                     title = "DANH SÁCH DOANH NGHIỆP LIÊN KẾT VỚI NHÀ TRƯỜNG";
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours")) {
-                     title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
+                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
-                     title = "DANH SÁCH SINH VIÊN CẢU CHUYẾN THAM QUAN";
+                    title = "DANH SÁCH SINH VIÊN CẢU CHUYẾN THAM QUAN";
                 }
                 dataTable.setModel(tableModel);
                 loadTableData();
             }
-        String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/" + dataOfShowData.getTypeData() + ".pdf";
-        PDFExporter.exportJTableToPDF(title, outputFileName, dataTable);
+            String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/" + dataOfShowData.getTypeData() + ".pdf";
+            PDFExporter.exportJTableToPDF(title, outputFileName, dataTable);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(search, "Có lỗi ở phần xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
     }//GEN-LAST:event_exportPDFFileButtonActionPerformed
 
     private void searchInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchInputKeyReleased
@@ -329,7 +333,7 @@ public class ShowData extends javax.swing.JFrame {
 
     private void loadTableData() {
         try {
-            if (dataOfShowData.getTypeData() != null && dataOfShowData.getBackToPage()!= null) {
+            if (dataOfShowData.getTypeData() != null && dataOfShowData.getBackToPage() != null) {
                 clearTable();
 
                 if (dataOfShowData.getTypeData().equalsIgnoreCase("teachers")) {

@@ -14,8 +14,7 @@ import java.util.List;
 
 public class TeacherService {
 
-    public static String LastName(String name)
-    {
+    public static String LastName(String name) {
         String[] splitName = formatName(name).split(" ");
         String lastName = "";
         for (int i = 0; i < splitName.length - 1; i++) {
@@ -23,25 +22,23 @@ public class TeacherService {
         }
         return lastName.trim();
     }
-    
-    public static String FirstName(String name)
-    {
+
+    public static String FirstName(String name) {
         String[] splitName = formatName(name).split(" ");
         return splitName[splitName.length - 1].trim();
     }
-    
-    
+
     public static List<Teacher> getAllTeachers() throws Exception {
         return TeacherDAO.readFromFile();
     }
-    
-     public static Teacher getTeacherById(int index) throws Exception {
+
+    public static Teacher getTeacherById(int index) throws Exception {
         List<Teacher> data = TeacherDAO.readFromFile();
         if (data != null) {
-            for(Teacher item : data)
-            {
-                if(item.getId() == index)
+            for (Teacher item : data) {
+                if (item.getId() == index) {
                     return item;
+                }
             }
         }
         return null;
@@ -73,7 +70,7 @@ public class TeacherService {
             int lastId = getLastTeacherId();
             int id = ++lastId;
             List<Teacher> data = TeacherDAO.readFromFile();
-            Teacher tea = new Teacher(id, code,FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
+            Teacher tea = new Teacher(id, code, FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
             data.add(tea);
             TeacherDAO.writeToFile(data);
         }
@@ -85,6 +82,7 @@ public class TeacherService {
 
     public static void updateTeacher(Teacher teacher) throws Exception {
         List<Teacher> data = TeacherDAO.readFromFile();
+
         for (Teacher tea : data) {
             if (tea.getId() == teacher.getId()) {
                 tea.setCode(teacher.getCode());
@@ -97,59 +95,78 @@ public class TeacherService {
                 break;
             }
         }
+
         TeacherDAO.writeToFile(data);
     }
-    
+
     public static void deleteTeacher(int teacherId) throws Exception {
         List<Teacher> data = TeacherDAO.readFromFile();
+        List<Tour> data_tours = TourDAO.readFromFile();
+
         Teacher delTea = null;
-        for(Teacher tea : data) {
-            if(tea.getId()==teacherId) {
+        for (Teacher tea : data) {
+            if (tea.getId() == teacherId) {
                 delTea = tea;
                 break;
             }
         }
-        if(delTea != null) {
+        if (delTea != null) {
+            for (Tour item : data_tours) {
+                if (item.getTeacherId() == teacherId) {
+                    item.setTeacherId(teacherId - 100);
+                }
+                break;
+            }
             data.remove(delTea);
             TeacherDAO.writeToFile(data);
+            TourDAO.writeToFile(data_tours);
         }
     }
-    
+
     public static List listToursOfTeacher(int teacherId) throws Exception {
-        List<Tour> data = TourDAO.readFromFile();        
+        List<Tour> data = TourDAO.readFromFile();
         List<Tour> teacherTours = new ArrayList<>();
 
-        for(Tour tourItem : data)
-        {
-            if(tourItem.getTeacherId() == teacherId)
-            {
+        for (Tour tourItem : data) {
+            if (tourItem.getTeacherId() == teacherId) {
                 teacherTours.add(tourItem);
             }
         }
-        
-        if(!teacherTours.isEmpty()) return teacherTours;
+
+        if (!teacherTours.isEmpty()) {
+            return teacherTours;
+        }
         return null;
     }
-    
-    public static String getNameCompanyFromIdCompany(int companyID) throws Exception
-    {
+
+    public static String getNameCompanyFromIdCompany(int companyID) throws Exception {
         String name = "";
         List<Company> data = CompanyDAO.readFromFile();
-        for(Company com : data)
-        {
-            if(com.getId() == companyID)
-            {
-                name = com.getName();break;
+        for (Company com : data) {
+            if (com.getId() == companyID) {
+                name = com.getName();
+                break;
             }
         }
         return name;
     }
-    public static int getNumberOfStudents(List<StudentTour> students) throws IOException
-    {
-        if(students != null)
-        {
-            if(!students.isEmpty()) return students.size();
+
+    public static int getNumberOfStudents(List<StudentTour> students) throws IOException {
+        if (students != null) {
+            if (!students.isEmpty()) {
+                return students.size();
+            }
         }
         return 0;
+    }
+
+    public static String getTeacherNameById(int teacherId) throws Exception {
+        List<Teacher> teachers = TeacherDAO.readFromFile();
+        for (Teacher teacher : teachers) {
+            if (teacher.getId() == teacherId) {
+                return teacher.getFirstName() + teacher.getLastName();
+            }
+        }
+        return null;
     }
 }

@@ -1,32 +1,70 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group7_java.school_bussiness_tour_management.dao;
 
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-/**
- *
- * @author gialo
- */
 public class StudentDAO {
 
-     private static String filePath = "src/group7_java/school_bussiness_tour_management/files/Student.json";
+    private static final String filePath = "src/group7_java/school_bussiness_tour_management/files/Student.json";
+
+    public static List<Student> readFromFile() throws IOException {
+        List<Student> data = new ArrayList<>();
+
+        Path path = Paths.get(filePath);
+        if (Files.exists(path) && Files.size(path) > 0) {
+            try {
+                JSONParser parser = new JSONParser();
+                JSONArray studentArray = (JSONArray) parser.parse(Files.newBufferedReader(path));
+
+                for (Object studentObject : studentArray) {
+                    JSONObject studentJson = (JSONObject) studentObject;
+
+                    int id = getInteger(studentJson, "id");
+                    String code = getString(studentJson, "code");
+                    String firstName = getString(studentJson, "firstName");
+                    String lastName = getString(studentJson, "lastName");
+                    String address = getString(studentJson, "address");
+                    String phoneNumber = getString(studentJson, "phoneNumber");
+                    String email = getString(studentJson, "email");
+                    String birthDate = getString(studentJson, "birthDate");
+                    int classId = getInteger(studentJson, "classId");
+
+                    Student student = new Student(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+
+                    JSONArray studentToursArray = (JSONArray) studentJson.get("studentTours");
+                    if (studentToursArray != null) {
+                        List<StudentTour> studentTours = new ArrayList<>();
+                        for (Object studentTourObject : studentToursArray) {
+                            JSONObject studentTourJson = (JSONObject) studentTourObject;
+
+                            StudentTour studentTour = new StudentTour();
+                            studentTour.setStudentId(getInteger(studentTourJson, "studentId"));
+                            studentTour.setTourId(getInteger(studentTourJson, "tourId"));
+                            studentTour.setRate(getInteger(studentTourJson, "rate"));
+
+                            studentTours.add(studentTour);
+                        }
+                        student.setStudentTours(studentTours);
+                    }
+
+                    data.add(student);
+                }
+            } catch (Exception e) {
+                throw new IOException("Error reading Student data from file", e);
+            }
+        }
+        return data;
+    }
 
     public static void writeToFile(List<Student> students) throws IOException {
         JSONArray studentArray = new JSONArray();
@@ -43,60 +81,34 @@ public class StudentDAO {
             studentJson.put("birthDate", student.getBirthDate());
             studentJson.put("classId", student.getClassId());
 
-//            List<StudentTour> studentTours = student.getStudentTours();
-//            if (studentTours != null && !studentTours.isEmpty()) {
-//                JSONArray studentToursArray = new JSONArray();
-//                for (StudentTour studentTour : studentTours) {
-//                    JSONObject studentTourJson = new JSONObject();
-//                    // Set fields of StudentTour as needed
-//                    studentToursArray.add(studentTourJson);
-//                }
-//                studentJson.put("studentTours", studentToursArray);
-//            }
+            List<StudentTour> studentTours = student.getStudentTours();
+            if (studentTours != null && !studentTours.isEmpty()) {
+                JSONArray studentToursArray = new JSONArray();
+                for (StudentTour studentTour : studentTours) {
+                    JSONObject studentTourJson = new JSONObject();
+                    studentTourJson.put("studentId", studentTour.getStudentId());
+                    studentTourJson.put("tourId", studentTour.getTourId());
+                    studentTourJson.put("rate", studentTour.getRate());
+
+                    studentToursArray.add(studentTourJson);
+                }
+                studentJson.put("studentTours", studentToursArray);
+            }
             studentArray.add(studentJson);
         }
 
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write(studentArray.toJSONString());
+        try {
+            Files.write(Paths.get(filePath), studentArray.toJSONString().getBytes());
         } catch (IOException e) {
             throw new IOException("Error writing Student data to file", e);
         }
     }
 
-    public static List<Student> readFromFile() throws IOException {
-        List<Student> students = new ArrayList<>();
-
-        // Check if the file exists and is not empty
-        Path path = Paths.get(filePath);
-        if (Files.exists(path) && Files.size(path) > 0) {
-            try (Reader reader = new FileReader(filePath)) {
-                // Parse the JSON file
-                JSONArray studentArray = (JSONArray) new org.json.simple.parser.JSONParser().parse(reader);
-
-                // Iterate over the JSON array
-                for (Object studentObject : studentArray) {
-                    JSONObject studentJson = (JSONObject) studentObject;
-                    
-                    int id = Integer.parseInt(studentJson.get("id").toString());
-                    String code = (String) studentJson.get("code");
-                    String firstName = (String) studentJson.get("firstName");
-                    String lastName = (String) studentJson.get("lastName");
-                    String address = (String) studentJson.get("address");
-                    String phoneNumber = (String) studentJson.get("phoneNumber");
-                    String email = (String) studentJson.get("email");
-                    String birthDate = (String) studentJson.get("birthDate");
-                    int classId = Integer.parseInt(studentJson.get("classId").toString());
-
-                    // Create Student object and add it to the list
-                    Student student = new Student(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
-                    students.add(student);
-                }
-            } catch (Exception e) {
-                throw new IOException("Error reading Student data from file", e);
-            }
-        }
-
-        return students;
+    private static String getString(JSONObject jsonObject, String key) {
+        return (jsonObject.get(key) != null) ? jsonObject.get(key).toString() : "";
     }
 
+    private static int getInteger(JSONObject jsonObject, String key) {
+        return (jsonObject.get(key) != null) ? Integer.parseInt(jsonObject.get(key).toString()) : 0;
+    }
 }

@@ -4,8 +4,14 @@
  */
 package group7_java.school_bussiness_tour_management.services;
 
+import group7_java.school_bussiness_tour_management.dao.ClassroomDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
+import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
+import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,17 +60,16 @@ public class StudentService {
                     trueData.add(stu);
                 }
             }
-
         }
-
         return trueData;
     }
 
     public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {
-        int id = getLastStudentId();
-        Student stu = new Student(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+        int lastId = getLastStudentId();
+        lastId++;
+        Student student = new Student(lastId, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
         List<Student> data = StudentDAO.readFromFile();
-        data.add(stu);
+        data.add(student);
         StudentDAO.writeToFile(data);
     }
 
@@ -101,12 +106,21 @@ public class StudentService {
             StudentDAO.writeToFile(data);
         }
     }
-
-
+    
     public static Student getById(int studentId) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         for (Student student : data) {
             if (student.getId() == studentId) {
+                return student;
+            }
+        }
+        return null;
+    }
+    
+    public static Student getByCode(String code) throws Exception{
+        List<Student> data = StudentDAO.readFromFile();
+        for (Student student : data) {
+            if (student.getCode().equals(code.trim())) {
                 return student;
             }
         }
@@ -122,4 +136,3 @@ public class StudentService {
         return null;
     }
 }
-

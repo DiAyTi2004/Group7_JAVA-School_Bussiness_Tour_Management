@@ -74,7 +74,7 @@
                                           <Component id="txt_address" alignment="0" pref="300" max="32767" attributes="0"/>
                                           <Component id="txt_first_name" alignment="0" pref="300" max="32767" attributes="0"/>
                                           <Component id="txt_code" alignment="0" pref="300" max="32767" attributes="0"/>
-                                          <Component id="cb_classId" alignment="0" pref="300" max="32767" attributes="0"/>
+                                          <Component id="classroomInput" alignment="0" pref="300" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="btn_StudentTours" max="32767" attributes="0"/>
@@ -138,7 +138,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cb_classId" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="classroomInput" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -238,7 +238,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Class ID"/>
+        <Property name="text" type="java.lang.String" value="L&#x1edb;p"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_first_name">
@@ -292,22 +292,22 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txt_phone_number">
     </Component>
-    <Component class="javax.swing.JComboBox" name="cb_classId">
+    <Component class="javax.swing.JComboBox" name="classroomInput">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_classIdActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="classroomInputActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Object&gt;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btn_StudentTours">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tours sinh vi&#xea;n tham gia"/>
+        <Property name="text" type="java.lang.String" value="Chuy&#x1ebf;n tham quan sinh vi&#xea;n tham gia"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_StudentToursActionPerformed"/>

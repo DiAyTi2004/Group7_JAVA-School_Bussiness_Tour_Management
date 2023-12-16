@@ -1,5 +1,10 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package group7_java.school_bussiness_tour_management.services;
 
+import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
@@ -7,160 +12,103 @@ import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
- * @author PC
+ * @author gialo
  */
 public class StudentTourService {
 
-    public static List<StudentTour> getAll() throws Exception {
-        return StudentTourDAO.readFromFile();
+    public static List<Tour> getToursForStudent(int studentId) throws Exception {
+        List<Tour> toursForStudent = new ArrayList<>();
+        List<StudentTour> studentTours = StudentTourDAO.readFromFile();
+        for (StudentTour studentTour : studentTours) {
+            if (studentTour.getStudentId() == studentId) {
+                int tourId = studentTour.getTourId();
+                Tour tour = TourService.getTourById(tourId);
+                if (tour != null) {
+                    toursForStudent.add(tour);
+                }
+            }
+        }
+        return toursForStudent;
     }
 
-    public static StudentTour getByStudentIdAndTourId(int studentId, int tourId) throws Exception {
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        for (StudentTour item : data) {
-            if (item.getTourId() == tourId && item.getStudentId() == studentId) {
-                return item;
+    public static List<StudentTour> getStudentTour(int studentId) throws Exception {
+        List<StudentTour> studentTour = new ArrayList<>();
+        List<StudentTour> student = StudentTourDAO.readFromFile();
+        for (StudentTour stu : student) {
+            if (stu.getStudentId() == studentId) {
+                studentTour.add(stu);
             }
         }
-        return null;
-    }
-
-    public static void updateStudentTour(int studentId, int tourId, int rate) throws Exception {
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        for (StudentTour item : data) {
-            if (item.getTourId() == studentId && tourId == item.getStudentId()) {
-                item.setRate(rate);
-                break;
-            }
-        }
-        StudentTourDAO.writeToFile(data);
-
-        List<Student> studentData = StudentDAO.readFromFile();
-        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
-        for (StudentTour stuTour : needUpdateStudent.getStudentTours()) {
-            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
-                stuTour.setRate(rate);
-                break;
-            }
-        }
-        StudentDAO.writeToFile(studentData);
-
-        List<Tour> tourData = TourDAO.readFromFile();
-        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
-        for (StudentTour stuTour : needUpdateTour.getStudentTours()) {
-            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
-                stuTour.setRate(rate);
-                break;
-            }
-        }
-        TourDAO.writeToFile(tourData);
-    }
-
-    public static void createStudentTour(int studentId, int tourId) throws Exception {
-        StudentTour stuTour = new StudentTour();
-        stuTour.setStudentId(studentId);
-        stuTour.setTourId(tourId);
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        data.add(stuTour);
-        StudentTourDAO.writeToFile(data);
-
-        List<Student> studentData = StudentDAO.readFromFile();
-        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
-        needUpdateStudent.getStudentTours().add(stuTour);
-        StudentDAO.writeToFile(studentData);
-
-        List<Tour> tourData = TourDAO.readFromFile();
-        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
-        needUpdateTour.getStudentTours().add(stuTour);
-        TourDAO.writeToFile(tourData);
+        return studentTour;
     }
 
     public static void deleteStudentTour(int studentId, int tourId) throws Exception {
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        StudentTour deleteItem = null;
-        for (StudentTour item : data) {
-            if (item.getStudentId() == studentId && item.getTourId() == tourId) {
-                deleteItem = item;
-                break;
-            }
-        }
-        data.remove(deleteItem);
-        StudentTourDAO.writeToFile(data);
+        StudentTour needDelete = new StudentTour(studentId, tourId, 0);
 
-        List<Student> studentData = StudentDAO.readFromFile();
-        Student needUpdateStudent = StudentService.getByIdFromList(studentId, studentData);
-        StudentTour needDelete = null;
-        for (StudentTour stuTour : needUpdateStudent.getStudentTours()) {
-            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
-                needDelete = stuTour;
+        List<StudentTour> studentTourData = StudentTourDAO.readFromFile();
+        StudentTour willDelete = null;
+        for (StudentTour current : studentTourData) {
+            if (current.getStudentId() == needDelete.getStudentId() && current.getTourId() == needDelete.getTourId()) {
+                willDelete = current;
                 break;
             }
         }
-        if (needDelete != null) {
-            needUpdateStudent.getStudentTours().remove(needDelete);
+        if (willDelete != null) {
+            studentTourData.remove(willDelete);
+            StudentTourDAO.writeToFile(studentTourData);
+        }
+
+        willDelete = null;
+        List<Student> studentData = StudentDAO.readFromFile();
+        for (Student student : studentData) {
+            if (student.getId() == needDelete.getStudentId()) {
+                if (student.getStudentTours() == null) {
+                    student.setStudentTours(new ArrayList<>());
+                }
+                for (StudentTour current : student.getStudentTours()) {
+                    if (current.getStudentId() == needDelete.getStudentId() && current.getTourId() == needDelete.getTourId()) {
+                        willDelete = current;
+                        break;
+                    }
+                }
+                if (willDelete != null) {
+                    student.getStudentTours().remove(willDelete);
+                    break;
+                }
+            }
+            if (willDelete != null) {
+                break;
+            }
         }
         StudentDAO.writeToFile(studentData);
 
+        willDelete = null;
         List<Tour> tourData = TourDAO.readFromFile();
-        Tour needUpdateTour = TourService.getByIdFromList(tourId, tourData);
-        needDelete = null;
-        for (StudentTour stuTour : needUpdateTour.getStudentTours()) {
-            if (stuTour.getStudentId() == studentId && stuTour.getTourId() == tourId) {
-                needDelete = stuTour;
+        for (Tour tour : tourData) {
+            if (tour.getId() == needDelete.getTourId()) {
+                if (tour.getStudentTours() == null) {
+                    tour.setStudentTours(new ArrayList<>());
+                }
+                for (StudentTour current : tour.getStudentTours()) {
+                    if (current.getStudentId() == needDelete.getStudentId() && current.getTourId() == needDelete.getTourId()) {
+                        willDelete = current;
+                        break;
+                    }
+                }
+                if (willDelete != null) {
+                    tour.getStudentTours().remove(willDelete);
+                    break;
+                }
+            }
+            if (willDelete != null) {
                 break;
             }
         }
-        if (needDelete != null) {
-            needUpdateTour.getStudentTours().remove(needDelete);
-        }
         TourDAO.writeToFile(tourData);
-    }
 
-    public static List<Student> getStudentsByTourId(int tourId) throws Exception {
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        Set<Integer> studentIds = new HashSet<>();
-        for (StudentTour item : data) {
-            if (item.getTourId() == tourId) {
-                studentIds.add(item.getStudentId());
-            }
-        }
-        List<Student> studentData = StudentDAO.readFromFile();
-        List<Student> responseData = new ArrayList<>();
-        for (Student student : studentData) {
-            if (studentIds.contains(student.getId())) {
-                responseData.add(student);
-            }
-        }
-        return responseData;
     }
-
-    public static List<Tour> getToursByStudentId(int studentId) throws Exception {
-        List<StudentTour> data = StudentTourDAO.readFromFile();
-        Set<Integer> tourIds = new HashSet<>();
-        for (StudentTour item : data) {
-            if (item.getStudentId() == studentId) {
-                tourIds.add(item.getStudentId());
-            }
-        }
-        List<Tour> tourData = TourDAO.readFromFile();
-        List<Tour> responseData = new ArrayList<>();
-        for (Tour tour : tourData) {
-            if (tourIds.contains(tour.getId())) {
-                responseData.add(tour);
-            }
-        }
-        return responseData;
-    }
-
 }

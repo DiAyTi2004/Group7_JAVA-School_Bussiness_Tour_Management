@@ -5,7 +5,6 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
-import group7_java.school_bussiness_tour_management.common.SynchronizeData;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Teacher;

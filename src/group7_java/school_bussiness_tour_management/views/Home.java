@@ -438,12 +438,16 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_teacherDataButtonActionPerformed
 
     private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedDate = currentDate.format(formatter);
-        String title = "BẢNG DANH SÁCH CHUYẾN THAM QUAN TRONG NGÀY " + formattedDate;
-        String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/dayTours.pdf";
-        PDFExporter.exportJTableToPDF(title, outputFileName, tourNowTable);
+        try {
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = currentDate.format(formatter);
+            String title = "BẢNG DANH SÁCH CHUYẾN THAM QUAN TRONG NGÀY " + formattedDate;
+            String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/dayTours.pdf";
+            PDFExporter.exportJTableToPDF(title, outputFileName, tourNowTable);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jPanel1, "Có lỗi ở phần xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
     }//GEN-LAST:event_exportPDFButtonActionPerformed
 
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed

@@ -5,14 +5,16 @@
 package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
-import group7_java.school_bussiness_tour_management.common.SynchronizeData;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
+import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -93,14 +95,14 @@ public class TourService {
     public static Tour getTourByIndex(int index) throws Exception {
         return TourDAO.readFromFile().get(index);
     }
-    
-     public static Tour getTourById(int index) throws Exception {
+
+    public static Tour getTourById(int index) throws Exception {
         List<Tour> data = TourDAO.readFromFile();
         if (data != null) {
-            for(Tour item : data)
-            {
-                if(item.getId() == index)
+            for (Tour item : data) {
+                if (item.getId() == index) {
                     return item;
+                }
             }
         }
         return null;
@@ -112,6 +114,7 @@ public class TourService {
         Tour tour = new Tour(lastId, code, name, description, startDate, availables, companyId, teacherId, presentator);
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
+        List<Teacher> teacher_data = TeacherDAO.readFromFile();
         for (Company comp : company_data) {
             if (comp.getId() == companyId) {
                 if (comp.getTours() == null) {
@@ -120,15 +123,25 @@ public class TourService {
                 comp.getTours().add(tour);
             }
         }
+        for (Teacher tea : teacher_data) {
+            if (tea.getId() == teacherId) {
+                if (tea.getTours() == null) {
+                    tea.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+                }
+                tea.getTours().add(tour);
+            }
+        }
         tour_data.add(tour);
         TourDAO.writeToFile(tour_data);
         CompanyDAO.writeToFile(company_data);
-        SynchronizeData.addTourForTeacher(teacherId, tour);
+        TeacherDAO.writeToFile(teacher_data);
     }
 
     public static void updateTour(Tour uTour) throws Exception {
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
+        List<Teacher> teacher_data = TeacherDAO.readFromFile();
+
         for (Tour tour : tour_data) {
             if (tour.getId() == uTour.getId()) {
                 tour.setCode(uTour.getCode());
@@ -158,14 +171,54 @@ public class TourService {
                 }
             }
         }
+        boolean tourUpdated = false;
+
+        for (Teacher tea : teacher_data) {
+            if (tea.getTours() == null) {
+                tea.setTours(new ArrayList<>()); // Khởi tạo danh sách nếu là null
+            }
+
+            if (tea.getId() == uTour.getTeacherId()) {
+                for (Tour tea_tour : tea.getTours()) {
+                    if (tea_tour.getId() == uTour.getId()) {
+                        tea_tour.setCode(uTour.getCode());
+                        tea_tour.setName(uTour.getName());
+                        tea_tour.setDescription(uTour.getDescription());
+                        tea_tour.setStartDate(uTour.getStartDate());
+                        tea_tour.setAvailables(uTour.getAvailables());
+                        tea_tour.setCompanyId(uTour.getCompanyId());
+                        tea_tour.setTeacherId(uTour.getTeacherId());
+                        tea_tour.setPresentator(uTour.getPresentator());
+
+                        tourUpdated = true;
+                        break; // Kết thúc vòng lặp nếu đã cập nhật tour
+                    }
+                }
+
+                if (!tourUpdated) {
+                    tea.getTours().add(uTour);
+                }
+            } else {
+                Iterator<Tour> iterator = tea.getTours().iterator();
+                while (iterator.hasNext()) {
+                    Tour tea_tour = iterator.next();
+                    if (tea_tour.getId() == uTour.getId()) {
+                        iterator.remove();
+                        tourUpdated = true;
+                        break; // Kết thúc vòng lặp nếu đã xóa tour
+                    }
+                }
+            }
+        }
         TourDAO.writeToFile(tour_data);
         CompanyDAO.writeToFile(company_data);
+        TeacherDAO.writeToFile(teacher_data);
     }
 
     public static void deleteTour(int tourId) throws Exception {
         List<Tour> tour_data = TourDAO.readFromFile();
         List<Company> company_data = CompanyDAO.readFromFile();
-
+        List<Teacher> teacher_data = TeacherDAO.readFromFile();
         Tour delTour = null;
         for (Tour tour : tour_data) {
             if (tour.getId() == tourId) {
@@ -178,10 +231,26 @@ public class TourService {
             for (Company comp : company_data) {
                 if (comp.getId() == delTour.getCompanyId()) {
                     comp.getTours().remove(delTour);
+                    break;
                 }
             }
+           for (Teacher tea : teacher_data) {
+            if (tea.getId() == delTour.getTeacherId()) {
+                Iterator<Tour> teacherTourIterator = tea.getTours().iterator();
+                while (teacherTourIterator.hasNext()) {
+                    Tour item = teacherTourIterator.next();
+                    if (item.getId() == delTour.getId()) {
+                        teacherTourIterator.remove();
+                        break; // Kết thúc vòng lặp sau khi xóa
+                    }
+                }
+                break; // Kết thúc vòng lặp ngoài cùng
+            }
+        }
             CompanyDAO.writeToFile(company_data);
             TourDAO.writeToFile(tour_data);
+            TeacherDAO.writeToFile(teacher_data);
         }
     }
+
 }
