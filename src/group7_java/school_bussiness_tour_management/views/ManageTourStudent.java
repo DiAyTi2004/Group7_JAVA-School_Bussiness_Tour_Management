@@ -15,9 +15,15 @@ import group7_java.school_bussiness_tour_management.services.StudentService;
 import group7_java.school_bussiness_tour_management.services.StudentTourService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -29,15 +35,15 @@ public class ManageTourStudent extends javax.swing.JFrame {
      * Creates new form ManageStudent
      */
     public Classroom classroomm = new Classroom();
-    
+
     public ManageTourStudent() {
         initComponents();
         setLocationRelativeTo(null);
         initializeTable();
     }
-    
+
     private Tour selectedTour;
-    
+
     public ManageTourStudent(Tour tour) {
         try {
             this.selectedTour = tour;
@@ -130,6 +136,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
         });
 
         exportPDFButton.setText("Xuất danh sách bản PDF");
+        exportPDFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportPDFButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setText("Xóa sinh viên trong danh sách");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +150,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
         });
 
         exportExcelButton.setText("Xuất danh sách bản Excel");
+        exportExcelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportExcelButtonActionPerformed(evt);
+            }
+        });
 
         tourNameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         tourNameTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -240,7 +256,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_studentTableMouseClicked
-    
+
     private void handleSearchByKeyword() {
         try {
             String keyword = searchInput.getText().trim();
@@ -282,7 +298,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         reinitialize();
     }//GEN-LAST:event_resetButtonActionPerformed
-    
+
     private void reinitialize() {
         searchInput.setText("");
         loadTableData();
@@ -310,7 +326,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 return;
             }
             Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
-            
+
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên này khỏi danh sách tham gia chuyến tham quan?", "Xác nhận");
             if (keyPress == 0) {
                 System.out.println("checking student and tour id: " + student.getId() + ", " + selectedTour.getId());
@@ -332,7 +348,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 return;
             }
             Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
-            
+
             dispose();
             RateStudentResult rateScreen = new RateStudentResult(selectedTour, student);
             rateScreen.setVisible(true);
@@ -341,9 +357,98 @@ public class ManageTourStudent extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_rateStudentButtonActionPerformed
-    
+
+    private void exportExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelButtonActionPerformed
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn vị trí để lưu file");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx"));
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+                // Ensure the file has a .xlsx extension
+                if (!filePath.toLowerCase().endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+
+                File file = new File(filePath);
+
+                // Check if the file already exists
+                if (file.exists()) {
+                    MessageDialog.showErrorDialog(this, "Tên file đã tồn tại! Vui lòng chọn tên khác.", "Lỗi");
+                } else {
+                    Workbook workbook = new XSSFWorkbook();
+                    Tour tour = this.selectedTour;
+                    String tourTitle = tour.getName() + " (Mã: " + tour.getCode() + ", công ty: " + CompanyService.getById(tour.getCompanyId()).getName() + ") - Ngày: " + tour.getStartDate();
+                    Sheet sheet = workbook.createSheet("Danh sách sinh viên tham gia chuyến tham quan " + tourTitle);
+
+                    // Create header row
+                    Row headerRow = sheet.createRow(0);
+
+                    CellStyle headerStyle = workbook.createCellStyle();
+                    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+                    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                    headerStyle.setAlignment(HorizontalAlignment.CENTER);
+
+                    Font headerFont = workbook.createFont();
+                    headerFont.setColor(IndexedColors.WHITE.getIndex());
+                    headerFont.setBold(true);
+                    headerStyle.setFont(headerFont);
+
+                    String[] headers = {"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ", "Điểm đánh giá", "Xếp loại"};
+
+                    for (int i = 0; i < headers.length; i++) {
+                        Cell cell = headerRow.createCell(i);
+                        cell.setCellValue(headers[i]);
+                        cell.setCellStyle(headerStyle);
+                    }
+
+                    // Write data to the Excel sheet
+                    List<StudentTour> data = selectedTour.getStudentTours();
+                    if (data != null) {
+                        int rowNum = 1;
+                        for (StudentTour stuTour : data) {
+                            Student stu = StudentService.getById(stuTour.getStudentId());
+                            Row row = sheet.createRow(rowNum++);
+                            row.createCell(0).setCellValue(stu.getCode());
+                            row.createCell(1).setCellValue(stu.getFirstName());
+                            row.createCell(2).setCellValue(stu.getLastName());
+                            row.createCell(3).setCellValue(stu.getBirthDate());
+                            row.createCell(4).setCellValue(ClassroomService.getById(stu.getClassId()).getName());
+                            row.createCell(5).setCellValue(stu.getPhoneNumber());
+                            row.createCell(6).setCellValue(stu.getEmail());
+                            row.createCell(7).setCellValue(stu.getAddress());
+                            row.createCell(8).setCellValue(stuTour.getRate());
+                            row.createCell(9).setCellValue(stuTour.getResult());
+                        }
+                    }
+
+                    try ( FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                        workbook.write(fileOut);
+                    } catch (Exception exs) {
+                        throw exs;
+                    }
+
+                    workbook.close();
+
+                    MessageDialog.showInfoDialog(this, "Xuất danh sách thành công! " + "\nNơi lưu: " + filePath, "Thông báo");
+                }
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi xuất Excel. Chi tiết: " + ex.getMessage(), "Lỗi");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_exportExcelButtonActionPerformed
+
+    private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportPDFButtonActionPerformed
+
     private DefaultTableModel tableModel;
-    
+
     private void loadTableData() {
         try {
             List<StudentTour> data = selectedTour.getStudentTours();
@@ -372,7 +477,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
+
     private void initializeTable() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ", "Điểm đánh giá", "Xếp loại"});
@@ -414,7 +519,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ManageTourStudent().setVisible(true);
-                
+
             }
         });
     }
