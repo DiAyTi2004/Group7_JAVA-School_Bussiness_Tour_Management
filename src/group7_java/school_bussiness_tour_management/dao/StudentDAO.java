@@ -30,6 +30,7 @@ public class StudentDAO {
                     JSONObject studentJson = (JSONObject) studentObject;
 
                     int id = getInteger(studentJson, "id");
+                    String imagePath = getString(studentJson,"imagePath");
                     String code = getString(studentJson, "code");
                     String firstName = getString(studentJson, "firstName");
                     String lastName = getString(studentJson, "lastName");
@@ -39,7 +40,7 @@ public class StudentDAO {
                     String birthDate = getString(studentJson, "birthDate");
                     int classId = getInteger(studentJson, "classId");
 
-                    Student student = new Student(id, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+                    Student student = new Student(id, imagePath, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
 
                     JSONArray studentToursArray = (JSONArray) studentJson.get("studentTours");
                     if (studentToursArray != null) {
@@ -72,6 +73,7 @@ public class StudentDAO {
         for (Student student : students) {
             JSONObject studentJson = new JSONObject();
             studentJson.put("id", student.getId());
+            studentJson.put("imagePath",student.getImagePath());
             studentJson.put("code", student.getCode());
             studentJson.put("firstName", student.getFirstName());
             studentJson.put("lastName", student.getLastName());
@@ -93,6 +95,8 @@ public class StudentDAO {
                     studentToursArray.add(studentTourJson);
                 }
                 studentJson.put("studentTours", studentToursArray);
+            }else {
+                studentJson.put("studentTours", new JSONArray());
             }
             studentArray.add(studentJson);
         }

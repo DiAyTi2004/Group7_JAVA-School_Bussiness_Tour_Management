@@ -64,23 +64,17 @@ public class StudentService {
         return trueData;
     }
 
-    public static void createNewStudent(String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {
+    public static void createNewStudent(String code, String imagePath, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {
         int lastId = getLastStudentId();
         lastId++;
-        Student student = new Student(lastId, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+        Student student = new Student(lastId,imagePath, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
         List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
         List<Student>data = StudentDAO.readFromFile();
-        for(StudentTour studentTour : studentTour_data){
-            if(lastId == studentTour.getStudentId()){
-                if(student.getStudentTours() == null){
-                    student.setStudentTours(new ArrayList<>());
-                }
-                student.getStudentTours().add(studentTour);
-            }
-        }
+   
         data.add(student);
         StudentDAO.writeToFile(data);
     }
+    
 
     public static void updateStudent(Student student) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
@@ -93,6 +87,7 @@ public class StudentService {
                 stu.setPhoneNumber(student.getPhoneNumber());
                 stu.setEmail(student.getEmail());
                 stu.setBirthDate(student.getBirthDate());
+                stu.setImagePath(student.getImagePath());
                 stu.setClassId(student.getClassId());
 
                 break;
