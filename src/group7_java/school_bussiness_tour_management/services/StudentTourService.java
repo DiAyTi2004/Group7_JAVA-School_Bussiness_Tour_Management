@@ -111,4 +111,51 @@ public class StudentTourService {
         TourDAO.writeToFile(tourData);
 
     }
+
+    public static void updateStudentTour(int studentId, int tourId, int rate) throws Exception {
+        List<StudentTour> studentTourData = new ArrayList<>();
+        for (int i = 0; i < studentTourData.size(); i++) {
+            if (studentTourData.get(i).getStudentId() == studentId && studentTourData.get(i).getTourId() == tourId) {
+                studentTourData.get(i).setRate(rate);
+                break;
+            }
+        }
+        StudentTourDAO.writeToFile(studentTourData);
+
+        List<Tour> tourData = new ArrayList<>();
+        for (int i = 0; i < tourData.size(); i++) {
+            if (tourData.get(i).getId() == tourId) {
+                for (int j = 0; j < tourData.get(i).getStudentTours().size(); i++) {
+                    if (tourData.get(i).getStudentTours().get(j).getStudentId() == studentId) {
+                        tourData.get(i).getStudentTours().get(j).setRate(rate);
+                        break;
+                    }
+                }
+            }
+        }
+        TourDAO.writeToFile(tourData);
+
+        List<Student> studentData = new ArrayList<>();
+        for (int i = 0; i < studentData.size(); i++) {
+            if (studentData.get(i).getId() == studentId) {
+                for (int j = 0; j < studentData.get(i).getStudentTours().size(); i++) {
+                    if (studentData.get(i).getStudentTours().get(j).getTourId() == tourId) {
+                        studentData.get(i).getStudentTours().get(j).setRate(rate);
+                        break;
+                    }
+                }
+            }
+        }
+        StudentDAO.writeToFile(studentData);
+    }
+
+    public static StudentTour getByStudentIdAndTourId(int studentId, int tourId) throws Exception {
+        List<StudentTour> studentTourData = new ArrayList<>();
+        for (int i = 0; i < studentTourData.size(); i++) {
+            if (studentTourData.get(i).getStudentId() == studentId && studentTourData.get(i).getTourId() == tourId) {
+                return studentTourData.get(i);
+            }
+        }
+        return null;
+    }
 }

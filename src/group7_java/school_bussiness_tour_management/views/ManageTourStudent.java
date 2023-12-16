@@ -29,15 +29,15 @@ public class ManageTourStudent extends javax.swing.JFrame {
      * Creates new form ManageStudent
      */
     public Classroom classroomm = new Classroom();
-
+    
     public ManageTourStudent() {
         initComponents();
         setLocationRelativeTo(null);
         initializeTable();
     }
-
+    
     private Tour selectedTour;
-
+    
     public ManageTourStudent(Tour tour) {
         try {
             this.selectedTour = tour;
@@ -74,10 +74,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
         exportExcelButton = new javax.swing.JButton();
         tourNameTitle = new javax.swing.JLabel();
         resetButton = new javax.swing.JButton();
+        rateStudentButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn_back.setText("Trở lại trang chủ");
+        btn_back.setText("Quay lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);
@@ -130,7 +131,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
 
         exportPDFButton.setText("Xuất danh sách bản PDF");
 
-        deleteButton.setText("Xóa khỏi danh sách");
+        deleteButton.setText("Xóa sinh viên trong danh sách");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -150,6 +151,13 @@ public class ManageTourStudent extends javax.swing.JFrame {
             }
         });
 
+        rateStudentButton.setText("Đánh giá sinh viên");
+        rateStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rateStudentButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,7 +166,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -166,9 +174,10 @@ public class ManageTourStudent extends javax.swing.JFrame {
                             .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(exportPDFButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                             .addComponent(exportExcelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(resetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rateStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_back)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -188,9 +197,6 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,12 +207,15 @@ public class ManageTourStudent extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(exportPDFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(exportExcelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))))
+                        .addComponent(exportExcelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -231,7 +240,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_studentTableMouseClicked
-
+    
     private void handleSearchByKeyword() {
         try {
             String keyword = searchInput.getText().trim();
@@ -273,7 +282,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         reinitialize();
     }//GEN-LAST:event_resetButtonActionPerformed
-
+    
     private void reinitialize() {
         searchInput.setText("");
         loadTableData();
@@ -301,7 +310,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
                 return;
             }
             Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
-
+            
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên này khỏi danh sách tham gia chuyến tham quan?", "Xác nhận");
             if (keyPress == 0) {
                 System.out.println("checking student and tour id: " + student.getId() + ", " + selectedTour.getId());
@@ -315,8 +324,26 @@ public class ManageTourStudent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void rateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rateStudentButtonActionPerformed
+        try {
+            int index = studentTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui chọn chọn sinh viên để thực hiện chức năng này", "Thông báo");
+                return;
+            }
+            Student student = StudentService.getByCode(studentTable.getValueAt(index, 0).toString());
+            
+            dispose();
+            RateStudentResult rateScreen = new RateStudentResult(selectedTour, student);
+            rateScreen.setVisible(true);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_rateStudentButtonActionPerformed
+    
     private DefaultTableModel tableModel;
-
+    
     private void loadTableData() {
         try {
             List<StudentTour> data = selectedTour.getStudentTours();
@@ -333,7 +360,9 @@ public class ManageTourStudent extends javax.swing.JFrame {
                                 ClassroomService.getById(stu.getClassId()).getName(),
                                 stu.getPhoneNumber(),
                                 stu.getEmail(),
-                                stu.getAddress()
+                                stu.getAddress(),
+                                stuTour.getRate(),
+                                stuTour.getResult()
                             });
                 }
             }
@@ -344,10 +373,10 @@ public class ManageTourStudent extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
+    
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ",});
+        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Ngày sinh", "Lớp", "SĐT", "Email", "Địa chỉ", "Điểm đánh giá", "Xếp loại"});
         studentTable.setModel(tableModel);
         loadTableData();
     }
@@ -386,7 +415,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ManageTourStudent().setVisible(true);
-
+                
             }
         });
     }
@@ -399,6 +428,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
     private javax.swing.JButton exportPDFButton;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton rateStudentButton;
     private javax.swing.JButton resetButton;
     private javax.swing.JLabel screenTitle;
     private javax.swing.JButton searchButton;

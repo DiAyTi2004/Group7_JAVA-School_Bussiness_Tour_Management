@@ -27,7 +27,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" min="-2" pref="679" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="840" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel9" max="32767" attributes="0"/>
@@ -35,9 +35,10 @@
                           <Component id="searchButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="addButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="exportPDFButton" alignment="1" max="32767" attributes="0"/>
-                          <Component id="deleteButton" alignment="0" pref="227" max="32767" attributes="0"/>
+                          <Component id="deleteButton" alignment="0" pref="215" max="32767" attributes="0"/>
                           <Component id="exportExcelButton" alignment="1" max="32767" attributes="0"/>
                           <Component id="resetButton" alignment="0" max="32767" attributes="0"/>
+                          <Component id="rateStudentButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -62,11 +63,7 @@
               <Component id="tourNameTitle" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" pref="446" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jLabel9" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="searchInput" min="-2" pref="28" max="-2" attributes="0"/>
@@ -77,14 +74,17 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="addButton" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="rateStudentButton" min="-2" pref="28" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="deleteButton" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="exportPDFButton" min="-2" pref="28" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="exportExcelButton" min="-2" pref="28" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" pref="446" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -92,7 +92,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btn_back">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tr&#x1edf; l&#x1ea1;i trang ch&#x1ee7;"/>
+        <Property name="text" type="java.lang.String" value="Quay l&#x1ea1;i"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_backActionPerformed"/>
@@ -164,7 +164,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="deleteButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="X&#xf3;a kh&#x1ecf;i danh s&#xe1;ch"/>
+        <Property name="text" type="java.lang.String" value="X&#xf3;a sinh vi&#xea;n trong danh s&#xe1;ch"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
@@ -190,6 +190,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="rateStudentButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x110;&#xe1;nh gi&#xe1; sinh vi&#xea;n"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rateStudentButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
