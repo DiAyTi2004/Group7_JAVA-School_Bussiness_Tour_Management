@@ -328,10 +328,21 @@ public class ManageTour extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
                 if (!(teacherId < 0)) {
-                    dispose();
-                    ManageTeacher teacherScreen = new ManageTeacher();
-                    teacherScreen.setLocationRelativeTo(null);
-                    teacherScreen.setVisible(true);
+                    Teacher selectedTea = TeacherService.getTeacherById(teacherId);
+                    ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
+                    if (manageToursOfTeacherScreen != null) {
+                        manageToursOfTeacherScreen.setLocationRelativeTo(null);
+                        manageToursOfTeacherScreen.setVisible(true);
+                        manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
+                        manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
+                        manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                        manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
+                        manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
+                        manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
+                        manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                        manageToursOfTeacherScreen.initializeTable();
+                        dispose();
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -392,6 +403,23 @@ public class ManageTour extends javax.swing.JFrame {
             MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
+            if (!(teacherId < 0)) {
+                Teacher selectedTea = TeacherService.getTeacherById(teacherId);
+                ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
+                if (manageToursOfTeacherScreen != null) {
+                    manageToursOfTeacherScreen.setLocationRelativeTo(null);
+                    manageToursOfTeacherScreen.setVisible(true);
+                    manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
+                    manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
+                    manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                    manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
+                    manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
+                    manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
+                    manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                    manageToursOfTeacherScreen.initializeTable();
+                    dispose();
+                }
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();

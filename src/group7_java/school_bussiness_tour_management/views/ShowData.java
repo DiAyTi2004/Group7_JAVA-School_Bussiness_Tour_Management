@@ -265,7 +265,6 @@ public class ShowData extends javax.swing.JFrame {
 
     private void exportPDFFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFFileButtonActionPerformed
         try {
-
             String title = "";
             if (dataOfShowData.getTypeData() != null) {
                 if (dataOfShowData.getTypeData().equalsIgnoreCase("teachers")) {
@@ -277,13 +276,12 @@ public class ShowData extends javax.swing.JFrame {
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours")) {
                     title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
-                    title = "DANH SÁCH SINH VIÊN CẢU CHUYẾN THAM QUAN";
+                    title = "DANH SÁCH SINH VIÊN CỦA CHUYẾN THAM QUAN";
                 }
                 dataTable.setModel(tableModel);
                 loadTableData();
             }
-            String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/" + dataOfShowData.getTypeData() + ".pdf";
-            PDFExporter.exportJTableToPDF(title, outputFileName, dataTable);
+            PDFExporter.exportTableToPDF(dataTable, title);
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(search, "Có lỗi ở phần xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
         }

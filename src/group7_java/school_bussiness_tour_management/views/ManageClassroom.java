@@ -325,9 +325,11 @@ public class ManageClassroom extends javax.swing.JFrame {
         try {
             List<Classroom> data = ClassroomService.getAllClassroom();
             tableModel.setRowCount(0);
+            int count = 0;
             if (data != null) {
                 for (Classroom item : data) {
-                    tableModel.addRow(new Object[]{item.getId(),item.getCode(), item.getName()});
+                    count++;
+                    tableModel.addRow(new Object[]{count,item.getCode(), item.getName()});
                 }
             }
             tableModel.fireTableDataChanged();

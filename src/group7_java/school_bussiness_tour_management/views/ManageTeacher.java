@@ -58,7 +58,6 @@ public class ManageTeacher extends javax.swing.JFrame {
         emailTeacherLabel = new javax.swing.JLabel();
         emailTeacherField = new javax.swing.JTextField();
         detailTour = new javax.swing.JButton();
-        addTourForTeacher = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         imageLabel = new javax.swing.JLabel();
         imageBrowse = new javax.swing.JButton();
@@ -142,15 +141,6 @@ public class ManageTeacher extends javax.swing.JFrame {
             }
         });
 
-        addTourForTeacher.setText("Thêm chuyến tham quan cho giáo viên");
-        addTourForTeacher.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addTourForTeacherActionPerformed(evt);
-            }
-        });
-
-        imageLabel.setText("Ảnh");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -181,27 +171,10 @@ public class ManageTeacher extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(createTeacherBtn)
-                                .addGap(31, 31, 31)
-                                .addComponent(updateTeacherBtn)
-                                .addGap(31, 31, 31)
-                                .addComponent(deleteTeacherBtn)
-                                .addGap(27, 27, 27)
-                                .addComponent(clearTeacherBtn)
-                                .addGap(24, 24, 24)
-                                .addComponent(addTourForTeacher)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                                .addComponent(detailTour))
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBackHome)
-                                .addGap(272, 272, 272)
-                                .addComponent(mainTitle)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addressTeacherLabel)
                                     .addComponent(teacherIDLabel)
@@ -221,8 +194,27 @@ public class ManageTeacher extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(phoneNumberTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(nameTeacherField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(emailTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(emailTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBackHome)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(52, 52, 52))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(createTeacherBtn)
+                .addGap(31, 31, 31)
+                .addComponent(updateTeacherBtn)
+                .addGap(31, 31, 31)
+                .addComponent(deleteTeacherBtn)
+                .addGap(27, 27, 27)
+                .addComponent(clearTeacherBtn)
+                .addGap(36, 36, 36)
+                .addComponent(detailTour)
+                .addGap(230, 230, 230))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(479, 479, 479)
+                .addComponent(mainTitle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,16 +222,13 @@ public class ManageTeacher extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnBackHome))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(mainTitle)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addComponent(btnBackHome)
+                        .addGap(56, 56, 56)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(32, 32, 32)
+                        .addComponent(mainTitle)
+                        .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(nameTeacherLabel)
                             .addComponent(teacherIDLabel)
@@ -267,9 +256,8 @@ public class ManageTeacher extends javax.swing.JFrame {
                     .addComponent(deleteTeacherBtn)
                     .addComponent(updateTeacherBtn)
                     .addComponent(createTeacherBtn)
-                    .addComponent(detailTour)
-                    .addComponent(addTourForTeacher))
-                .addGap(82, 82, 82))
+                    .addComponent(detailTour))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -568,14 +556,14 @@ public class ManageTeacher extends javax.swing.JFrame {
     }//GEN-LAST:event_teacherTableMouseClicked
 
     private void detailTourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailTourActionPerformed
-        try {
+         try {
             int index = teacherTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên để xem các chuyến tham quan của giáo viên", "Thông báo");
                 return;
             }
             Teacher selectedTea = TeacherService.getTeacherByIndex(index);
-            ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher();
+            ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
             if (manageToursOfTeacherScreen != null) {
                 manageToursOfTeacherScreen.setLocationRelativeTo(null);
                 manageToursOfTeacherScreen.setVisible(true);
@@ -593,26 +581,6 @@ public class ManageTeacher extends javax.swing.JFrame {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
         }
     }//GEN-LAST:event_detailTourActionPerformed
-
-    private void addTourForTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTourForTeacherActionPerformed
-
-        try {
-            int index = teacherTable.getSelectedRow();
-            if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên để thêm chuyến tham quan", "Thông báo");
-                return;
-            }
-            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
-            ManageTour tourScreen = new ManageTour(selectedTea.getId());
-            if (tourScreen != null) {
-                dispose();
-                tourScreen.setLocationRelativeTo(null);
-                tourScreen.setVisible(true);
-            }
-        } catch (Exception e) {
-            MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e, "Lỗi");
-        }
-    }//GEN-LAST:event_addTourForTeacherActionPerformed
 
     private void imageBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageBrowseActionPerformed
         JFileChooser browseImageFile = new JFileChooser();
@@ -679,7 +647,6 @@ public class ManageTeacher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addTourForTeacher;
     private javax.swing.JTextField addressTeacherField;
     private javax.swing.JLabel addressTeacherLabel;
     private javax.swing.JTextField birthdayTeacherField;

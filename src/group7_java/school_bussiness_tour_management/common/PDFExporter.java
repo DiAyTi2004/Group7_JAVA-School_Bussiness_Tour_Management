@@ -1,122 +1,107 @@
 package group7_java.school_bussiness_tour_management.common;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import javax.swing.*;
-import javax.swing.table.TableModel;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import javax.swing.JTable;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import javax.swing.JFileChooser;
 
 public class PDFExporter {
 
-    private static PDPage page;
+    public static void exportTableToPDF(JTable table, String title) {
+        Document document = new Document(PageSize.A4.rotate());
 
-    public static void exportJTableToPDF(String title, String fileName, JTable table) {
-        try (PDDocument document = new PDDocument()) {
-            PDRectangle mediaBox = PDRectangle.A4;
-            page = new PDPage(mediaBox);
-            document.addPage(page);
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int result = fileChooser.showDialog(null, "Chọn thư mục");
+            if (result == JFileChooser.APPROVE_OPTION) {
+                // Lấy đường dẫn thư mục đã chọn
+                String selectedDirectory = fileChooser.getSelectedFile().getAbsolutePath();
 
-            float margin = 50;
-            float yStart = mediaBox.getHeight() - margin;
-            float tableWidth = mediaBox.getWidth() - 2 * margin;
-            TableModel model = table.getModel();
-            int rowCount = model.getRowCount();
-            int colCount = model.getColumnCount();
-            float tableHeight = table.getRowHeight() * (rowCount + 1);
-            float yPosition = yStart - 20;
-
-            try (PDPageContentStream contentStream = new PDPageContentStream(document, page, AppendMode.APPEND, true)) {
-                setFont(contentStream, null, document, 13);
-                contentStream.beginText();
-                PDFont titleFont = PDType0Font.load(document, new File("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Medium.ttf"));
-                float titleFontSize = 13;
-                contentStream.setFont(titleFont, titleFontSize);
-                float titleWidth = getStringWidth(title, titleFont, titleFontSize);
-                float titleX = (mediaBox.getWidth() - titleWidth) / 2;
-                contentStream.newLineAtOffset(titleX, yPosition);
-                contentStream.showText(title);
-                contentStream.endText();
-
-                // Draw table header
-                yPosition -= 40;
-                float textx = margin + 2;
-                setFont(contentStream, PDType0Font.load(document, new File("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Medium.ttf")), document, 6);
-
-                for (int j = 0; j < colCount; j++) {
-                    String text = model.getColumnName(j);
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(textx, yPosition);
-                    contentStream.showText(text);
-                    contentStream.endText();
-                    textx += (tableWidth / colCount);
+                // Hỏi người dùng về việc đặt lại tên file
+                String fileName = "outputPDF"; // Tên mặc định
+                String userInput = javax.swing.JOptionPane.showInputDialog("Đặt tên cho tệp pdf của bạn hoặc bỏ trống và tệp sẽ được tạo với tên là outputPDF:");
+                if (userInput != null && !userInput.trim().isEmpty()) {
+                    fileName = userInput.trim();
                 }
 
-                // Draw table content
-                float rowHeight = table.getRowHeight();
-                float cellWidth = tableWidth / colCount;
-                float currentY = yPosition;
+                // Đường dẫn đầy đủ cho file xuất
+                String exportPath = selectedDirectory + "/" + fileName + ".pdf";
 
-                for (int i = 0; i < rowCount; i++) {
-                    textx = margin + 2;
+                PdfWriter.getInstance(document, new FileOutputStream(exportPath));
+                document.open();
 
-                    // Draw each line in the current cell
-                    float textHeight = rowHeight;
-                    float cellYPosition = currentY - textHeight;
+                // Chọn font Roboto
+                BaseFont baseFont = BaseFont.createFont("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                com.itextpdf.text.Font roboto = FontFactory.getFont("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 13);
 
-                    for (int j = 0; j < colCount; j++) {
-                        String text = model.getValueAt(i, j).toString();
+                BaseFont baseFontTitle = BaseFont.createFont("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                com.itextpdf.text.Font robotoTitle = FontFactory.getFont("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 16);
 
-                        float textWidth = getStringWidth(text, PDType0Font.load(document, new File("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Regular.ttf")), 6);
-                        float cellXPosition = textx;
+                // Tạo một bảng iText
+                PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
+                pdfTable.setWidthPercentage(100);
 
-                        // Set font before drawing text
-                        setFont(contentStream, PDType0Font.load(document, new File("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Medium.ttf")), document, 6);
+                // Tạo một ô đặc biệt chứa tiêu đề và đặt căn giữa
+                PdfPCell titleCell = new PdfPCell(new Phrase(title, robotoTitle));
+                titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                titleCell.setColspan(table.getColumnCount());
+                titleCell.setPaddingTop(12);
+                titleCell.setPaddingBottom(12);
+                titleCell.setPaddingLeft(8);
+                titleCell.setPaddingRight(8);
+                titleCell.setBorder(Rectangle.NO_BORDER);
+                pdfTable.addCell(titleCell);
 
-                        contentStream.beginText();
-                        contentStream.newLineAtOffset(cellXPosition, cellYPosition);
-                        contentStream.showText(text);
-                        contentStream.endText();
+                // Thêm tiêu đề từ tên cột của bảng Swing
+                TableColumnModel columnModel = table.getColumnModel();
+                for (int column = 0; column < columnModel.getColumnCount(); column++) {
+                    TableColumn tableColumn = columnModel.getColumn(column);
+                    PdfPCell cell = new PdfPCell(new Phrase(tableColumn.getHeaderValue().toString(), roboto));
+                    titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setBackgroundColor(BaseColor.YELLOW);
+                    cell.setPaddingTop(4);
+                    cell.setPaddingBottom(4);
+                    cell.setPaddingLeft(8);
+                    cell.setPaddingRight(8);
+                    cell.setFixedHeight(26);
+                    pdfTable.addCell(cell);
+                }
 
-                        textx += cellWidth;
-                    }
-
-                    currentY -= rowHeight;
-
-                    if (currentY < 0 && i < rowCount - 1) {
-                        // Move to the next page if necessary
-                        page = new PDPage(mediaBox);
-                        document.addPage(page);
-                        currentY = mediaBox.getHeight() - margin - rowHeight;
+                // Thêm dữ liệu từ bảng Swing
+                for (int row = 0; row < table.getRowCount(); row++) {
+                    for (int column = 0; column < table.getColumnCount(); column++) {
+                        PdfPCell cellContent = new PdfPCell(new Phrase(table.getValueAt(row, column).toString(), roboto));
+                        cellContent.setPaddingTop(4);
+                        cellContent.setPaddingBottom(4);
+                        cellContent.setPaddingLeft(8);
+                        cellContent.setPaddingRight(8);
+                        cellContent.setFixedHeight(26);
+                        pdfTable.addCell(cellContent);
                     }
                 }
 
+                document.add(pdfTable);
+                MessageDialog.showInfoDialog(table, "Đã xuất PDF thành công", "Thông báo");
             }
-
-            // Save the PDF document
-            document.save(new File(fileName));
-            MessageDialog.showInfoDialog(table, "Xuất bản PDF thành công, vui lòng vào thư mục pdf có thư mục cha là resources để xem", "Thông báo");
-
-        } catch (IOException e) {
-            e.printStackTrace();  // Xử lý ngoại lệ
+        } catch (Exception ex) {
+             MessageDialog.showErrorDialog(table, "Có lỗi khi xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
+            ex.printStackTrace();
+        } finally {
+            document.close();
         }
     }
 
-    private static float getStringWidth(String text, PDFont font, float fontSize) throws IOException {
-        return font.getStringWidth(text) * fontSize / 1000f;
-    }
-
-    private static void setFont(PDPageContentStream contentStream, PDFont pdFont, PDDocument document, float fontSize) throws IOException {
-        if (pdFont == null) {
-            pdFont = PDType0Font.load(document, new File("src/group7_java/school_bussiness_tour_management/resources/fonts/Roboto-Regular.ttf"));
-        }
-        contentStream.setFont(pdFont, fontSize);
-    }
 }

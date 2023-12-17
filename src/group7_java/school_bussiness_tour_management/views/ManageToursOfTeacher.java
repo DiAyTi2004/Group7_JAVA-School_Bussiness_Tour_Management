@@ -5,12 +5,16 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.PDFExporter;
 import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
+import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.Image;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -23,10 +27,17 @@ import javax.swing.table.DefaultTableModel;
 public class ManageToursOfTeacher extends javax.swing.JFrame {
 
     private String imagePath = "";
+    private Teacher selectTeacher;
+
+    public ManageToursOfTeacher(Teacher teacher) {
+        this.selectTeacher = teacher;
+        initComponents();
+    }
 
     public ManageToursOfTeacher() {
         initComponents();
     }
+    
 
     private int teacherId;
 
@@ -92,6 +103,10 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
         toursTable = new javax.swing.JTable();
         showListStudents = new javax.swing.JButton();
         imageLabel = new javax.swing.JLabel();
+        addTourForTeacher = new javax.swing.JButton();
+        deleteTourForTeacher = new javax.swing.JButton();
+        exportFilePDF = new javax.swing.JButton();
+        exportFileExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Xem chi tour của giáo viên");
@@ -138,6 +153,29 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
 
         imageLabel.setText("Ảnh");
 
+        addTourForTeacher.setText("Thếm chuyến tham quan");
+        addTourForTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTourForTeacherActionPerformed(evt);
+            }
+        });
+
+        deleteTourForTeacher.setText("Xóa chuyến tham quan");
+        deleteTourForTeacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteTourForTeacherActionPerformed(evt);
+            }
+        });
+
+        exportFilePDF.setText("Xuất danh sách PDF");
+        exportFilePDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportFilePDFActionPerformed(evt);
+            }
+        });
+
+        exportFileExcel.setText("Xuất danh sách EXCEL");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,9 +183,9 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -156,20 +194,26 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(teacherEmailLable, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(teacherPhoneNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(110, 110, 110))
+                                    .addComponent(teacherPhoneNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(titleMain)
                                     .addComponent(teacherAdressLable, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(235, 235, 235))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(showListStudents)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(backManageTeacher)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(30, Short.MAX_VALUE))))
+                                .addGap(125, 125, 125))))
+                    .addComponent(backManageTeacher)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(addTourForTeacher)
+                            .addGap(24, 24, 24)
+                            .addComponent(deleteTourForTeacher)
+                            .addGap(24, 24, 24)
+                            .addComponent(exportFilePDF)
+                            .addGap(24, 24, 24)
+                            .addComponent(exportFileExcel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(showListStudents))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,14 +234,19 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                             .addComponent(teacherEmailLable, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(teacherAdressLable, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 25, Short.MAX_VALUE))
+                        .addGap(0, 21, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(showListStudents)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showListStudents)
+                    .addComponent(addTourForTeacher)
+                    .addComponent(deleteTourForTeacher)
+                    .addComponent(exportFilePDF)
+                    .addComponent(exportFileExcel))
                 .addGap(30, 30, 30))
         );
 
@@ -230,6 +279,85 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
         manageTeacherScreen.setLocationRelativeTo(null);
         manageTeacherScreen.setVisible(true);
     }//GEN-LAST:event_backManageTeacherActionPerformed
+
+    private void addTourForTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTourForTeacherActionPerformed
+        try {
+            ManageTour tourScreen = new ManageTour(selectTeacher.getId());
+            if (tourScreen != null) {
+                dispose();
+                tourScreen.setLocationRelativeTo(null);
+                tourScreen.setVisible(true);
+            }
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi khi thêm chuyến tham quan cho giáo viên, chi tiết: " + e, "Lỗi");
+        }
+    }//GEN-LAST:event_addTourForTeacherActionPerformed
+
+    private void deleteTourForTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTourForTeacherActionPerformed
+         try {
+            int index = toursTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showInfoDialog(this, "Vui lòng chọn chuyến tham quan mà bạn muốn xóa", "Thông báo");
+                return;
+            }
+
+            int select = MessageDialog.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa chuyến tham quan này không", "Thông báo");
+            if (select == 0) {
+                List<Teacher> data_teacher = TeacherDAO.readFromFile();
+                List<Tour> data_tour = TourDAO.readFromFile();
+                String tourCode = (String) toursTable.getValueAt(index, 0);
+                String tourName = (String) toursTable.getValueAt(index, 1);
+                String tourDate = (String) toursTable.getValueAt(index, 2);
+                List<Tour> tour_of_teacher = selectTeacher.getTours();
+                int id = -1;
+
+                // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                Iterator<Tour> iterator = tour_of_teacher.iterator();
+                while (iterator.hasNext()) {
+                    Tour tour = iterator.next();
+                    if (tour.getName().equalsIgnoreCase(tourName) && tour.getCode().equalsIgnoreCase(tourCode) && tour.getStartDate().equalsIgnoreCase(tourDate)) {
+                        id = tour.getId();
+                        iterator.remove(); // Loại bỏ phần tử hiện tại
+                        break;
+                    }
+                }
+
+                Tour selectTour = TourService.getTourById(id);
+                for (Teacher item : data_teacher) {
+                    if (item.getId() == selectTeacher.getId()) {
+                        // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                        Iterator<Tour> iteratorTeacher = item.getTours().iterator();
+                        while (iteratorTeacher.hasNext()) {
+                            Tour tour = iteratorTeacher.next();
+                            if (tour.getId() == selectTour.getId()) {
+                                iteratorTeacher.remove();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                for (Tour tour : data_tour) {
+                    if (tour.getId() == id) {
+                        tour.setTeacherId(selectTeacher.getId() - 100);
+                        break;
+                    }
+                }
+
+                TourDAO.writeToFile(data_tour);
+                TeacherDAO.writeToFile(data_teacher);
+                MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
+                loadTableData();
+            }
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi khi xóa chuyến tham quan này của giáo viên, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_deleteTourForTeacherActionPerformed
+
+    private void exportFilePDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportFilePDFActionPerformed
+        PDFExporter.exportTableToPDF(toursTable, "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + selectTeacher.getLastName().toUpperCase() + selectTeacher.getFirstName().toUpperCase());
+    }//GEN-LAST:event_exportFilePDFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,7 +393,11 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addTourForTeacher;
     private javax.swing.JButton backManageTeacher;
+    private javax.swing.JButton deleteTourForTeacher;
+    private javax.swing.JButton exportFileExcel;
+    private javax.swing.JButton exportFilePDF;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton showListStudents;

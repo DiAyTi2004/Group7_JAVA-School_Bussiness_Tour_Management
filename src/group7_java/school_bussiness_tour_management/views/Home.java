@@ -465,8 +465,7 @@ public class Home extends javax.swing.JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDate = currentDate.format(formatter);
             String title = "BẢNG DANH SÁCH CHUYẾN THAM QUAN TRONG NGÀY " + formattedDate;
-            String outputFileName = "src/group7_java/school_bussiness_tour_management/resources/pdf/dayTours.pdf";
-            PDFExporter.exportJTableToPDF(title, outputFileName, tourNowTable);
+            PDFExporter.exportTableToPDF(tourNowTable, title);
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(jPanel1, "Có lỗi ở phần xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
         }
@@ -517,7 +516,7 @@ public class Home extends javax.swing.JFrame {
                     headerStyle.setFont(headerFont);
 
                     String[] headers = {"Mã chuyến", "Tên chuyến", "Mô tả",
-            "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên"};
+                        "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên"};
 
                     for (int i = 0; i < headers.length; i++) {
                         Cell cell = headerRow.createCell(i);
@@ -541,7 +540,9 @@ public class Home extends javax.swing.JFrame {
                     if (data != null) {
                         int rowNum = 1;
                         for (Tour tour : data) {
-                            if(!tour.getStartDate().equals(formattedDate)) continue;
+                            if (!tour.getStartDate().equals(formattedDate)) {
+                                continue;
+                            }
                             Row row = sheet.createRow(rowNum++);
                             for (int i = 0; i < headers.length; i++) {
                                 Cell cell = row.createCell(i);
@@ -551,7 +552,7 @@ public class Home extends javax.swing.JFrame {
                         }
                     }
 
-                    try ( FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                    try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                         workbook.write(fileOut);
                     } catch (Exception exs) {
                         throw exs;
@@ -568,8 +569,8 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exportExcelButtonActionPerformed
 
-    private String getCellValue(Tour tour, int columnIndex) throws Exception{
-       switch (columnIndex) {
+    private String getCellValue(Tour tour, int columnIndex) throws Exception {
+        switch (columnIndex) {
             case 0:
                 return tour.getCode();
             case 1:
@@ -584,14 +585,16 @@ public class Home extends javax.swing.JFrame {
                 return CompanyService.getById(tour.getCompanyId()).getName();
             case 6:
                 Teacher teacher = TeacherService.getTeacherById(tour.getTeacherId());
-                if(teacher == null) return "";
-                String fullName = teacher.getLastName() + " "+ teacher.getFirstName();
+                if (teacher == null) {
+                    return "";
+                }
+                String fullName = teacher.getLastName() + " " + teacher.getFirstName();
                 return fullName;
             default:
                 return "";
         }
     }
-    
+
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();
         ManageAccount manageAccountScreen = new ManageAccount();

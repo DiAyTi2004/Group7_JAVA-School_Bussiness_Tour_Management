@@ -4,7 +4,9 @@
  */
 package group7_java.school_bussiness_tour_management.views;
 
+import com.itextpdf.text.log.Logger;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.PDFExporter;
 import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
@@ -17,6 +19,7 @@ import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.System.Logger.Level;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -478,7 +481,11 @@ public class ManageTourStudent extends javax.swing.JFrame {
 
     
     private void exportPDFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFButtonActionPerformed
-        // TODO add your handling code here:
+         try {
+            PDFExporter.exportTableToPDF(studentTable, "DANH SÁCH SINH CỦA CHUYẾN THAM QUAN CÓ " +"MÃ: " + selectedTour.getCode().toUpperCase() + ", CÔNG TY: " + CompanyService.getById(selectedTour.getCompanyId()).getName().toUpperCase() + ") - NGÀY: " + selectedTour.getStartDate());
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jLabel9, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
     }//GEN-LAST:event_exportPDFButtonActionPerformed
 
     private DefaultTableModel tableModel;
