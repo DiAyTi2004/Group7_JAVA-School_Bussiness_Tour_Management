@@ -15,17 +15,34 @@ import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.AccountService;
+import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.StudentService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -296,6 +313,11 @@ public class Home extends javax.swing.JFrame {
         todayTourTable.setViewportView(tourNowTable);
 
         exportExcelButton.setText("Xuất danh sách Excel");
+        exportExcelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportExcelButtonActionPerformed(evt);
+            }
+        });
 
         exportPDFButton.setText("Xuất danh sách PDF");
         exportPDFButton.addActionListener(new java.awt.event.ActionListener() {
@@ -450,6 +472,126 @@ public class Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exportPDFButtonActionPerformed
 
+    private void exportExcelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelButtonActionPerformed
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn vị trí để xuất file Excel");
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Excel Files (*.xlsx)", "xlsx"));
+
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+                // Ensure the file has a .xlsx extension
+                if (!filePath.toLowerCase().endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+
+                File file = new File(filePath);
+
+                // Check if the file already exists
+                if (file.exists()) {
+                    MessageDialog.showErrorDialog(this, "Tên file đã tồn tại! Vui lòng chọn tên khác.", "Lỗi");
+                } else {
+                    Workbook workbook = new XSSFWorkbook();
+
+                    LocalDate currentDate = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String formattedDate = currentDate.format(formatter);
+                    String tourTitle = "DANH SÁCH CHUYẾN THAM QUAN TRONG NGÀY " + formattedDate;
+
+                    Sheet sheet = workbook.createSheet(tourTitle);
+
+                    // Create header row
+                    Row headerRow = sheet.createRow(0);
+
+                    CellStyle headerStyle = workbook.createCellStyle();
+                    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+                    headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                    headerStyle.setAlignment(HorizontalAlignment.CENTER);
+
+                    org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+                    headerFont.setColor(IndexedColors.WHITE.getIndex());
+                    headerFont.setBold(true);
+                    headerStyle.setFont(headerFont);
+
+                    String[] headers = {"Mã chuyến", "Tên chuyến", "Mô tả",
+            "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên"};
+
+                    for (int i = 0; i < headers.length; i++) {
+                        Cell cell = headerRow.createCell(i);
+                        cell.setCellValue(headers[i]);
+                        cell.setCellStyle(headerStyle);
+                    }
+
+                    // Set cell style with borders
+                    CellStyle cellStyle = workbook.createCellStyle();
+                    cellStyle.setBorderBottom(BorderStyle.THIN);
+                    cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderTop(BorderStyle.THIN);
+                    cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderLeft(BorderStyle.THIN);
+                    cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+                    cellStyle.setBorderRight(BorderStyle.THIN);
+                    cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
+
+                    // Write data to the Excel sheet
+                    List<Tour> data = TourDAO.readFromFile();
+                    if (data != null) {
+                        int rowNum = 1;
+                        for (Tour tour : data) {
+                            if(!tour.getStartDate().equals(formattedDate)) continue;
+                            Row row = sheet.createRow(rowNum++);
+                            for (int i = 0; i < headers.length; i++) {
+                                Cell cell = row.createCell(i);
+                                cell.setCellValue(getCellValue(tour, i));
+                                cell.setCellStyle(cellStyle);
+                            }
+                        }
+                    }
+
+                    try ( FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                        workbook.write(fileOut);
+                    } catch (Exception exs) {
+                        throw exs;
+                    }
+
+                    workbook.close();
+
+                    MessageDialog.showInfoDialog(this, "Xuất danh sách thành công! " + "\nNơi lưu: " + filePath, "Thông báo");
+                }
+            }
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi xuất Excel. Chi tiết: " + ex.getMessage(), "Lỗi");
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_exportExcelButtonActionPerformed
+
+    private String getCellValue(Tour tour, int columnIndex) throws Exception{
+       switch (columnIndex) {
+            case 0:
+                return tour.getCode();
+            case 1:
+                return tour.getName();
+            case 2:
+                return tour.getDescription();
+            case 3:
+                return String.valueOf(tour.getAvailables());
+            case 4:
+                return tour.getPresentator();
+            case 5:
+                return CompanyService.getById(tour.getCompanyId()).getName();
+            case 6:
+                Teacher teacher = TeacherService.getTeacherById(tour.getTeacherId());
+                if(teacher == null) return "";
+                String fullName = teacher.getLastName() + " "+ teacher.getFirstName();
+                return fullName;
+            default:
+                return "";
+        }
+    }
+    
     private void manageAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_manageAccountButtonActionPerformed
         dispose();
         ManageAccount manageAccountScreen = new ManageAccount();
