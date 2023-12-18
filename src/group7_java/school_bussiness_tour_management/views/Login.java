@@ -7,7 +7,9 @@ package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.services.AccountService;
+import group7_java.school_bussiness_tour_management.services.StudentService;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
@@ -167,8 +169,19 @@ public class Login extends javax.swing.JFrame {
             if (AccountService.isExisted(acc)) {
                 AccountService.currentLoginUser = AccountService.getAccountByUsername(acc.getUsername());
                 dispose();
-                Home homeScreen = new Home();
-                homeScreen.setVisible(true);
+                Account loggedInAccount = AccountService.getAccountByUsername(acc.getUsername());
+                if (loggedInAccount.getRole().equals("Tài khoản sinh viên")) {
+                    Student loggedInStudent = StudentService.getStudentByAccountId(loggedInAccount.getId());
+                    if (loggedInStudent == null) {
+                        loggedInStudent = StudentService.createStudentAttachToAccount(loggedInAccount.getId());
+                    }
+                    StudentHome studentHome = new StudentHome(loggedInStudent);
+                    studentHome.setVisible(true);
+                    studentHome.setLocationRelativeTo(null);
+                } else {
+                    Home homeScreen = new Home();
+                    homeScreen.setVisible(true);
+                }
             } else {
                 MessageDialog.showInfoDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Thông báo");
             }

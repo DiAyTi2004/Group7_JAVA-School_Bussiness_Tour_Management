@@ -17,8 +17,13 @@ public class Student extends Person {
     private String imagePath;
     private List<StudentTour> studentTours;
     private int classId;
+    private int accountId;
 
     public Student() {
+    }
+
+    public Student(int id) {
+        this.id = id;
     }
 
     public Student(int id, String imagePath, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) {
@@ -27,7 +32,7 @@ public class Student extends Person {
         this.imagePath = imagePath;
     }
 
-    public Student(String imagePath,String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) {
+    public Student(String imagePath, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) {
         super(code, firstName, lastName, address, phoneNumber, email, birthDate);
         this.classId = classId;
         this.imagePath = imagePath;
@@ -61,6 +66,14 @@ public class Student extends Person {
 
     public void setClassId(int classId) {
         this.classId = classId;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     @Override

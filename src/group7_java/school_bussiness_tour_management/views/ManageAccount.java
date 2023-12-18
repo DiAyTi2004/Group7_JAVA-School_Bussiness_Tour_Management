@@ -31,11 +31,13 @@ public class ManageAccount extends javax.swing.JFrame {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra với màn hình này! Chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Lỗi");
         }
     }
-    
+
     private void initializeRoleCombobox() throws Exception {
         roleInput.removeAllItems();
         roleInput.addItem("Toàn quyền hệ thống");
         roleInput.addItem("Quản lí thông thường");
+        roleInput.addItem("Tài khoản sinh viên");
+
         roleInput.setSelectedIndex(1);
     }
 
@@ -236,7 +238,7 @@ public class ManageAccount extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_createAccountButtonActionPerformed
-    
+
     private void clearAllFields() {
         usernameField.setText("");
         passwordField.setText("");
@@ -292,7 +294,7 @@ public class ManageAccount extends javax.swing.JFrame {
                 return;
             }
             Account selectedAcc = AccountService.getAccountByIndex(index);
-            
+
             String username = this.usernameField.getText().trim();
             if (username.equals("")) {
                 MessageDialog.showInfoDialog(this, "Tên người dùng không được bỏ trống", "Thông báo");
@@ -306,7 +308,7 @@ public class ManageAccount extends javax.swing.JFrame {
             if (AccountService.isExistedUsername(username) && !username.equals(username)) {
                 MessageDialog.showInfoDialog(this, "Tên tài khoản đã tồn tại trong hệ thống, vui lòng chọn tên tài khoản khác", "Thông báo");
             }
-            
+
             String role = roleInput.getSelectedItem().toString();
             selectedAcc.setUsername(username);
             selectedAcc.setPassword(password);
@@ -315,7 +317,7 @@ public class ManageAccount extends javax.swing.JFrame {
             MessageDialog.showInfoDialog(this, "Cập nhật tài khoản thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
-            
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Cập nhật tài khoản mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
@@ -325,17 +327,17 @@ public class ManageAccount extends javax.swing.JFrame {
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
-    
+
     private DefaultTableModel tableModel;
-    
+
     private void initializeTable() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Tên tài khoản", "Mật khẩu", "Quyền trong hệ thống"});
         accountTable.setModel(tableModel);
-        
+
         loadTableData();
     }
-    
+
     private void loadTableData() {
         try {
             List<Account> data = AccountService.getAllAccounts();

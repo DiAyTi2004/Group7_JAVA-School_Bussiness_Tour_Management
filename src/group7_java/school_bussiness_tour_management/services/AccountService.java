@@ -6,7 +6,9 @@
 package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.dao.AccountDAO;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.models.Account;
+import group7_java.school_bussiness_tour_management.models.Student;
 import java.util.List;
 
 /**
@@ -66,16 +68,17 @@ public class AccountService {
         return AccountDAO.readFromFile().get(index);
     }
 
-    public static void createNewAccount(String username, String password, String role) throws Exception {
+    public static Account createNewAccount(String username, String password, String role) throws Exception {
         int lastId = getLastAccountId();
         lastId++;
         Account acc = new Account(lastId, username, password, role);
         List<Account> data = AccountDAO.readFromFile();
         data.add(acc);
         AccountDAO.writeToFile(data);
+        return acc;
     }
 
-    public static void updateAccount(Account account) throws Exception {
+    public static Account updateAccount(Account account) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         for (Account acc : data) {
             if (acc.getId() == account.getId()) {
@@ -86,6 +89,7 @@ public class AccountService {
             }
         }
         AccountDAO.writeToFile(data);
+        return account;
     }
 
     public static void deleteAccount(int accountId) throws Exception {
@@ -101,5 +105,30 @@ public class AccountService {
             data.remove(deleteAccount);
             AccountDAO.writeToFile(data);
         }
+    }
+
+    public static Account getById(int accountId) throws Exception {
+        List<Account> data = AccountDAO.readFromFile();
+        for (Account acc : data) {
+            if (acc.getId() == accountId) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    public static Account getAccountByStudentId(int studentId) throws Exception {
+        List<Student> studentData = StudentDAO.readFromFile();
+        int accountId = -1;
+        for (Student student : studentData) {
+            if (student.getId() == studentId) {
+                accountId = student.getAccountId();
+                break;
+            }
+        }
+        if (accountId != -1) {
+            return getById(accountId);
+        }
+        return null;
     }
 }

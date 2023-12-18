@@ -30,8 +30,11 @@ public class StudentDAO {
                     JSONObject studentJson = (JSONObject) studentObject;
 
                     int id = getInteger(studentJson, "id");
-                    String imagePath = getString(studentJson,"imagePath");
+                    String imagePath = getString(studentJson, "imagePath");
                     String code = getString(studentJson, "code");
+                    String username = getString(studentJson, "username");
+                    String password = getString(studentJson, "password");
+                    String role = getString(studentJson, "role");
                     String firstName = getString(studentJson, "firstName");
                     String lastName = getString(studentJson, "lastName");
                     String address = getString(studentJson, "address");
@@ -39,9 +42,11 @@ public class StudentDAO {
                     String email = getString(studentJson, "email");
                     String birthDate = getString(studentJson, "birthDate");
                     int classId = getInteger(studentJson, "classId");
+                    int accountId = getInteger(studentJson, "accountId");
 
                     Student student = new Student(id, imagePath, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
-
+                    student.setAccountId(accountId);
+                    
                     JSONArray studentToursArray = (JSONArray) studentJson.get("studentTours");
                     if (studentToursArray != null) {
                         List<StudentTour> studentTours = new ArrayList<>();
@@ -73,7 +78,7 @@ public class StudentDAO {
         for (Student student : students) {
             JSONObject studentJson = new JSONObject();
             studentJson.put("id", student.getId());
-            studentJson.put("imagePath",student.getImagePath());
+            studentJson.put("imagePath", student.getImagePath());
             studentJson.put("code", student.getCode());
             studentJson.put("firstName", student.getFirstName());
             studentJson.put("lastName", student.getLastName());
@@ -82,6 +87,7 @@ public class StudentDAO {
             studentJson.put("email", student.getEmail());
             studentJson.put("birthDate", student.getBirthDate());
             studentJson.put("classId", student.getClassId());
+            studentJson.put("accountId", student.getAccountId());
 
             List<StudentTour> studentTours = student.getStudentTours();
             if (studentTours != null && !studentTours.isEmpty()) {
@@ -95,7 +101,7 @@ public class StudentDAO {
                     studentToursArray.add(studentTourJson);
                 }
                 studentJson.put("studentTours", studentToursArray);
-            }else {
+            } else {
                 studentJson.put("studentTours", new JSONArray());
             }
             studentArray.add(studentJson);

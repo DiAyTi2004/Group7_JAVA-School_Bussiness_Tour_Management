@@ -1,1 +1,16 @@
-[{"password":"123","role":"Toàn quyền hệ thống","id":1,"username":"admin"},{"password":"123","role":"Quản lí thông thường","id":2,"username":"diayti"}]
+[{
+        "password": "123",
+        "role": "Toàn quyền hệ thống",
+        "id": 1,
+        "username": "admin"
+    }, {
+        "password": "123",
+        "role": "Quản lí thông thường",
+        "id": 2,
+        "username": "normal1"
+    }, {
+        "password": "123",
+        "role": "Tài khoản sinh viên",
+        "id": 3,
+        "username": "student1"
+    }]

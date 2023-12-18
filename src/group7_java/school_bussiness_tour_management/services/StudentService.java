@@ -4,14 +4,11 @@
  */
 package group7_java.school_bussiness_tour_management.services;
 
-import group7_java.school_bussiness_tour_management.dao.ClassroomDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
-import group7_java.school_bussiness_tour_management.dao.TourDAO;
-import group7_java.school_bussiness_tour_management.models.Classroom;
+import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
-import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,14 +64,25 @@ public class StudentService {
     public static void createNewStudent(String code, String imagePath, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int classId) throws Exception {
         int lastId = getLastStudentId();
         lastId++;
-        Student student = new Student(lastId,imagePath, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
-        List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
-        List<Student>data = StudentDAO.readFromFile();
-   
+        Student student = new Student(lastId, imagePath, code, firstName, lastName, address, phoneNumber, email, birthDate, classId);
+        List<Student> data = StudentDAO.readFromFile();
+        Account studentAccount = AccountService.createNewAccount(code, code, "Tài khoản sinh viên");
+        student.setAccountId(studentAccount.getId());
         data.add(student);
         StudentDAO.writeToFile(data);
     }
-    
+
+    public static Student createStudentAttachToAccount(int accountId) throws Exception {
+        int lastId = getLastStudentId();
+        lastId++;
+        Student student = new Student(lastId);
+        student.setFirstName("SV chưa nhập");
+        List<Student> data = StudentDAO.readFromFile();
+        student.setAccountId(accountId);
+        data.add(student);
+        StudentDAO.writeToFile(data);
+        return student;
+    }
 
     public static void updateStudent(Student student) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
@@ -106,11 +114,12 @@ public class StudentService {
             }
         }
         if (delStu != null) {
+            AccountService.deleteAccount(delStu.getAccountId());
             data.remove(delStu);
             StudentDAO.writeToFile(data);
         }
     }
-    
+
     public static Student getById(int studentId) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         for (Student student : data) {
@@ -120,8 +129,8 @@ public class StudentService {
         }
         return null;
     }
-    
-    public static Student getByCode(String code) throws Exception{
+
+    public static Student getByCode(String code) throws Exception {
         List<Student> data = StudentDAO.readFromFile();
         for (Student student : data) {
             if (student.getCode().equals(code.trim())) {
@@ -139,4 +148,15 @@ public class StudentService {
         }
         return null;
     }
+
+    public static Student getStudentByAccountId(int accountId) throws Exception {
+        List<Student> data = StudentDAO.readFromFile();
+        for (Student student : data) {
+            if (student.getAccountId() == accountId) {
+                return student;
+            }
+        }
+        return null;
+    }
+
 }
