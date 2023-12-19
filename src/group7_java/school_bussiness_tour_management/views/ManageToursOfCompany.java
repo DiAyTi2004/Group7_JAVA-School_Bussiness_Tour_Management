@@ -224,7 +224,9 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
 
     private void createCompanyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCompanyActionPerformed
         try {
-
+            ManageTour tourscreen = new ManageTour();
+            tourscreen.setVisible(true);
+            dispose();
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Phát hiện lỗi khi thêm doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
             ex.printStackTrace();
