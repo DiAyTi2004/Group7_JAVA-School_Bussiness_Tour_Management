@@ -10,12 +10,16 @@ import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
+import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
+import group7_java.school_bussiness_tour_management.services.StudentService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -256,11 +260,21 @@ public class StudentHome extends javax.swing.JFrame {
     }// GEN-LAST:event_logoutButtonActionPerformed
 
     private void updateProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            dispose();
+            Student stu = StudentService.getStudentByAccountId(loggedInStudent.getAccountId());
+            PersonalAccountInformation personalAccountInformationScreen = new PersonalAccountInformation(loggedInStudent);          
+            
+            personalAccountInformationScreen.setLocationRelativeTo(null);
+            personalAccountInformationScreen.setVisible(true);
 
+        } catch (Exception ex) {
+            Logger.getLogger(StudentHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void registeredTourButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
+        
     }
 
     /**
