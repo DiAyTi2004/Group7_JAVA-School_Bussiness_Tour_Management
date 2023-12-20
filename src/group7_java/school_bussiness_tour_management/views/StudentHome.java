@@ -135,6 +135,7 @@ public class StudentHome extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tourTodayTable = new javax.swing.JTable();
         registerButton = new javax.swing.JButton();
+        ListStudentButton = new javax.swing.JButton();
         cancelRegister = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -202,9 +203,9 @@ public class StudentHome extends javax.swing.JFrame {
                 .addComponent(registeredTourButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(updateProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 333, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
 
         jPanel2.setPreferredSize(new java.awt.Dimension(640, 523));
@@ -236,6 +237,14 @@ public class StudentHome extends javax.swing.JFrame {
             }
         });
 
+        ListStudentButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ListStudentButton.setText("Danh sách sinh viên ");
+        ListStudentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListStudentButtonActionPerformed(evt);
+            }
+        });
+
         cancelRegister.setBackground(new java.awt.Color(255, 51, 102));
         cancelRegister.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         cancelRegister.setForeground(new java.awt.Color(255, 255, 255));
@@ -252,10 +261,13 @@ public class StudentHome extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cancelRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(registerButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(registerButton))
-            .addComponent(jScrollPane1)
+                .addComponent(ListStudentButton)
+                .addGap(69, 69, 69)
+                .addComponent(cancelRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,6 +277,7 @@ public class StudentHome extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ListStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cancelRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -290,11 +303,11 @@ public class StudentHome extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(410, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGap(15, 15, 15))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -308,8 +321,10 @@ public class StudentHome extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -423,6 +438,26 @@ public class StudentHome extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    private void ListStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListStudentButtonActionPerformed
+        try {
+            int index = tourTodayTable.getSelectedRow();
+            if (index == -1) {
+                MessageDialog.showErrorDialog(this, "Chọn một chuyến tham quan để xem danh sách sinh viên", "Thông báo");
+                return;
+            }
+
+            Object value = tourTodayTable.getValueAt(index, 0);
+            Tour selectedTour = TourService.getByTourCode(value.toString());
+
+            dispose();
+            ListOfStudentInTheTour listOfStudentInTheTourScreen = new ListOfStudentInTheTour(loggedInStudent, selectedTour);
+            listOfStudentInTheTourScreen.setLocationRelativeTo(null);
+            listOfStudentInTheTourScreen.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(StudentHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_ListStudentButtonActionPerformed
+
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_logoutButtonActionPerformed
         int key = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn đăng xuất khỏi hệ thống?", "Xác nhận");
         if (key == 0) {
@@ -450,7 +485,7 @@ public class StudentHome extends javax.swing.JFrame {
     private void initializeTableOfRegisteredTours() {
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(new String[]{"Mã chuyến", "Tên chuyến", "Mô tả",
-            "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên"});
+            "Số lượng", "Người đại diện công ty", "Công ty", "Giáo viên", "Đánh giá", "Xếp loại"});
         tourTodayTable.setModel(tableModel);
 
         loadRegisteredTable();
@@ -491,9 +526,12 @@ public class StudentHome extends javax.swing.JFrame {
                             }
                         }
 
+                        StudentTour studentTour = StudentTourService.getStudentTourByStudenIdAndTourId(loggedInStudent.getId(), tour.getId());
+                        int rate = studentTour.getRate();
+                        String result = studentTour.getResult();
                         tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(),
                             tour.getAvailables(),
-                            tour.getPresentator(), companyName, teacherName});
+                            tour.getPresentator(), companyName, teacherName,rate,result});
 
                     } catch (Exception ex) {
                         MessageDialog.showErrorDialog(this, "Có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
@@ -540,6 +578,7 @@ public class StudentHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ListStudentButton;
     private javax.swing.JButton cancelRegister;
     private javax.swing.JButton comingTourButton;
     private javax.swing.JPanel jPanel1;

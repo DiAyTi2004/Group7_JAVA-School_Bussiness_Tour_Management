@@ -158,14 +158,24 @@ public class StudentTourService {
         }
         return null;
     }
-    
-       public static boolean isExistRegisteredTour(int studentId, int tourId) throws Exception{
+
+    public static boolean isExistRegisteredTour(int studentId, int tourId) throws Exception {
         List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
-        for(StudentTour studentTour : studentTour_data){
-            if(studentTour.getStudentId() == studentId && studentTour.getTourId() == tourId){
+        for (StudentTour studentTour : studentTour_data) {
+            if (studentTour.getStudentId() == studentId && studentTour.getTourId() == tourId) {
                 return false;
             }
         }
         return true;
+    }
+    
+    public static StudentTour getStudentTourByStudenIdAndTourId(int studentId, int tourId)throws Exception{
+        List<StudentTour> studentTours = getStudentTour(studentId);
+        for(StudentTour studentTour : studentTours){
+            if(studentTour.getStudentId() == studentId && studentTour.getTourId() == tourId){
+                return studentTour;
+            }
+        }
+        return null;
     }
 }
