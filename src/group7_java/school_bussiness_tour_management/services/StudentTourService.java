@@ -158,4 +158,14 @@ public class StudentTourService {
         }
         return null;
     }
+    
+       public static boolean isExistRegisteredTour(int studentId, int tourId) throws Exception{
+        List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
+        for(StudentTour studentTour : studentTour_data){
+            if(studentTour.getStudentId() == studentId && studentTour.getTourId() == tourId){
+                return false;
+            }
+        }
+        return true;
+    }
 }

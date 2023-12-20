@@ -13,6 +13,8 @@ import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +24,15 @@ import java.util.List;
  * @author gialo
  */
 public class TourService {
-
+  public static Tour getByTourCode(String code) throws Exception {
+        List<Tour> tours = TourDAO.readFromFile();
+        for (Tour tour : tours) {
+            if (tour.getCode().equals(code)) {
+                return tour;
+            }
+        }
+        return null;
+    }
     public static Tour getByIdFromList(int tourId, List<Tour> data) {
         for (Tour tour : data) {
             if (tour.getId() == tourId) {
@@ -276,4 +286,26 @@ public class TourService {
         }
     }
 
+     public static List<Tour> getComingTourByStudentId(int studentId) throws Exception {
+        List<Tour> comingTours = new ArrayList<>();
+        List<Tour> tour_data = TourDAO.readFromFile();
+        List<Tour> registeredTours = StudentTourService.getToursForStudent(studentId);
+
+        // Định dạng của chuỗi ngày trong JSON
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate currentDate = LocalDate.now();
+
+        for (Tour tour : tour_data) {
+            String date = tour.getStartDate();
+            LocalDate startDate = LocalDate.parse(date, formatter);
+            for (Tour registeredTour : registeredTours) {
+                if (tour.getId() != registeredTour.getId() && startDate.isAfter(currentDate)) {
+                    comingTours.add(tour);
+                }
+
+            }
+        }
+
+        return comingTours;
+    }
 }

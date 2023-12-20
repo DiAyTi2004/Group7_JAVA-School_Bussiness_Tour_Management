@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[{"password":"123","role":"Toàn quyền hệ thống","id":1,"username":"admin"},{"password":"123","role":"Quản lí thông thường","id":2,"username":"normal1"},{"password":"123","role":"Tài khoản sinh viên","id":3,"username":"student1"},{"password":"2021604268","role":"Tài khoản sinh viên","id":4,"username":"2021604268"}]
-=======
-[{"password":"123","role":"Toàn quyền hệ thống","id":1,"username":"admin"},{"password":"123","role":"Quản lí thông thường","id":2,"username":"normal1"},{"password":"123","role":"Tài khoản sinh viên","id":3,"username":"student1"},{"password":"123","role":"Tài khoản sinh viên","id":4,"username":"SV01"}]
->>>>>>> e37f42d2045cb035e487d9ab77fda329ef05af2a
+[{"password":"123","role":"Toàn quyền hệ thống","id":1,"username":"admin"},{"password":"123","role":"Quản lí thông thường","id":2,"username":"normal1"},{"password":"123","role":"Tài khoản sinh viên","id":4,"username":"SV01"},{"password":"sv","role":"Tài khoản sinh viên","id":5,"username":"sv"}]
