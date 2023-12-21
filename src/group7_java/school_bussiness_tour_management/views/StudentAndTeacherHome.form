@@ -34,8 +34,16 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
           <Component id="jPanel1" max="32767" attributes="0"/>
           <Component id="jPanel2" alignment="0" pref="524" max="32767" attributes="0"/>
+=======
+          <Component id="jPanel2" alignment="0" pref="573" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
       </Group>
     </DimensionLayout>
   </Layout>
@@ -51,6 +59,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="welcomeLabel" max="32767" attributes="0"/>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -61,8 +70,19 @@
                       </Group>
                       <Component id="showTourInDay" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
                       <Component id="showUpcomingTours" alignment="0" min="-2" pref="244" max="-2" attributes="0"/>
+=======
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="updateProfileButton" alignment="1" max="32767" attributes="0"/>
+                          <Component id="registeredTourButton" max="32767" attributes="0"/>
+                          <Component id="comingTourButton" pref="243" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="logoutButton" alignment="1" min="-2" pref="244" max="-2" attributes="0"/>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
                   </Group>
-                  <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -71,14 +91,20 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="welcomeLabel" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="comingTourButton" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="registeredTourButton" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Component id="updateProfileButton" min="-2" pref="40" max="-2" attributes="0"/>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="showTourInDay" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="showUpcomingTours" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+=======
+                  <EmptySpace pref="333" max="32767" attributes="0"/>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
                   <Component id="logoutButton" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -128,6 +154,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutButtonActionPerformed"/>
           </Events>
         </Component>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
         <Component class="javax.swing.JButton" name="showTourInDay">
           <Properties>
             <Property name="text" type="java.lang.String" value="Chuy&#x1ebf;n tham quan h&#xf4;m nay c&#x1ee7;a b&#x1ea1;n"/>
@@ -137,11 +164,18 @@
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="showUpcomingTours">
+=======
+        <Component class="javax.swing.JButton" name="comingTourButton">
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
           <Properties>
             <Property name="text" type="java.lang.String" value="C&#xe1;c chuy&#x1ebf;n tham quan s&#x1eaf;p di&#x1ec5;n ra"/>
           </Properties>
           <Events>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showUpcomingToursActionPerformed"/>
+=======
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comingTourButtonActionPerformed"/>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
           </Events>
         </Component>
       </SubComponents>
@@ -156,6 +190,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="198" max="-2" attributes="0"/>
                   <Component id="searchInput" min="-2" pref="240" max="-2" attributes="0"/>
@@ -182,6 +217,14 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="showStudentsOfTour" min="-2" max="-2" attributes="0"/>
                       </Group>
+=======
+              <Group type="102" alignment="1" attributes="0">
+                  <Component id="jSeparator1" pref="1" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="title" pref="627" max="32767" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -191,13 +234,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
+=======
+                  <Component id="title" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
                           <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
                       </Group>
+<<<<<<< HEAD:src/group7_java/school_bussiness_tour_management/views/StudentAndTeacherHome.form
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
@@ -207,6 +256,12 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="todayTourTable" min="-2" pref="369" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
+=======
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel3" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+>>>>>>> 0ab176c963cf5a2003cdb5ddb4cdfc30a5c7633d:src/group7_java/school_bussiness_tour_management/views/StudentHome.form
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -221,7 +276,7 @@
       <SubComponents>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="title">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
@@ -230,21 +285,105 @@
             <Property name="text" type="java.lang.String" value="C&#xc1;C CHUY&#x1ebe;N THAM QUAN DOANH NGHI&#x1ec6;P S&#x1eae;P DI&#x1ec4;N RA"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="todayTourTable">
+        <Container class="javax.swing.JPanel" name="jPanel3">
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="registerButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="ListStudentButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                      <Component id="cancelRegister" min="-2" pref="123" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" pref="627" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="460" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="registerButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="ListStudentButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="cancelRegister" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tourNowTable">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tourTodayTable">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="4" rowCount="4">
+                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JButton" name="registerButton">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="4">
-                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                  </Table>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="66" red="0" type="rgb"/>
                 </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="13" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd; tham gia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="ListStudentButton">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch sinh vi&#xea;n "/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ListStudentButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="cancelRegister">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="66" green="33" red="ff" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="13" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="H&#x1ee7;y &#x111;&#x103;ng k&#xfd;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelRegisterActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

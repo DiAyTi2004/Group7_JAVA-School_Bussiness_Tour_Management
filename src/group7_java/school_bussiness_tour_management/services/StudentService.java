@@ -6,9 +6,11 @@ package group7_java.school_bussiness_tour_management.services;
 
 import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
+import group7_java.school_bussiness_tour_management.models.Tour;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,6 +159,19 @@ public class StudentService {
             }
         }
         return null;
+    }
+
+    public static List<Student> getListStudentInTourByTourId(int tourId) throws Exception {
+        List<StudentTour> studentTour_data = StudentTourDAO.readFromFile();
+        List<Student> students = new ArrayList<>();
+
+        for (StudentTour studentTour : studentTour_data) {
+            if (studentTour.getTourId() == tourId) {
+                Student student = StudentService.getById(studentTour.getStudentId());
+                students.add(student);
+            }
+        }
+        return students;
     }
 
 }

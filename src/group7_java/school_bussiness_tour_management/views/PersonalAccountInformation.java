@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 public class PersonalAccountInformation extends javax.swing.JFrame {
 
     private static Student loggedInStudent;
+    private String selectedImagePath;
 
     public PersonalAccountInformation(Student loggedInStudent) throws Exception {
         initComponents();
@@ -341,9 +342,6 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
         studentHomeScreen.setLocationRelativeTo(null);
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
