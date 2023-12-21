@@ -538,16 +538,9 @@ public class TeacherProfile extends javax.swing.JFrame {
     private void changeAccoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAccoutButtonActionPerformed
         try {
             boolean isCheck = false;
-            teacherUsernameInput.setEnabled(true);
             teacherPasswordInput.setEnabled(true);
             List<Account> data_accounts = AccountDAO.readFromFile();
-            String username = teacherUsernameInput.getText().trim();
             String password = teacherPasswordInput.getText().trim();
-            if (username.equals("")) {
-                MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập tên đăng nhập", "Thông báo");
-                return;
-            }
-
             if (password.equals("")) {
                 MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập mật khẩu", "Thông báo");
                 return;
@@ -559,7 +552,7 @@ public class TeacherProfile extends javax.swing.JFrame {
                     break;
                 }
             }
-            if (username.equalsIgnoreCase(selectAccount.getUsername()) && password.equalsIgnoreCase(selectAccount.getPassword())) {
+            if (password.equalsIgnoreCase(selectAccount.getPassword())) {
                 isCheck = true;
             }
 
@@ -568,7 +561,6 @@ public class TeacherProfile extends javax.swing.JFrame {
             } else {
                 for (Account item : data_accounts) {
                     if (item.getId() == selectTeacher.getAccountId()) {
-                        item.setUsername(username);
                         item.setPassword(password);
                         break;
                     }
