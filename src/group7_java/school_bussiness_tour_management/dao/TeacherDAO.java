@@ -40,7 +40,8 @@ public class TeacherDAO {
                     String address = (String) teacherJson.get("address");
                     String phone = (String) teacherJson.get("phoneNumber");
                     String birthDate = (String) teacherJson.get("birthDate");
-                    Teacher tea = new Teacher(id,imagePath, code, firstname, lastname, address, phone, email, birthDate);
+                    int accountId = Integer.parseInt(teacherJson.get("accountId").toString());
+                    Teacher tea = new Teacher(id,imagePath, code, firstname, lastname, address, phone, email, birthDate,accountId);
                     JSONArray toursArray = (JSONArray) teacherJson.get("tours");
                     if (toursArray != null) {
                         List<Tour> tours = new ArrayList<>();
@@ -85,7 +86,7 @@ public class TeacherDAO {
             teacherJson.put("phoneNumber", teacher.getPhoneNumber());
             teacherJson.put("address", teacher.getAddress());
             teacherJson.put("birthDate", teacher.getBirthDate());
-
+            teacherJson.put("accountId", teacher.getAccountId());
             List<Tour> tours = teacher.getTours();
             if (tours != null && !tours.isEmpty()) {
                 JSONArray toursArray = new JSONArray();

@@ -14,12 +14,14 @@ import java.util.List;
 public class Teacher extends Person{
     private List<Tour> tours;
     private String imagePath;
+    private int accountId;
     public Teacher() {
     }
 
-    public Teacher( int id,String imagePath, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate) {
+    public Teacher( int id,String imagePath, String code, String firstName, String lastName, String address, String phoneNumber, String email, String birthDate, int accountID) {
         super(id, code, firstName, lastName, address, phoneNumber, email, birthDate);
         this.imagePath = imagePath;
+        this.accountId = accountID;
     }
 
     public static int getCount() {
@@ -36,6 +38,14 @@ public class Teacher extends Person{
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
     
 

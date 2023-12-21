@@ -28,7 +28,7 @@ public class ClassroomService {
     public static boolean isExisted(Classroom classroom) throws Exception {
         List<Classroom> data = ClassroomDAO.readFromFile();
         for (Classroom item : data) {
-            if (item.getCode().equals(classroom.getCode()) && item.getName().equals(classroom.getName())) {
+            if (item.getCode().equals(classroom.getCode()) && item.getName().equalsIgnoreCase(classroom.getName())) {
                 return true;
             }
         }
@@ -38,7 +38,17 @@ public class ClassroomService {
     public static boolean isExistedCode(String code) throws Exception {
         List<Classroom> data = ClassroomDAO.readFromFile();
         for (Classroom item : data) {
-            if (item.getCode().trim().equals(code.trim())) {
+            if (item.getCode().trim().equalsIgnoreCase(code.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean isExistedName(String name) throws Exception {
+        List<Classroom> data = ClassroomDAO.readFromFile();
+        for (Classroom item : data) {
+            if (item.getName().trim().equals(name.trim())) {
                 return true;
             }
         }

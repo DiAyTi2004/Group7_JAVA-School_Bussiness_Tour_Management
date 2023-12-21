@@ -317,26 +317,9 @@ public class ManageTeacher extends javax.swing.JFrame {
             String imagePath = selectedTea.getImagePath();
 
             if (!selectedImagePath.equals(imagePath)) {
-                //xóa ảnh cũ
-                try {
-                    // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
-                    File imageFile = new File(imagePath);
-
-                    if (imageFile.exists()) {
-                        // Kiểm tra quyền truy cập và xóa tập tin
-                        if (imageFile.canWrite() && imageFile.canRead()) {
-                            if (!imageFile.delete()) {
-                                JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
-                        }
-                    }
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                if (!selectedImagePath.trim().equals("")) {
+                    selectedTea.setImagePath(selectedImagePath);
                 }
-                selectedTea.setImagePath(selectedImagePath);
 
             }
 
@@ -349,42 +332,42 @@ public class ManageTeacher extends javax.swing.JFrame {
 
             // Bắt lỗi, không nhập đủ
             if (teacherID.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập mã giáo viên", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập mã giáo viên", "Thông báo");
                 return;
             }
 
             if (teacherName.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập họ tên giáo viên", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập họ tên giáo viên", "Thông báo");
                 return;
             }
 
             if (teacherAddress.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập địa chỉ", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập địa chỉ", "Thông báo");
                 return;
             }
             if (teacherPhoneNumber.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập số điện thoại", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập số điện thoại", "Thông báo");
                 return;
             }
             if (!isNumeric(teacherPhoneNumber)) {
-                MessageDialog.showErrorDialog(this, "Dữ liệu nhập vào phải là số", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Dữ liệu nhập vào phải là số", "Thông báo");
                 return;
             }
             if (teacherBirthday.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập ngày sinh", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập ngày sinh", "Thông báo");
                 return;
             }
 
             if (!isDate(teacherBirthday)) {
-                MessageDialog.showErrorDialog(this, "Ngày sinh nhập chưa đúng định dạng", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Ngày sinh nhập chưa đúng định dạng", "Thông báo");
                 return;
             }
             if (teacherEmail.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập email", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập email", "Thông báo");
                 return;
             }
             if (!isValidEmail(teacherEmail)) {
-                MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Email không đúng định dạng", "Thông báo");
                 return;
             }
 
@@ -415,7 +398,10 @@ public class ManageTeacher extends javax.swing.JFrame {
             String teacherPhoneNumber = this.phoneNumberTeacherField.getText().trim();
             String teacherBirthday = this.birthdayTeacherField.getText().trim();
             String teacherEmail = this.emailTeacherField.getText().trim();
-            String imagePath = selectedImagePath;
+            String imagePath = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
+            if (selectedImagePath.trim() != "") {
+                imagePath = selectedImagePath;
+            }
 
             // Hiển thị ảnh
             ImageIcon imageIcon = new ImageIcon(selectedImagePath);
@@ -427,46 +413,47 @@ public class ManageTeacher extends javax.swing.JFrame {
 
             // Bắt lỗi, không nhập đủ
             if (teacherID.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập mã giáo viên", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập mã giáo viên", "Thông báo");
                 return;
             }
 
             if (teacherName.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập họ tên giáo viên", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập họ tên giáo viên", "Thông báo");
                 return;
             }
+
             if (teacherAddress.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập địa chỉ", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập địa chỉ", "Thông báo");
                 return;
             }
             if (teacherPhoneNumber.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập số điện thoại", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập số điện thoại", "Thông báo");
                 return;
             }
             if (!isNumeric(teacherPhoneNumber)) {
-                MessageDialog.showErrorDialog(this, "Dữ liệu nhập vào phải là số", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Dữ liệu nhập vào phải là số", "Thông báo");
                 return;
             }
             if (teacherBirthday.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập ngày sinh", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập ngày sinh", "Thông báo");
                 return;
             }
 
             if (!isDate(teacherBirthday)) {
-                MessageDialog.showErrorDialog(this, "Ngày sinh nhập chưa đúng định dạng", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Ngày sinh nhập chưa đúng định dạng", "Thông báo");
                 return;
             }
             if (teacherEmail.equals("")) {
-                MessageDialog.showErrorDialog(this, "Bạn chưa nhập email", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Bạn chưa nhập email", "Thông báo");
                 return;
             }
             if (!isValidEmail(teacherEmail)) {
-                MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Lỗi");
+                MessageDialog.showInfoDialog(this, "Email không đúng định dạng", "Thông báo");
                 return;
             }
             // Thêm giáo viên
             if (!TeacherService.isCheckCodeTeacher(teacherID)) {
-                TeacherService.createNewTeacher(teacherID, imagePath, teacherName, teacherAddress, teacherPhoneNumber, teacherEmail, teacherBirthday);
+                TeacherService.createNewTeacher(imagePath, teacherID, teacherName, teacherAddress, teacherPhoneNumber, teacherEmail, teacherBirthday);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Đã thêm thành công", "Thông  báo");
                 clearField();
@@ -556,13 +543,24 @@ public class ManageTeacher extends javax.swing.JFrame {
     }//GEN-LAST:event_teacherTableMouseClicked
 
     private void detailTourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailTourActionPerformed
-         try {
+        try {
             int index = teacherTable.getSelectedRow();
             if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên để xem các chuyến tham quan của giáo viên", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Vui chọn giáo viên để xem các chuyến tham quan của giáo viên", "Thông báo");
                 return;
             }
-            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            String teacherCode = (String) teacherTable.getValueAt(index, 0);
+            List<Teacher> data_teachers = TeacherService.getAllTeachers();
+            int id = -1;
+            for(Teacher item : data_teachers)
+            {
+                if(item.getCode().equalsIgnoreCase(teacherCode))
+                {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Teacher selectedTea = TeacherService.getTeacherById(id);
             ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
             if (manageToursOfTeacherScreen != null) {
                 manageToursOfTeacherScreen.setLocationRelativeTo(null);

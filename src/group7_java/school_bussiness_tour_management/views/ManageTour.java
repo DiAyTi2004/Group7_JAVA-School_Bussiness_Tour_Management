@@ -12,6 +12,7 @@ import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
+import static group7_java.school_bussiness_tour_management.services.TourService.getLastTourId;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -323,27 +324,53 @@ public class ManageTour extends javax.swing.JFrame {
             if (TourService.isExistedTourCode(tourCode)) {
                 MessageDialog.showInfoDialog(this, "Trùng mã chuyến đi", "Thông báo");
             } else {
-                TourService.createNewTour(tourCode, tourName, tourDes, tourDate, availables, compId, teaId, presentator);
-                loadTableData();
-                MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
-                clearAllFields();
                 if (!(teacherId < 0)) {
                     Teacher selectedTea = TeacherService.getTeacherById(teacherId);
-                    ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
-                    if (manageToursOfTeacherScreen != null) {
-                        manageToursOfTeacherScreen.setLocationRelativeTo(null);
-                        manageToursOfTeacherScreen.setVisible(true);
-                        manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
-                        manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
-                        manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
-                        manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
-                        manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
-                        manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
-                        manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
-                        manageToursOfTeacherScreen.initializeTable();
-                        dispose();
+                    List<Tour> teacher_data_tours = selectedTea.getTours();
+                    int lastId = getLastTourId();
+                    int id = lastId++;
+                    boolean isCheck = false;
+                    if (teacher_data_tours != null) {
+                        for (Tour item : teacher_data_tours) {
+                            if (item.getId() == id) {
+                                MessageDialog.showInfoDialog(this, "Bạn đã đăng ký tham gia chuyến tham quan này", "Thông báo");
+                                isCheck = true;
+                                break;
+                            }
+                            if (item.getStartDate().compareTo(tourDate) == 0) {
+                                MessageDialog.showInfoDialog(this, "Trùng thời gian, nên không thể đăng ký", "Thông báo");
+                                isCheck = true;
+                                break;
+                            }
+                        }
+                        if (!isCheck) {
+                            TourService.createNewTour(tourCode, tourName, tourDes, tourDate, availables, compId, teaId, presentator);
+                            loadTableData();
+                            MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
+                            clearAllFields();
+                            ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
+                            if (manageToursOfTeacherScreen != null) {
+                                manageToursOfTeacherScreen.setLocationRelativeTo(null);
+                                manageToursOfTeacherScreen.setVisible(true);
+                                manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
+                                manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
+                                manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                                manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
+                                manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
+                                manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
+                                manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                                manageToursOfTeacherScreen.initializeTable();
+                                dispose();
+                            }
+                        }
                     }
+                } else {
+                    TourService.createNewTour(tourCode, tourName, tourDes, tourDate, availables, compId, teaId, presentator);
+                    loadTableData();
+                    MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
+                    clearAllFields();
                 }
+
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra khi thêm mới, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
@@ -398,28 +425,51 @@ public class ManageTour extends javax.swing.JFrame {
             selectedTour.setPresentator(presentator);
             selectedTour.setTeacherId(teaId);
             selectedTour.setCompanyId(compId);
-
-            TourService.updateTour(selectedTour);
-            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
-            clearAllFields();
-            loadTableData();
             if (!(teacherId < 0)) {
                 Teacher selectedTea = TeacherService.getTeacherById(teacherId);
-                ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
-                if (manageToursOfTeacherScreen != null) {
-                    manageToursOfTeacherScreen.setLocationRelativeTo(null);
-                    manageToursOfTeacherScreen.setVisible(true);
-                    manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
-                    manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
-                    manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
-                    manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
-                    manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
-                    manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
-                    manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
-                    manageToursOfTeacherScreen.initializeTable();
-                    dispose();
+                List<Tour> teacher_data_tours = selectedTea.getTours();
+                boolean isCheck = false;
+                if (teacher_data_tours != null) {
+                    for (Tour item : teacher_data_tours) {
+                        if (item.getId() == selectedTour.getId()) {
+                            MessageDialog.showInfoDialog(this, "Bạn đã đăng ký tham gia chuyến tham quan này", "Thông báo");
+                            isCheck = true;
+                            break;
+                        }
+                        if (item.getStartDate().compareTo(tourDate) == 0) {
+                            MessageDialog.showInfoDialog(this, "Trùng thời gian, nên không thể đăng ký", "Thông báo");
+                            isCheck = true;
+                            break;
+                        }
+                    }
+                    if (!isCheck) {
+                        TourService.updateTour(selectedTour);
+                        MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
+                        clearAllFields();
+                        loadTableData();
+                        ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
+                        if (manageToursOfTeacherScreen != null) {
+                            manageToursOfTeacherScreen.setLocationRelativeTo(null);
+                            manageToursOfTeacherScreen.setVisible(true);
+                            manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
+                            manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
+                            manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                            manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
+                            manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
+                            manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
+                            manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                            manageToursOfTeacherScreen.initializeTable();
+                            dispose();
+                        }
+                    }
                 }
+            } else {
+                TourService.updateTour(selectedTour);
+                MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
+                clearAllFields();
+                loadTableData();
             }
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();

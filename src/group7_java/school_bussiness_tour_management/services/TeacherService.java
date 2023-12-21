@@ -1,15 +1,18 @@
 package group7_java.school_bussiness_tour_management.services;
 
 import static group7_java.school_bussiness_tour_management.common.Validator.formatName;
+import group7_java.school_bussiness_tour_management.dao.AccountDAO;
 import group7_java.school_bussiness_tour_management.dao.CompanyDAO;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
+import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
 import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class TeacherService {
@@ -65,13 +68,30 @@ public class TeacherService {
         return -1;
     }
 
+    public static int getLastAccountId() throws Exception {
+        List<Account> data = AccountDAO.readFromFile();
+        if (data != null) {
+            if (data.size() == 0) {
+                return 0;
+            }
+            return data.get(data.size() - 1).getId();
+        }
+        return -1;
+    }
+
     public static void createNewTeacher(String imagePath, String code, String name, String address, String phoneNumber, String email, String birthDate) throws Exception {
         if (!isCheckCodeTeacher(code)) {
             int lastId = getLastTeacherId();
             int id = ++lastId;
+            int lastAccountId = getLastAccountId();
+            int accountId = ++lastAccountId;
             List<Teacher> data = TeacherDAO.readFromFile();
-            Teacher tea = new Teacher(id, code, imagePath, FirstName(name), LastName(name), address, phoneNumber, email, birthDate);
+            Teacher tea = new Teacher(id, imagePath, code, FirstName(name), LastName(name), address, phoneNumber, email, birthDate, accountId);
             data.add(tea);
+            Account acc = new Account(accountId, code, code, "Tài khoản giáo viên");
+            List<Account> dataAccount = AccountDAO.readFromFile();
+            dataAccount.add(acc);
+            AccountDAO.writeToFile(dataAccount);
             TeacherDAO.writeToFile(data);
         }
     }
@@ -93,6 +113,7 @@ public class TeacherService {
                 tea.setEmail(teacher.getEmail());
                 tea.setAddress(teacher.getAddress());
                 tea.setImagePath(teacher.getImagePath());
+                tea.setAccountId(teacher.getAccountId());
                 break;
             }
         }
@@ -103,7 +124,7 @@ public class TeacherService {
     public static void deleteTeacher(int teacherId) throws Exception {
         List<Teacher> data = TeacherDAO.readFromFile();
         List<Tour> data_tours = TourDAO.readFromFile();
-
+        List<Account> data_accounts = AccountDAO.readFromFile();
         Teacher delTea = null;
         for (Teacher tea : data) {
             if (tea.getId() == teacherId) {
@@ -118,9 +139,18 @@ public class TeacherService {
                 }
                 break;
             }
+            Iterator<Account> iterator = data_accounts.iterator();
+            while (iterator.hasNext()) {
+                Account itemAccount = iterator.next();
+                if (itemAccount.getId() == delTea.getAccountId()) {
+                    iterator.remove();
+                }
+            }
             data.remove(delTea);
             TeacherDAO.writeToFile(data);
             TourDAO.writeToFile(data_tours);
+            AccountDAO.writeToFile(data_accounts);
+
         }
     }
 
@@ -165,7 +195,17 @@ public class TeacherService {
         List<Teacher> teachers = TeacherDAO.readFromFile();
         for (Teacher teacher : teachers) {
             if (teacher.getId() == teacherId) {
-                return teacher.getFirstName() + teacher.getLastName();
+                return teacher.getLastName() + " " + teacher.getFirstName();
+            }
+        }
+        return null;
+    }
+
+    public static Teacher getTeacherByAccountId(int accountId) throws Exception {
+        List<Teacher> data = TeacherDAO.readFromFile();
+        for (Teacher teacher : data) {
+            if (teacher.getAccountId() == accountId) {
+                return teacher;
             }
         }
         return null;

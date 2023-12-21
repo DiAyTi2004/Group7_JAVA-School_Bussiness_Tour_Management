@@ -6,7 +6,9 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.models.Classroom;
+import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -198,11 +200,9 @@ public class ManageClassroom extends javax.swing.JFrame {
         homeScreen.setVisible(true);
     }//GEN-LAST:event_turnBackHomeActionPerformed
 
-    // SỬA CÁI NÀY
     private void ListStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListStudentButtonActionPerformed
-       
-       
-       try {
+
+        try {
             int index = ClassroomTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Vui chọn lớp học để xem danh sách", "Thông báo");
@@ -211,7 +211,7 @@ public class ManageClassroom extends javax.swing.JFrame {
             Classroom selectedClassroom = ClassroomService.getClassroomByIndex(index);
             ClassroomIdField.setText(selectedClassroom.getCode());
             ClassroomNameField.setText(selectedClassroom.getName());
-            
+
             dispose();
             ManageListStudentClass manageListStudentClass = new ManageListStudentClass(selectedClassroom);
             manageListStudentClass.setLocationRelativeTo(null);
@@ -255,11 +255,26 @@ public class ManageClassroom extends javax.swing.JFrame {
                 return;
             }
             Classroom selectedClassroom = ClassroomService.getClassroomByIndex(index);
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa lớp học " + selectedClassroom.getName(), "Xác nhận");
-            if (keyPress == 0) {
-                ClassroomService.deleteClassroom(selectedClassroom.getId());
-                loadTableData();
-                clearAllFields();
+            int count = 0;
+            List<Student> data_students = StudentDAO.readFromFile();
+            for (Student item : data_students) {
+                if(item.getClassId() == selectedClassroom.getId())
+                {
+                    count++;
+                    break;
+                }
+            }
+            if (count == 0) {
+                int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa lớp học " + selectedClassroom.getName(), "Xác nhận");
+                if (keyPress == 0) {
+                    ClassroomService.deleteClassroom(selectedClassroom.getId());
+                    loadTableData();
+                    clearAllFields();
+                }
+                MessageDialog.showInfoDialog(jLabel1, "Xóa lớp học thành công", "Thông báo");
+            }else{
+                MessageDialog.showInfoDialog(jLabel1, "Không thể xóa lớp học này vì trong lớp học vẫn còn sinh viên", "Thông báo");
+                return;
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xóa Lớp học mới có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Có lỗi xảy ra");
@@ -293,7 +308,7 @@ public class ManageClassroom extends javax.swing.JFrame {
             selectedClassroom.setCode(classroomId);
             selectedClassroom.setName(classroomName);
             ClassroomService.updateClassroom(selectedClassroom);
-            MessageDialog.showInfoDialog(this, "Cập nhật Lớp học thành công!", "Thông báo");
+            MessageDialog.showInfoDialog(this, "Cập nhật lớp học thành công!", "Thông báo");
             clearAllFields();
             loadTableData();
 
@@ -308,14 +323,38 @@ public class ManageClassroom extends javax.swing.JFrame {
     }//GEN-LAST:event_ClassroomIdFieldActionPerformed
 
     private void createClassroomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createClassroomButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            String code = ClassroomIdField.getText().trim();
+            String name = ClassroomNameField.getText().trim();
+            if (code.equals("")) {
+                MessageDialog.showInfoDialog(jLabel1, "Bạn chưa nhập mã lớp học", "Thông báo");
+                return;
+            }
+            if (name.equals("")) {
+                MessageDialog.showInfoDialog(jLabel1, "Bạn chưa nhập tên lớp học", "Thông báo");
+                return;
+            }
+            if (ClassroomService.isExistedCode(code)) {
+                MessageDialog.showInfoDialog(jLabel1, "Mã lớp học đã tồn tại", "Thông báo");
+                return;
+            }
+            if (ClassroomService.isExistedName(name)) {
+                MessageDialog.showInfoDialog(jLabel1, "Tên lớp học đã tồn tại", "Thông báo");
+                return;
+            }
+            ClassroomService.createNewClassroom(code, name);
+            loadTableData();
+            MessageDialog.showInfoDialog(jLabel1, "Đã thêm mới một lóp học", "Thông báo");
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jLabel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
     }//GEN-LAST:event_createClassroomButtonActionPerformed
 
     private DefaultTableModel tableModel;
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"STT","Mã lớp học", "Tên lớp học"});
+        tableModel.setColumnIdentifiers(new String[]{"STT", "Mã lớp học", "Tên lớp học"});
         ClassroomTable.setModel(tableModel);
 
         loadTableData();
@@ -329,7 +368,7 @@ public class ManageClassroom extends javax.swing.JFrame {
             if (data != null) {
                 for (Classroom item : data) {
                     count++;
-                    tableModel.addRow(new Object[]{count,item.getCode(), item.getName()});
+                    tableModel.addRow(new Object[]{count, item.getCode(), item.getName()});
                 }
             }
             tableModel.fireTableDataChanged();

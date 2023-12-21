@@ -36,7 +36,9 @@ public class ManageAccount extends javax.swing.JFrame {
         roleInput.removeAllItems();
         roleInput.addItem("Toàn quyền hệ thống");
         roleInput.addItem("Quản lí thông thường");
-        roleInput.addItem("Tài khoản sinh viên");
+        roleInput.addItem("Tài khoản sinh viên");        
+        roleInput.addItem("Tài khoản giáo viên");
+
 
         roleInput.setSelectedIndex(1);
     }

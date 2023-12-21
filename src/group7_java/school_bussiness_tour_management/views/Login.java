@@ -8,8 +8,10 @@ package group7_java.school_bussiness_tour_management.views;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.models.Account;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.services.AccountService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
+import group7_java.school_bussiness_tour_management.services.TeacherService;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
@@ -175,10 +177,22 @@ public class Login extends javax.swing.JFrame {
                     if (loggedInStudent == null) {
                         loggedInStudent = StudentService.createStudentAttachToAccount(loggedInAccount.getId());
                     }
-                    StudentHome studentHome = new StudentHome(loggedInStudent);
-                    studentHome.setVisible(true);
-                    studentHome.setLocationRelativeTo(null);
-                } else {
+                    StudentAndTeacherHome studentAndTeacherHome = new StudentAndTeacherHome(loggedInStudent);
+                    studentAndTeacherHome.setVisible(true);
+                    studentAndTeacherHome.setLocationRelativeTo(null);
+                } else if(loggedInAccount.getRole().equalsIgnoreCase("Tài khoản giáo viên"))
+                {
+                    Teacher loggedInputTeacher = TeacherService.getTeacherByAccountId(loggedInAccount.getId());
+                    if(loggedInputTeacher == null)
+                    {
+                        MessageDialog.showInfoDialog(jPanel1, "Tài khoản của bạn không tồn tại, vui lòng liên hệ lại với đội kỹ thuật của nhà trường", "Thông báo");
+                        return;
+                    }
+                    StudentAndTeacherHome studentAndTeacherHome = new StudentAndTeacherHome(loggedInputTeacher);
+                    studentAndTeacherHome.setVisible(true);
+                    studentAndTeacherHome.setLocationRelativeTo(null);
+                }
+                else {
                     Home homeScreen = new Home();
                     homeScreen.setVisible(true);
                 }

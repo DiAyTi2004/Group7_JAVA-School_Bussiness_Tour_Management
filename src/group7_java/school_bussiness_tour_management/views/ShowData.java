@@ -7,6 +7,9 @@ package group7_java.school_bussiness_tour_management.views;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.common.PDFExporter;
 import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
+import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
+import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
+import group7_java.school_bussiness_tour_management.dao.TourDAO;
 import group7_java.school_bussiness_tour_management.models.Company;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
@@ -14,10 +17,15 @@ import group7_java.school_bussiness_tour_management.models.Teacher;
 import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
+import group7_java.school_bussiness_tour_management.services.StudentTourService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -38,6 +46,9 @@ public class ShowData extends javax.swing.JFrame {
             initComponents();
             setLocationRelativeTo(null);
             checkAndInitializeTable();
+            if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher") || dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+                clearDataButton.setText("Hủy chuyến tham quan");
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "lỗi");
             ex.printStackTrace();
@@ -70,6 +81,14 @@ public class ShowData extends javax.swing.JFrame {
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
                     titleMainLabel.setText("Danh sách sinh viên của chuyến tham quan");
                     tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
+                    Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
+                    titleMainLabel.setText("DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + teacher.getLastName().toUpperCase() + " " + teacher.getFirstName().toUpperCase());
+                    tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Ngày tham quan", "Doanh nghiệp chủ quản", "Số lượng sinh viên tham gia"});
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+                    Student stu = StudentService.getById(dataOfShowData.getStudentId());
+                    titleMainLabel.setText("DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase());
+                    tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Tên doanh nghiệp", "Tên giáo viên", "Người đại diện"});
                 }
                 dataTable.setModel(tableModel);
                 loadTableData();
@@ -180,8 +199,8 @@ public class ShowData extends javax.swing.JFrame {
                     .addComponent(titleMainLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(clearDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(search)
@@ -190,7 +209,7 @@ public class ShowData extends javax.swing.JFrame {
                             .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(exportExcelFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(exportPDFFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 13, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -222,7 +241,127 @@ public class ShowData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearDataButtonActionPerformed
-        searchInput.setText("");
+        if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
+            try {
+                int index = dataTable.getSelectedRow();
+                if (index == -1) {
+                    MessageDialog.showInfoDialog(this, "Vui lòng chọn chuyến tham quan mà bạn muốn xóa", "Thông báo");
+                    return;
+                }
+
+                int select = MessageDialog.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa chuyến tham quan này không", "Thông báo");
+                if (select == 0) {
+                    List<Teacher> data_teacher = TeacherDAO.readFromFile();
+                    List<Tour> data_tour = TourDAO.readFromFile();
+                    String tourCode = (String) dataTable.getValueAt(index, 0);
+                    Teacher selectTeacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
+                    List<Tour> tour_of_teacher = selectTeacher.getTours();
+                    int id = -1;
+
+                    // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                    Iterator<Tour> iterator = tour_of_teacher.iterator();
+                    while (iterator.hasNext()) {
+                        Tour tour = iterator.next();
+                        if (tour.getCode().equalsIgnoreCase(tourCode)) {
+                            id = tour.getId();
+                            iterator.remove(); // Loại bỏ phần tử hiện tại
+                            break;
+                        }
+                    }
+
+                    Tour selectTour = TourService.getTourById(id);
+                    for (Teacher item : data_teacher) {
+                        if (item.getId() == selectTeacher.getId()) {
+                            // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                            Iterator<Tour> iteratorTeacher = item.getTours().iterator();
+                            while (iteratorTeacher.hasNext()) {
+                                Tour tour = iteratorTeacher.next();
+                                if (tour.getId() == selectTour.getId()) {
+                                    iteratorTeacher.remove();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    for (Tour tour : data_tour) {
+                        if (tour.getId() == id) {
+                            tour.setTeacherId(selectTeacher.getId() - 100);
+                            break;
+                        }
+                    }
+
+                    TourDAO.writeToFile(data_tour);
+                    TeacherDAO.writeToFile(data_teacher);
+                    MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
+                    loadTableData();
+                }
+
+            } catch (Exception ex) {
+                MessageDialog.showErrorDialog(this, "Có lỗi khi xóa chuyến tham quan này của giáo viên, chi tiết: " + ex.getMessage(), "Lỗi");
+            }
+        } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+            try {
+                int index = dataTable.getSelectedRow();
+                if (index == -1) {
+                    MessageDialog.showInfoDialog(this, "Vui lòng chọn chuyến tham quan mà bạn muốn xóa", "Thông báo");
+                    return;
+                }
+                int select = MessageDialog.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa chuyến tham quan này không", "Thông báo");
+                if (select == 0) {
+                    List<StudentTour> data_student_tours = StudentTourDAO.readFromFile();
+                    List<Tour> data_tour = TourDAO.readFromFile();
+                    String tourCode = (String) dataTable.getValueAt(index, 0);
+                    int id = -1;
+                    Iterator<Tour> iterator = data_tour.iterator();
+                    while (iterator.hasNext()) {
+                        Tour tour = iterator.next();
+                        if (tour.getCode().equalsIgnoreCase(tourCode)) {
+                            id = tour.getId();
+                            break;
+                        }
+                    }
+                    StudentTour delTour = null;
+                    for (StudentTour item : data_student_tours) {
+                        if (item.getStudentId() == dataOfShowData.getStudentId() && item.getTourId() == id) {
+                            delTour = item;
+                        }
+                    }
+                    if (delTour != null) {
+                        Iterator<Tour> iterator_tour = data_tour.iterator();
+                        while (iterator_tour.hasNext()) {
+                            Tour item = iterator_tour.next();
+
+                            if (item.getId() == id) {
+                                List<StudentTour> studentsTour = item.getStudentTours();
+                                if (studentsTour != null) {
+                                    Iterator<StudentTour> iterator1 = studentsTour.iterator();
+                                    while (iterator1.hasNext()) {
+                                        StudentTour st = iterator1.next();
+                                        if (st.getStudentId() == dataOfShowData.getStudentId() && st.getTourId() == id) {
+                                            iterator1.remove();
+                                        }
+                                    }
+                                } else {
+                                    studentsTour = new ArrayList<>();
+                                }
+                                item.setStudentTours(studentsTour);
+                                break;
+                            }
+                        }
+                        data_student_tours.remove(delTour);
+                        StudentTourDAO.writeToFile(data_student_tours);
+                        TourDAO.writeToFile(data_tour);
+                        MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
+                        loadTableData();
+                    }
+                }
+
+            } catch (Exception ex) {
+                MessageDialog.showErrorDialog(this, "Có lỗi khi xóa chuyến tham quan này của sinh viên này, chi tiết: " + ex.getMessage(), "Lỗi");
+            }
+        } else
+            searchInput.setText("");
     }//GEN-LAST:event_clearDataButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -252,6 +391,22 @@ public class ShowData extends javax.swing.JFrame {
             Home home = new Home();
             home.setLocationRelativeTo(null);
             home.setVisible(true);
+        } else if (dataOfShowData.getBackToPage().equalsIgnoreCase("studentAndTeacherHome")) {
+            try {
+                dispose();
+                StudentAndTeacherHome screen = null;
+                if (dataOfShowData.isIsStudent()) {
+                    Student student = StudentService.getById(dataOfShowData.getStudentId());
+                    screen = new StudentAndTeacherHome(student);
+                } else {
+                    Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
+                    screen = new StudentAndTeacherHome(teacher);
+                }
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            } catch (Exception ex) {
+                MessageDialog.showErrorDialog(search, "Có lỗi ở màn ShowData cụ thể là nút backButtonActionPerformed, chi tiết: " + ex.getMessage(), "Lỗi");
+            }
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
@@ -277,6 +432,12 @@ public class ShowData extends javax.swing.JFrame {
                     title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
                     title = "DANH SÁCH SINH VIÊN CỦA CHUYẾN THAM QUAN";
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
+                    Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
+                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + teacher.getLastName().toUpperCase() + " " + teacher.getFirstName().toUpperCase();
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+                    Student stu = StudentService.getById(dataOfShowData.getStudentId());
+                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA SINH VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase();
                 }
                 dataTable.setModel(tableModel);
                 loadTableData();
@@ -344,6 +505,10 @@ public class ShowData extends javax.swing.JFrame {
                     loadToursData();
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
                     loadStudentToursData();
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
+                    loadTableToursOfTeacherData();
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+                    loadToursOfStudentData();
                 }
 
                 tableModel.fireTableDataChanged();
@@ -363,6 +528,22 @@ public class ShowData extends javax.swing.JFrame {
             for (Teacher tea : data) {
                 tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate()});
             }
+        }
+    }
+
+    private void loadToursOfStudentData() throws Exception {
+        try {
+            List<Tour> tours = StudentTourService.getToursForStudent(dataOfShowData.getStudentId());
+            if (tours != null) {
+                for (Tour tour : tours) {
+                    String companyName = CompanyService.getCompanyNameById(tour.getCompanyId());
+                    String teacherName = TeacherService.getTeacherNameById(tour.getTeacherId());
+                    tableModel.addRow(new Object[]{tour.getCode(), tour.getName(), tour.getDescription(), tour.getStartDate(),
+                        tour.getAvailables(), companyName, teacherName, tour.getPresentator()});
+                }
+            }
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Có lỗi khi tải dữ liệu", "Thông báo");
         }
     }
 
@@ -431,6 +612,26 @@ public class ShowData extends javax.swing.JFrame {
         }
     }
 
+    private void loadTableToursOfTeacherData() {
+        try {
+            List<Tour> data = TeacherService.listToursOfTeacher(dataOfShowData.getTeacherId());
+            tableModel.setRowCount(0);
+            if (data != null) {
+                for (Tour tourItem : data) {
+                    tableModel.addRow(new Object[]{
+                        tourItem.getCode(), tourItem.getName(), tourItem.getStartDate(),
+                        TeacherService.getNameCompanyFromIdCompany(tourItem.getCompanyId()),
+                        TeacherService.getNumberOfStudents(tourItem.getStudentTours())
+                    });
+                }
+            }
+            tableModel.fireTableDataChanged();
+        } catch (Exception e) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + e.getMessage(), "Có lỗi xảy ra");
+            e.printStackTrace();
+        }
+    }
+
     private void handleLoadTableDataException(Exception e) {
         MessageDialog.showErrorDialog(this, "Tải dữ liệu cho bảng có lỗi! Chi tiết: " + e.getMessage(), "Có lỗi xảy ra");
         e.printStackTrace();
@@ -451,7 +652,7 @@ public class ShowData extends javax.swing.JFrame {
             int count = 0;
             if (keyword.trim().equals("")) {
                 checkAndInitializeTable();
-                MessageDialog.showInfoDialog(this, "Chưa có từ khóa tìm kiếm", "Thông báo");
+                MessageDialog.showInfoDialog(dataTable, "Chưa có từ khóa tìm kiếm", "Thông báo");
                 return;
             }
             if (dataOfShowData.getTypeData() != null) {

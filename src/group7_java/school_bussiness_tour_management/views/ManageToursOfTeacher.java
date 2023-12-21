@@ -153,7 +153,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
 
         imageLabel.setText("Ảnh");
 
-        addTourForTeacher.setText("Thếm chuyến tham quan");
+        addTourForTeacher.setText("Thêm chuyến tham quan");
         addTourForTeacher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addTourForTeacherActionPerformed(evt);
@@ -201,19 +201,19 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                                     .addComponent(teacherAdressLable, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(125, 125, 125))))
                     .addComponent(backManageTeacher)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(addTourForTeacher)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(addTourForTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(24, 24, 24)
-                            .addComponent(deleteTourForTeacher)
+                            .addComponent(deleteTourForTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(24, 24, 24)
-                            .addComponent(exportFilePDF)
+                            .addComponent(exportFilePDF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(24, 24, 24)
-                            .addComponent(exportFileExcel)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(showListStudents))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                            .addComponent(exportFileExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(26, 26, 26)
+                            .addComponent(showListStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)))
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,7 +262,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
             }
             Tour selectedTour = TourService.getTourByIndex(index);
             dispose();
-            TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", selectedTour.getId(), teacherId);
+            TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", selectedTour.getId(), teacherId, false);
             ShowData showDataScreen = new ShowData(data);
             if (showDataScreen != null) {
                 showDataScreen.setLocationRelativeTo(null);
@@ -306,8 +306,6 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                 List<Teacher> data_teacher = TeacherDAO.readFromFile();
                 List<Tour> data_tour = TourDAO.readFromFile();
                 String tourCode = (String) toursTable.getValueAt(index, 0);
-                String tourName = (String) toursTable.getValueAt(index, 1);
-                String tourDate = (String) toursTable.getValueAt(index, 2);
                 List<Tour> tour_of_teacher = selectTeacher.getTours();
                 int id = -1;
 
@@ -315,7 +313,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                 Iterator<Tour> iterator = tour_of_teacher.iterator();
                 while (iterator.hasNext()) {
                     Tour tour = iterator.next();
-                    if (tour.getName().equalsIgnoreCase(tourName) && tour.getCode().equalsIgnoreCase(tourCode) && tour.getStartDate().equalsIgnoreCase(tourDate)) {
+                    if (tour.getCode().equalsIgnoreCase(tourCode)) {
                         id = tour.getId();
                         iterator.remove(); // Loại bỏ phần tử hiện tại
                         break;

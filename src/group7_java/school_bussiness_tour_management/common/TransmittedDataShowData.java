@@ -14,15 +14,26 @@ public class TransmittedDataShowData {
     private String backToPage;
     private int tourId;
     private int teacherId;
-
+    private int studentId;
+    private boolean isStudent;
     public TransmittedDataShowData() {
     }
-
-    public TransmittedDataShowData(String typeData, String backToPage, int tourId, int teacherId) {
+    
+    public TransmittedDataShowData(String typeData, String backToPage, int tourId, int Id, boolean isStudent ) {
         this.typeData = typeData;
         this.backToPage = backToPage;
         this.tourId = tourId;
-        this.teacherId = teacherId;
+        this.isStudent = isStudent;
+        if(isStudent) this.studentId  = Id;
+        else this.teacherId = Id;
+    }
+    
+    public TransmittedDataShowData(String typeData, String backToPage,int Id, boolean isStudent ) {
+        this.typeData = typeData;
+        this.backToPage = backToPage;
+        this.isStudent = isStudent;
+        if(isStudent) this.studentId  = Id;
+        else this.teacherId = Id;
     }
 
     public TransmittedDataShowData(String typeData, String backToPage) {
@@ -37,6 +48,24 @@ public class TransmittedDataShowData {
     public void setBackToPage(String backToPage) {
         this.backToPage = backToPage;
     }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public boolean isIsStudent() {
+        return isStudent;
+    }
+
+    public void setIsStudent(boolean isStudent) {
+        this.isStudent = isStudent;
+    }
+    
+    
 
     public void setTourId(int tourId) {
         this.tourId = tourId;

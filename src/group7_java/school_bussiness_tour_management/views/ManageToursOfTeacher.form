@@ -52,22 +52,22 @@
                       </Group>
                   </Group>
                   <Component id="backManageTeacher" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="addTourForTeacher" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Group type="102" alignment="2" attributes="0">
+                          <Component id="addTourForTeacher" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="deleteTourForTeacher" min="-2" max="-2" attributes="0"/>
+                          <Component id="deleteTourForTeacher" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="exportFilePDF" min="-2" max="-2" attributes="0"/>
+                          <Component id="exportFilePDF" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Component id="exportFileExcel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="showListStudents" min="-2" max="-2" attributes="0"/>
+                          <Component id="exportFileExcel" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Component id="showListStudents" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" alignment="0" min="-2" pref="923" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" alignment="2" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -189,7 +189,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="addTourForTeacher">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Th&#x1ebf;m chuy&#x1ebf;n tham quan"/>
+        <Property name="text" type="java.lang.String" value="Th&#xea;m chuy&#x1ebf;n tham quan"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addTourForTeacherActionPerformed"/>

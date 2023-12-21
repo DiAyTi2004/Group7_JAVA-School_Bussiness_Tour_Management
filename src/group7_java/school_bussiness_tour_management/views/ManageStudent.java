@@ -325,7 +325,11 @@ public class ManageStudent extends javax.swing.JFrame {
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
             int id = StudentService.getLastStudentId();
-            String imagePath = selectedImagePath;
+            String imagePath = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
+            if(selectedImagePath.trim() != "")
+            {
+                imagePath = selectedImagePath ;
+            }
             String code = txt_code.getText().trim();
             String lastName = txt_last_name.getText().trim();
             String firstName = txt_first_name.getText().trim();
@@ -404,7 +408,10 @@ public class ManageStudent extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
                 }
 
-                selectedStudent.setImagePath(selectedImagePath);
+                if(!selectedImagePath.trim().equals(""))
+                {
+                    selectedStudent.setImagePath(selectedImagePath);
+                }
             }
 
             //cập nhật thông tin sinh viên

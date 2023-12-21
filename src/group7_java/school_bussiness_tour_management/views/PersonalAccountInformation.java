@@ -86,19 +86,19 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
 
         JLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         JLabel.setForeground(new java.awt.Color(0, 0, 51));
-        JLabel.setText("Mã sinh viên");
+        JLabel.setText("Mã sinh viên:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel4.setText("Họ và tên");
+        jLabel4.setText("Họ và tên:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel5.setText("Ngày sinh");
+        jLabel5.setText("Ngày sinh:");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel6.setText("Email");
+        jLabel6.setText("Email:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 51));
@@ -106,7 +106,7 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel8.setText("Lớp");
+        jLabel8.setText("Lớp:");
 
         studentCode.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         studentCode.setForeground(new java.awt.Color(0, 0, 51));
@@ -336,7 +336,7 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         dispose();
-        StudentHome studentHomeScreen = new StudentHome(loggedInStudent);
+        StudentAndTeacherHome studentHomeScreen = new StudentAndTeacherHome(loggedInStudent);
         studentHomeScreen.setVisible(true);
         studentHomeScreen.setLocationRelativeTo(null);
     }//GEN-LAST:event_closeButtonActionPerformed

@@ -7,11 +7,23 @@ package group7_java.school_bussiness_tour_management.views;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import static group7_java.school_bussiness_tour_management.common.Validator.isNumeric;
 import static group7_java.school_bussiness_tour_management.common.Validator.isValidEmail;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
+import group7_java.school_bussiness_tour_management.services.ClassroomService;
 import group7_java.school_bussiness_tour_management.services.StudentService;
 import static group7_java.school_bussiness_tour_management.services.StudentService.isExistedStudentCode;
+import java.awt.Image;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +35,8 @@ public class ManageListStudentClass extends javax.swing.JFrame {
     /**
      * Creates new form ManageStudent
      */
+    private String selectedImagePath = "";
+    private static final String imageFolderPath = "src/group7_java/school_bussiness_tour_management/resources/";
     public Classroom classroomm = new Classroom();
 
     public ManageListStudentClass() {
@@ -38,7 +52,8 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         classroomm.setId(classroom.getId());
         initializeTable();
         jLabel1.setText("Danh sách sinh viên " + classroomm.getName());
-
+        jLabel1.setText("Danh sách sinh viên của lớp " + classroom.getName());
+        loadComboBox();
     }
 
     /**
@@ -67,13 +82,15 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         txt_address = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
         txt_birth_date = new javax.swing.JTextField();
-        txt_class_id = new javax.swing.JTextField();
         btn_add = new javax.swing.JButton();
-        btn_edit = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         SĐT = new javax.swing.JLabel();
         txt_phone_number = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
+        imageBrowse = new javax.swing.JButton();
+        classroomInput = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,23 +137,10 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
         jLabel8.setText("Class ID");
 
-        txt_class_id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_class_idActionPerformed(evt);
-            }
-        });
-
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_addActionPerformed(evt);
-            }
-        });
-
-        btn_edit.setText("Sửa");
-        btn_edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_editActionPerformed(evt);
             }
         });
 
@@ -156,35 +160,48 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
         SĐT.setText("SĐT");
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        imageBrowse.setText("Tải ảnh lên");
+        imageBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imageBrowseActionPerformed(evt);
+            }
+        });
+
+        classroomInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classroomInputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_back)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(697, 697, 697)
-                        .addComponent(btn_edit)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_delete)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_clear)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_back)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(imageBrowse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(29, 29, 29))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -193,85 +210,91 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                                             .addComponent(btn_add)
                                             .addComponent(SĐT, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)))
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, 0))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(38, 38, 38)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(classroomInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_delete)
+                                        .addGap(30, 30, 30)
+                                        .addComponent(btn_clear)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_birth_date, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_class_id, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_phone_number, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_last_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_first_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_code, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))))))
-                .addGap(22, 22, 22))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(222, 222, 222))
+                .addGap(16, 16, 16))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_back)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_last_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SĐT, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txt_phone_number, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_birth_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_class_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(imageBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_last_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SĐT))
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txt_birth_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7))))
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(classroomInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_add)
-                            .addComponent(btn_edit)
-                            .addComponent(btn_delete)
-                            .addComponent(btn_clear)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_delete)
+                                .addComponent(btn_clear))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txt_class_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_class_idActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_class_idActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
         clearAllFields();
@@ -286,23 +309,33 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         try {
-//            isCheckInput();
-
+            int id = StudentService.getLastStudentId();
+            String imagePath = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
+            if (selectedImagePath.trim() != "") {
+                imagePath = selectedImagePath;
+            }
             String code = txt_code.getText().trim();
-            String firstName = txt_first_name.getText().trim();
             String lastName = txt_last_name.getText().trim();
+            String firstName = txt_first_name.getText().trim();
             String address = txt_address.getText().trim();
             String phoneNumber = txt_phone_number.getText().trim();
             String email = txt_email.getText().trim();
             String birthDate = txt_birth_date.getText().trim();
-            String classId = txt_class_id.getText().trim();
-            int ClassId = Integer.parseInt(classId);
-            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
+
+            // Hiển thị ảnh
+            ImageIcon imageIcon = new ImageIcon(selectedImagePath);
+
+            // Chỉnh kích thước ảnh vừa với khung 
+            Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(image);
+            imageLabel.setIcon(imageIcon);
+
+            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate)) {
                 MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
                 return;
             }
 
-            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
+            if (!isNumeric(phoneNumber)) {
                 MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
                 return;
             }
@@ -311,10 +344,10 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                 return;
             }
             if (isExistedStudentCode(code)) {
-                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
+                MessageDialog.showErrorDialog(this, "Mã sinh viên đã tồn tại ", "Thông báo");
                 return;
             } else {
-//                StudentService.createNewStudent(code, firstName, lastName, address, phoneNumber, email, birthDate, ClassId);
+                StudentService.createNewStudent(code, imagePath, firstName, lastName, address, phoneNumber, email, birthDate, classroomm.getId());
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Thêm thành công", "Thông báo");
                 clearAllFields();
@@ -324,60 +357,6 @@ public class ManageListStudentClass extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btn_addActionPerformed
-
-    private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-        try {
-            int index = studentTable.getSelectedRow();
-            if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp muốn sửa", "Thông báo");
-                return;
-            }
-            Student selectedStudent = StudentService.getStudentByIndex(index);
-            String code = this.txt_code.getText().trim();
-            String firstName = this.txt_first_name.getText().trim();
-            String lastName = this.txt_last_name.getText().trim();
-            String address = this.txt_address.getText().trim();
-            String phoneNumber = this.txt_phone_number.getText().trim();
-            String email = this.txt_email.getText().trim();
-            String birthDate = this.txt_birth_date.getText().trim();
-            String classId = this.txt_class_id.getText().trim();
-
-            if (isEmpty(code) || isEmpty(firstName) || isEmpty(lastName) || isEmpty(address) || isEmpty(phoneNumber) || isEmpty(email) || isEmpty(birthDate) || isEmpty(classId)) {
-                MessageDialog.showErrorDialog(this, "Nhập đủ dữ liệu", "Thông báo");
-                return;
-            }
-
-            if (!isNumeric(phoneNumber) || !isNumeric(classId)) {
-                MessageDialog.showErrorDialog(this, "dữ liệu nhập vào phải là số", "Thông báo");
-                return;
-            }
-            if (!isValidEmail(email)) {
-                MessageDialog.showErrorDialog(this, "Email không đúng định dạng", "Thông báo");
-                return;
-            }
-            if (isExistedStudentCode(code)) {
-                MessageDialog.showErrorDialog(this, "Sinh viên đã tồn tại ", "Thông báo");
-                return;
-            }
-
-            selectedStudent.setCode(code);
-            selectedStudent.setFirstName(firstName);
-            selectedStudent.setLastName(lastName);
-            selectedStudent.setAddress(address);
-            selectedStudent.setPhoneNumber(phoneNumber);
-            selectedStudent.setEmail(email);
-            selectedStudent.setBirthDate(birthDate);
-            selectedStudent.setClassId(Integer.parseInt(classId));
-            StudentService.updateStudent(selectedStudent);
-
-            MessageDialog.showInfoDialog(this, "Cập nhật thông tin thành công!", "Thông báo");
-            clearAllFields();
-            loadTableData();
-        } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin doanh nghiệp, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btn_editActionPerformed
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
         try {
@@ -394,7 +373,6 @@ public class ManageListStudentClass extends javax.swing.JFrame {
             txt_phone_number.setText(selectedStudent.getPhoneNumber());
             txt_email.setText(selectedStudent.getEmail());
             txt_birth_date.setText(selectedStudent.getBirthDate());
-            txt_class_id.setText(Integer.toString(selectedStudent.getClassId()));
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
@@ -408,10 +386,31 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Chọn sinh viên muốn xóa", "Thông báo");
                 return;
             }
-            Student selectedStudent = StudentService.getStudentByIndex(index);
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
+            String stuCode = (String) studentTable.getValueAt(index, 0);
+            List<Student> data_studnts = StudentDAO.readFromFile();
+            int id = -1;
+            for(Student item : data_studnts)
+            {
+                if(item.getCode().equalsIgnoreCase(stuCode))
+                {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Student selectedStudent = StudentService.getById(id);
+            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode() + " ra khỏi lớp", "Xác nhận");
             if (keyPress == 0) {
-                StudentService.deleteStudent(selectedStudent.getId());
+                List<Student> data_students = StudentDAO.readFromFile();
+                for(Student item : data_students)
+                {
+                    if(item.getId() == selectedStudent.getId())
+                    {
+                        item.setClassId(1);
+                        break;
+                    }
+                }
+                StudentDAO.writeToFile(data_students);
+                MessageDialog.showInfoDialog(jPanel1, "Sinh viên đã bị loại khỏi lớp", "Thông báo");
                 loadTableData();
                 clearAllFields();
             }
@@ -420,6 +419,55 @@ public class ManageListStudentClass extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void imageBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageBrowseActionPerformed
+        JFileChooser browseImageFile = new JFileChooser();
+
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpeg", "jpg", "jfif", "svg");
+        browseImageFile.addChoosableFileFilter(fnef);
+
+        int showOpenDialogue = browseImageFile.showOpenDialog(null);
+
+        if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+            File selectedImageFile = browseImageFile.getSelectedFile();
+
+            // Tạo đường dẫn mới cho tập tin hình ảnh đến thư mục đích
+            Path currentDirectory = Paths.get("").toAbsolutePath();
+            Path destinationDirectory = currentDirectory.resolve(Paths.get("src", "group7_java", "school_bussiness_tour_management", "resources"));
+            Path destinationPath = destinationDirectory.resolve(selectedImageFile.getName());
+
+            try {
+                // Sao chép tập tin vào thư mục đích
+                Files.copy(selectedImageFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(null, "Tải tệp thành công");
+
+                // Lấy đường dẫn tương đối của tập tin đã lưu
+                Path relativePath = currentDirectory.relativize(destinationPath);
+                selectedImagePath = relativePath.toString();
+
+                // Hiển thị ảnh
+                ImageIcon imageIcon = new ImageIcon(selectedImageFile.toURI().toURL()); // Chuyển đổi File thành URL
+                Image image = imageIcon.getImage().getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+                imageIcon = new ImageIcon(image);
+                imageLabel.setIcon(imageIcon);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Có lỗi trong quá trình lưu tệp");
+            }
+        }
+    }//GEN-LAST:event_imageBrowseActionPerformed
+    private void loadComboBox() {
+        try {
+            classroomInput.addItem(classroomm.getId());
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Tải dữ liệu cho combobox có lỗi! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }
+    private void classroomInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classroomInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_classroomInputActionPerformed
 
 //    private void isCheckInput() {
 //        String code = txt_code.getText().trim();
@@ -457,7 +505,6 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         txt_email.setText("");
         txt_phone_number.setText("");
         txt_birth_date.setText("");
-        txt_class_id.setText("");
         txt_code.requestFocus();
     }
 
@@ -471,7 +518,7 @@ public class ManageListStudentClass extends javax.swing.JFrame {
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
+                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate()
                     });
                 }
             }
@@ -484,7 +531,7 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
     private void initializeTable() {
         tableModel = new DefaultTableModel();
-        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+        tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh"});
         studentTable.setModel(tableModel);
         loadTableData();
     }
@@ -532,7 +579,9 @@ public class ManageListStudentClass extends javax.swing.JFrame {
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_delete;
-    private javax.swing.JButton btn_edit;
+    private javax.swing.JComboBox<Object> classroomInput;
+    private javax.swing.JButton imageBrowse;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -541,11 +590,11 @@ public class ManageListStudentClass extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable studentTable;
     private javax.swing.JTextField txt_address;
     private javax.swing.JTextField txt_birth_date;
-    private javax.swing.JTextField txt_class_id;
     private javax.swing.JTextField txt_code;
     private javax.swing.JTextField txt_email;
     private javax.swing.JTextField txt_first_name;
