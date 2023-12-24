@@ -49,6 +49,11 @@ public class ShowData extends javax.swing.JFrame {
             if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher") || dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
                 clearDataButton.setText("Hủy chuyến tham quan");
             }
+            if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                clearDataButton.setText("Đánh giá");
+                exportPDFFileButton.setText("Sinh viên chưa đánh giá");
+                exportExcelFileButton.setText("Sinh viên đã đánh giá");
+            }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "lỗi");
             ex.printStackTrace();
@@ -80,15 +85,18 @@ public class ShowData extends javax.swing.JFrame {
                         "Số lượng", "Người đại diện", "Công ty", "Giáo viên"});
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
                     titleMainLabel.setText("Danh sách sinh viên của chuyến tham quan");
-                    tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Class id"});
+                    tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh"});
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
                     Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
                     titleMainLabel.setText("DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + teacher.getLastName().toUpperCase() + " " + teacher.getFirstName().toUpperCase());
                     tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Ngày tham quan", "Doanh nghiệp chủ quản", "Số lượng sinh viên tham gia"});
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
                     Student stu = StudentService.getById(dataOfShowData.getStudentId());
-                    titleMainLabel.setText("DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase());
+                    titleMainLabel.setText("DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA SINH VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase());
                     tableModel.setColumnIdentifiers(new String[]{"Mã chuyến tham quan", "Tên chuyến tham quan", "Mô tả", "Ngày bắt đầu", "Số ghế ", "Tên doanh nghiệp", "Tên giáo viên", "Người đại diện"});
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                    titleMainLabel.setText("Danh sách sinh viên của chuyến tham quan");
+                    tableModel.setColumnIdentifiers(new String[]{"Mã sinh viên", "Họ", "Tên", "Địa chỉ", "SĐT", "Email", "Ngày sinh", "Điểm đánh giá"});
                 }
                 dataTable.setModel(tableModel);
                 loadTableData();
@@ -248,7 +256,6 @@ public class ShowData extends javax.swing.JFrame {
                     MessageDialog.showInfoDialog(this, "Vui lòng chọn chuyến tham quan mà bạn muốn xóa", "Thông báo");
                     return;
                 }
-
                 int select = MessageDialog.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa chuyến tham quan này không", "Thông báo");
                 if (select == 0) {
                     List<Teacher> data_teacher = TeacherDAO.readFromFile();
@@ -360,6 +367,31 @@ public class ShowData extends javax.swing.JFrame {
             } catch (Exception ex) {
                 MessageDialog.showErrorDialog(this, "Có lỗi khi xóa chuyến tham quan này của sinh viên này, chi tiết: " + ex.getMessage(), "Lỗi");
             }
+        } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+            try {
+                int index = dataTable.getSelectedRow();
+                if (index == -1) {
+                    MessageDialog.showInfoDialog(this, "Vui lòng chọn sinh viên bạn muốn đánh giá", "Thông báo");
+                    return;
+                }
+                String studentsCode = (String) dataTable.getValueAt(index, 0);
+                int id = -1;
+                List<Student> data_students = StudentService.getAllStudents();
+                for (Student item : data_students) {
+                    if (item.getCode().equalsIgnoreCase(studentsCode)) {
+                        id = item.getId();
+                        break;
+                    }
+                }
+                Student selectStudent = StudentService.getById(id);
+                dispose();
+                Tour selectTour = TourService.getTourById(dataOfShowData.getTourId());
+                RateStudentResult screen = new RateStudentResult(selectTour, selectStudent, true);
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            } catch (Exception ex) {
+                MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+            }
         } else
             searchInput.setText("");
     }//GEN-LAST:event_clearDataButtonActionPerformed
@@ -367,7 +399,6 @@ public class ShowData extends javax.swing.JFrame {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         dispose();
         if (dataOfShowData.getBackToPage().equalsIgnoreCase("managetoursofteacher")) {
-
             try {
                 Teacher selectedTea = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
                 ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher();
@@ -415,36 +446,50 @@ public class ShowData extends javax.swing.JFrame {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void exportExcelFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelFileButtonActionPerformed
-        // TODO add your handling code here:
+        if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+            try {
+                clearTable();
+                loadStudentsAwaitingFeedback(">");
+                tableModel.fireTableDataChanged();
+            } catch (Exception ex) {
+                MessageDialog.showErrorDialog(search, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+            }
+        }
     }//GEN-LAST:event_exportExcelFileButtonActionPerformed
 
     private void exportPDFFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDFFileButtonActionPerformed
         try {
-            String title = "";
-            if (dataOfShowData.getTypeData() != null) {
-                if (dataOfShowData.getTypeData().equalsIgnoreCase("teachers")) {
-                    title = "DANH SÁCH GIÁO VIÊN ĐẠI DIỆN DOANH NGHIỆP";
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("students")) {
-                    title = "DANH SÁCH SINH VIÊN ĐƯỢC QUẢN LÝ";
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("companys")) {
-                    title = "DANH SÁCH DOANH NGHIỆP LIÊN KẾT VỚI NHÀ TRƯỜNG";
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours")) {
-                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
-                    title = "DANH SÁCH SINH VIÊN CỦA CHUYẾN THAM QUAN";
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
-                    Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
-                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + teacher.getLastName().toUpperCase() + " " + teacher.getFirstName().toUpperCase();
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
-                    Student stu = StudentService.getById(dataOfShowData.getStudentId());
-                    title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA SINH VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase();
+            if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                clearTable();
+                loadStudentsAwaitingFeedback("=");
+                tableModel.fireTableDataChanged();
+            } else {
+                String title = "";
+                if (dataOfShowData.getTypeData() != null) {
+                    if (dataOfShowData.getTypeData().equalsIgnoreCase("teachers")) {
+                        title = "DANH SÁCH GIÁO VIÊN ĐẠI DIỆN DOANH NGHIỆP";
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("students")) {
+                        title = "DANH SÁCH SINH VIÊN ĐƯỢC QUẢN LÝ";
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("companys")) {
+                        title = "DANH SÁCH DOANH NGHIỆP LIÊN KẾT VỚI NHÀ TRƯỜNG";
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours")) {
+                        title = "DANH SÁCH CÁC CHUYẾN THAM QUAN ĐƯỢC TỔ CHỨC";
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
+                        title = "DANH SÁCH SINH VIÊN CỦA CHUYẾN THAM QUAN";
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
+                        Teacher teacher = TeacherService.getTeacherById(dataOfShowData.getTeacherId());
+                        title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA GIÁO VIÊN " + teacher.getLastName().toUpperCase() + " " + teacher.getFirstName().toUpperCase();
+                    } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
+                        Student stu = StudentService.getById(dataOfShowData.getStudentId());
+                        title = "DANH SÁCH CÁC CHUYẾN THAM QUAN CỦA SINH VIÊN " + stu.getLastName().toUpperCase() + " " + stu.getFirstName().toUpperCase();
+                    }
+                    dataTable.setModel(tableModel);
+                    loadTableData();
                 }
-                dataTable.setModel(tableModel);
-                loadTableData();
+                PDFExporter.exportTableToPDF(dataTable, title);
             }
-            PDFExporter.exportTableToPDF(dataTable, title);
         } catch (Exception ex) {
-            MessageDialog.showErrorDialog(search, "Có lỗi ở phần xuất PDF, chi tiết: " + ex.getMessage(), "Lỗi");
+            MessageDialog.showErrorDialog(search, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_exportPDFFileButtonActionPerformed
 
@@ -509,6 +554,8 @@ public class ShowData extends javax.swing.JFrame {
                     loadTableToursOfTeacherData();
                 } else if (dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents")) {
                     loadToursOfStudentData();
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                    loadStudentsAwaitingFeedback("=");
                 }
 
                 tableModel.fireTableDataChanged();
@@ -544,6 +591,24 @@ public class ShowData extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             MessageDialog.showErrorDialog(this, "Có lỗi khi tải dữ liệu", "Thông báo");
+        }
+    }
+
+    private void loadStudentsAwaitingFeedback(String type) throws Exception {
+        Tour tour = TourService.getTourById(dataOfShowData.getTourId());
+        List<StudentTour> data = tour.getStudentTours();
+        List<Student> students = StudentService.getAllStudents();
+
+        if (data != null && students != null && !data.isEmpty()) {
+            for (Student stu : students) {
+                for (StudentTour studentTour : data) {
+                    if (studentTour.getStudentId() == stu.getId() && type.equalsIgnoreCase("=") && studentTour.getRate() == 0) {
+                        tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), studentTour.getRate()});
+                    } else if (studentTour.getStudentId() == stu.getId() && type.equalsIgnoreCase(">") && studentTour.getRate() > 0) {
+                        tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), studentTour.getRate()});
+                    }
+                }
+            }
         }
     }
 
@@ -652,7 +717,6 @@ public class ShowData extends javax.swing.JFrame {
             int count = 0;
             if (keyword.trim().equals("")) {
                 checkAndInitializeTable();
-                MessageDialog.showInfoDialog(dataTable, "Chưa có từ khóa tìm kiếm", "Thông báo");
                 return;
             }
             if (dataOfShowData.getTypeData() != null) {
@@ -661,7 +725,7 @@ public class ShowData extends javax.swing.JFrame {
                     tableModel.setRowCount(0);
                     if (data != null) {
                         for (Teacher tea : data) {
-                            if (tea.getFirstName().equalsIgnoreCase(keyword) || tea.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(tea.getLastName() + tea.getFirstName())) {
+                            if (tea.getFirstName().equalsIgnoreCase(keyword) || tea.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(tea.getLastName() + tea.getFirstName()) || keyword.equalsIgnoreCase(tea.getCode())) {
                                 tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate()
                                 });
                             } else {
@@ -669,7 +733,7 @@ public class ShowData extends javax.swing.JFrame {
                             }
                         }
                         if (count == data.size()) {
-                            MessageDialog.showInfoDialog(search, "Không tìm thấy giáo viên bạn cần tìm", "Thông báo");
+                            MessageDialog.showInfoDialog(dataTable, "Không tìm thấy giáo viên bạn cần tìm", "Thông báo");
                             checkAndInitializeTable();
                         }
                     }
@@ -678,7 +742,7 @@ public class ShowData extends javax.swing.JFrame {
                     tableModel.setRowCount(0);
                     if (data != null) {
                         for (Company com : data) {
-                            if (com.getName().equalsIgnoreCase(keyword)) {
+                            if (com.getName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(com.getCode())) {
                                 tableModel.addRow(new Object[]{com.getCode(), com.getName(), com.getAddress(),
                                     com.getEmail(), com.getPhoneNumber(),
                                     com.getDescription()});
@@ -687,11 +751,11 @@ public class ShowData extends javax.swing.JFrame {
                             }
                         }
                         if (count == data.size()) {
-                            MessageDialog.showInfoDialog(search, "Không tìm thấy doanh nghiệp bạn cần tìm", "Thông báo");
+                            MessageDialog.showInfoDialog(dataTable, "Không tìm thấy doanh nghiệp bạn cần tìm", "Thông báo");
                             checkAndInitializeTable();
                         }
                     }
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours")) {
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("tours") || dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents") || dataOfShowData.getTypeData().equalsIgnoreCase("toursOfTeacher")) {
                     List<Tour> tour_data = TourService.getAllTours();
                     List<Company> company_data = CompanyService.getAllCompanies();
                     List<Teacher> teacher_data = TeacherService.getAllTeachers();
@@ -710,7 +774,7 @@ public class ShowData extends javax.swing.JFrame {
                                     teacherName = tea.getLastName() + " " + tea.getFirstName();
                                 }
                             }
-                            if (keyword.equalsIgnoreCase(teacherName) || keyword.equalsIgnoreCase(companyName) || keyword.equalsIgnoreCase(tour.getName())) {
+                            if (keyword.equalsIgnoreCase(teacherName) || keyword.equalsIgnoreCase(companyName) || keyword.equalsIgnoreCase(tour.getName()) || keyword.equalsIgnoreCase(tour.getCode())) {
                                 tableModel.addRow(new Object[]{tour.getCode(), tour.getName(),
                                     tour.getStartDate(), tour.getDescription(),
                                     tour.getAvailables(),
@@ -720,29 +784,79 @@ public class ShowData extends javax.swing.JFrame {
                             }
                         }
                         if (count == tour_data.size()) {
-                            MessageDialog.showInfoDialog(search, "Không tìm thấy chuyến tham quan doanh nghiệp bạn cần tìm", "Thông báo");
+                            MessageDialog.showInfoDialog(dataTable, "Không tìm thấy chuyến tham quan doanh nghiệp bạn cần tìm", "Thông báo");
                             checkAndInitializeTable();
                         }
                     }
-                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("students") || dataOfShowData.getTypeData().equalsIgnoreCase("studentTours")) {
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("students")) {
                     List<Student> data = StudentService.getAllStudents();
                     tableModel.setRowCount(0);
                     if (data != null) {
                         for (Student stu : data) {
-                            if (stu.getFirstName().equalsIgnoreCase(keyword) || stu.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(stu.getLastName() + stu.getFirstName())) {
-                                tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), stu.getClassId()
+                            if (stu.getFirstName().equalsIgnoreCase(keyword) || stu.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(stu.getLastName() + stu.getFirstName()) || keyword.equalsIgnoreCase(stu.getCode())) {
+                                tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate()
                                 });
                             } else {
                                 count++;
                             }
                         }
                         if (count == data.size()) {
-                            MessageDialog.showInfoDialog(search, "Không tìm thấy sinh viên bạn cần tìm", "Thông báo");
+                            MessageDialog.showInfoDialog(dataTable, "Không tìm thấy sinh viên bạn cần tìm", "Thông báo");
                             checkAndInitializeTable();
                         }
                     }
 
-                }
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTours") || dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                    Tour tour = TourService.getTourById(dataOfShowData.getTourId());
+                    if (tour != null) {
+                        List<StudentTour> data_students_tour = tour.getStudentTours();
+                        List<Student> data = StudentService.getAllStudents();
+                        tableModel.setRowCount(0);
+                        if (data != null && data_students_tour != null) {
+                            for (Student stu : data) {
+                                for (StudentTour item : data_students_tour) {
+                                    if (stu.getId() == item.getStudentId()) {
+                                        if (stu.getFirstName().equalsIgnoreCase(keyword) || stu.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(stu.getLastName() + stu.getFirstName()) || keyword.equalsIgnoreCase(stu.getCode())) {
+                                            tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate()
+                                            });
+                                        } else {
+                                            count++;
+                                        }
+                                    }
+                                }
+                            }
+                            if (count == data_students_tour.size()) {
+                                MessageDialog.showInfoDialog(dataTable, "Không tìm thấy sinh viên bạn cần tìm", "Thông báo");
+                                checkAndInitializeTable();
+                            }
+                        }
+                    }
+                }else if ( dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                    Tour tour = TourService.getTourById(dataOfShowData.getTourId());
+                    if (tour != null) {
+                        List<StudentTour> data_students_tour = tour.getStudentTours();
+                        List<Student> data = StudentService.getAllStudents();
+                        tableModel.setRowCount(0);
+                        if (data != null && data_students_tour != null) {
+                            for (Student stu : data) {
+                                for (StudentTour item : data_students_tour) {
+                                    if (stu.getId() == item.getStudentId()) {
+                                        if (stu.getFirstName().equalsIgnoreCase(keyword) || stu.getLastName().equalsIgnoreCase(keyword) || keyword.equalsIgnoreCase(stu.getLastName() + stu.getFirstName()) || keyword.equalsIgnoreCase(stu.getCode())) {
+                                            tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate(), item.getRate()
+                                            });
+                                        } else {
+                                            count++;
+                                        }
+                                    }
+                                }
+                            }
+                            if (count == data_students_tour.size()) {
+                                MessageDialog.showInfoDialog(dataTable, "Không tìm thấy sinh viên bạn cần tìm", "Thông báo");
+                                checkAndInitializeTable();
+                            }
+                        }
+                    }
+                } 
             }
             tableModel.fireTableDataChanged();
         } catch (Exception ex) {

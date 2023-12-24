@@ -62,6 +62,7 @@ public class ManageStudentTour extends javax.swing.JFrame {
         imageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Các chuyến tham quan của sinh viên");
 
         btn_back.setText("Trở lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {

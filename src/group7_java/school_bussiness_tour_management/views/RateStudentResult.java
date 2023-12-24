@@ -5,6 +5,7 @@
 package group7_java.school_bussiness_tour_management.views;
 
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
+import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
 import group7_java.school_bussiness_tour_management.models.Classroom;
 import group7_java.school_bussiness_tour_management.models.Student;
 import group7_java.school_bussiness_tour_management.models.StudentTour;
@@ -29,20 +30,39 @@ public class RateStudentResult extends javax.swing.JFrame {
      * Creates new form ManageStudent
      */
     public Classroom classroomm = new Classroom();
-    
+
     public RateStudentResult() {
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
     }
-    
+
     private Tour selectedTour;
     private Student selectedStudent;
-    
+    private boolean isShowData = false;
+
     public RateStudentResult(Tour tour, Student student) {
         try {
             this.selectedTour = tour;
             this.selectedStudent = student;
+            initComponents();
+            setVisible(true);
+            setLocationRelativeTo(null);
+            String studentScreenTitle = student.getLastName() + " " + student.getFirstName() + " (Mã: " + student.getCode() + ") trong chuyến tham quan";
+            studentTitle.setText(studentScreenTitle);
+            String tourTitle = tour.getName() + " (Mã: " + tour.getCode() + ", công ty: " + CompanyService.getById(tour.getCompanyId()).getName() + ") - Ngày: " + tour.getStartDate();
+            tourNameTitle.setText(tourTitle);
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
+            ex.printStackTrace();
+        }
+    }
+
+    public RateStudentResult(Tour tour, Student student, boolean isShowData) {
+        try {
+            this.selectedTour = tour;
+            this.selectedStudent = student;
+            this.isShowData = isShowData;
             initComponents();
             setVisible(true);
             setLocationRelativeTo(null);
@@ -100,8 +120,9 @@ public class RateStudentResult extends javax.swing.JFrame {
         inputRate11 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Đánh giá");
 
-        btn_back.setText("Trở lại trang chủ");
+        btn_back.setText("Quay lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_backActionPerformed(evt);
@@ -166,18 +187,6 @@ public class RateStudentResult extends javax.swing.JFrame {
 
         jLabel16.setText("Chấp hành quy định khi tham quan doanh nghiệp (0 - 10 đ)");
 
-        inputRate1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputRate1ActionPerformed(evt);
-            }
-        });
-
-        inputRate9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputRate9ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -191,47 +200,44 @@ public class RateStudentResult extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_back)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(480, 480, 480)
-                                .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(480, 480, 480)
+                                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(28, 28, 28)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(29, 29, 29)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(30, 30, 30)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(29, 29, 29)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(28, 28, 28)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(28, 28, 28)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(29, 29, 29)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(30, 30, 30)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(29, 29, 29)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(inputRate2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(inputRate1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,11 +259,9 @@ public class RateStudentResult extends javax.swing.JFrame {
                                         .addGap(1, 1, 1)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(inputRate10, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(inputRate11, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 61, Short.MAX_VALUE)))))
+                                            .addComponent(inputRate11, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(rateStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 61, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -339,10 +343,18 @@ public class RateStudentResult extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-        dispose();
-        ManageTourStudent screen = new ManageTourStudent(this.selectedTour);
-        screen.setLocationRelativeTo(null);
-        screen.setVisible(true);
+        if (isShowData) {
+            dispose();
+            TransmittedDataShowData showSata = new TransmittedDataShowData("studentTookPlaceTours", "studentAndTeacherHome", selectedTour.getId(), selectedTour.getTeacherId(), false);
+            ShowData screen = new ShowData(showSata);
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+        } else {
+            dispose();
+            ManageTourStudent screen = new ManageTourStudent(this.selectedTour);
+            screen.setLocationRelativeTo(null);
+            screen.setVisible(true);
+        }
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
@@ -359,7 +371,7 @@ public class RateStudentResult extends javax.swing.JFrame {
         inputRate10.setText("");
         inputRate11.setText("");
     }//GEN-LAST:event_resetButtonActionPerformed
-    
+
     private int getTotalRate() throws Exception {
         // Lam Thien Nguyen write code to get total rate here!!!
         int rate = 0;
@@ -375,41 +387,41 @@ public class RateStudentResult extends javax.swing.JFrame {
             int rate9 = Integer.parseInt(this.inputRate9.getText().trim());
             int rate10 = Integer.parseInt(this.inputRate10.getText().trim());
             int rate11 = Integer.parseInt(this.inputRate11.getText().trim());
-            if(rate1 < 0 || rate1 > 10) {
+            if (rate1 < 0 || rate1 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate2 < 0 || rate2 > 5) {
+            if (rate2 < 0 || rate2 > 5) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate3 < 0 || rate3 > 10) {
+            if (rate3 < 0 || rate3 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate4 < 0 || rate4 > 5) {
+            if (rate4 < 0 || rate4 > 5) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate5 < 0 || rate5 > 10) {
+            if (rate5 < 0 || rate5 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate6 < 0 || rate6 > 10) {
+            if (rate6 < 0 || rate6 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate7 < 0 || rate7 > 10) {
+            if (rate7 < 0 || rate7 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate8 < 0 || rate8 > 10) {
+            if (rate8 < 0 || rate8 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate9 < 0 || rate9 > 10) {
+            if (rate9 < 0 || rate9 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate10 < 0 || rate10 > 10) {
+            if (rate10 < 0 || rate10 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
-            if(rate11 < 0 || rate11 > 10) {
+            if (rate11 < 0 || rate11 > 10) {
                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
             }
             rate = rate1 + rate2 + rate3 + rate4 + rate5 + rate6 + rate7 + rate8 + rate9 + rate10 + rate11;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
             ex.printStackTrace();
         }
@@ -419,24 +431,31 @@ public class RateStudentResult extends javax.swing.JFrame {
     private void rateStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rateStudentButtonActionPerformed
         try {
             int rate = getTotalRate();
+            if(rate < 0 || rate > 100)
+            {
+                 MessageDialog.showInfoDialog(this, "Điểm không hợp kệ", "Thông báo");
+                 return;
+            }
             StudentTourService.updateStudentTour(this.selectedStudent.getId(), this.selectedTour.getId(), rate);
             this.selectedTour = TourService.getById(this.selectedTour.getId());
-            dispose();
-            ManageTourStudent screen = new ManageTourStudent(this.selectedTour);
-            screen.setVisible(true);
+            if (isShowData) {
+                dispose();
+                TransmittedDataShowData showSata = new TransmittedDataShowData("studentTookPlaceTours", "studentAndTeacherHome", selectedTour.getId(), selectedTour.getTeacherId(), false);
+                ShowData screen = new ShowData(showSata);
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            } else {
+                dispose();
+                ManageTourStudent screen = new ManageTourStudent(this.selectedTour);
+                screen.setLocationRelativeTo(null);
+                screen.setVisible(true);
+            }
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "Có lỗi xảy ra");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_rateStudentButtonActionPerformed
-
-    private void inputRate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputRate1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputRate1ActionPerformed
-
-    private void inputRate9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputRate9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputRate9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -476,7 +495,7 @@ public class RateStudentResult extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RateStudentResult().setVisible(true);
-                
+
             }
         });
     }

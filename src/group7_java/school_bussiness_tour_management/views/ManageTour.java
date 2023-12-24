@@ -78,6 +78,7 @@ public class ManageTour extends javax.swing.JFrame {
         viewStudentListButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Quản lý chuyến tham quan");
 
         btn_back.setText("Trở lại trang chủ");
         btn_back.addActionListener(new java.awt.event.ActionListener() {

@@ -136,6 +136,7 @@ public class TeacherProfile extends javax.swing.JFrame {
         changeInformationButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         teacherAvatar = new javax.swing.JLabel();
+        saveChangeInfomation = new javax.swing.JButton();
         MainTile1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -144,8 +145,10 @@ public class TeacherProfile extends javax.swing.JFrame {
         teacherUsernameInput = new javax.swing.JTextField();
         teacherPasswordInput = new javax.swing.JTextField();
         changeAccoutButton = new javax.swing.JButton();
+        saveChangeAccount = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Thông tin giáo viên");
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -267,6 +270,15 @@ public class TeacherProfile extends javax.swing.JFrame {
             .addComponent(teacherAvatar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        saveChangeInfomation.setBackground(new java.awt.Color(255, 153, 0));
+        saveChangeInfomation.setForeground(new java.awt.Color(255, 255, 255));
+        saveChangeInfomation.setText("Lưu thay đổi");
+        saveChangeInfomation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveChangeInfomationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -275,35 +287,37 @@ public class TeacherProfile extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(teacherCodeLabel)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(teacherAddressInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(teacherCodeInput, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(teacherBirthdayLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(teacherBirthdayInput, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addComponent(teacherAddressLabel))
-                            .addGap(38, 38, 38)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(teacherEmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(teacherPhoneNumBerInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(teacherPhoneNumberLabel)
-                                .addComponent(teacherNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(teacherNameLabel)
-                                .addComponent(teacherEmailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(image)
-                            .addGap(18, 18, 18)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(teacherAvataButton)
-                            .addGap(351, 351, 351))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(teacherAddressInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(teacherCodeInput, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(teacherBirthdayLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(teacherBirthdayInput, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(teacherAddressLabel))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(teacherEmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teacherPhoneNumBerInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teacherPhoneNumberLabel)
+                            .addComponent(teacherNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(teacherNameLabel)
+                            .addComponent(teacherEmailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(image)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(teacherAvataButton)
+                                .addGap(313, 372, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(changeInformationButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(saveChangeInfomation)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(changeInformationButton)
-                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +354,9 @@ public class TeacherProfile extends javax.swing.JFrame {
                                 .addGap(0, 21, Short.MAX_VALUE)
                                 .addComponent(teacherAvataButton)
                                 .addGap(13, 13, 13)
-                                .addComponent(changeInformationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(changeInformationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(saveChangeInfomation, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -372,6 +388,15 @@ public class TeacherProfile extends javax.swing.JFrame {
             }
         });
 
+        saveChangeAccount.setBackground(new java.awt.Color(255, 153, 0));
+        saveChangeAccount.setForeground(new java.awt.Color(255, 255, 255));
+        saveChangeAccount.setText("Lưu thay đổi");
+        saveChangeAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveChangeAccountActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -379,7 +404,10 @@ public class TeacherProfile extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(changeAccoutButton)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(changeAccoutButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveChangeAccount))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(teacherUsernameLabel)
@@ -388,7 +416,7 @@ public class TeacherProfile extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(teacherUsernameInput)
                             .addComponent(teacherPasswordInput, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,7 +430,9 @@ public class TeacherProfile extends javax.swing.JFrame {
                     .addComponent(teacherPasswordLabel)
                     .addComponent(teacherPasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(changeAccoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(changeAccoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveChangeAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -419,7 +449,7 @@ public class TeacherProfile extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(MainTile1)
                             .addComponent(jLabel3))
-                        .addGap(0, 469, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -442,137 +472,16 @@ public class TeacherProfile extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeInformationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeInformationButtonActionPerformed
-        boolean isCheck = false;
         teacherNameInput.setEnabled(true);
         teacherBirthdayInput.setEnabled(true);
         teacherPhoneNumBerInput.setEnabled(true);
         teacherAddressInput.setEnabled(true);
         teacherEmailInput.setEnabled(true);
         teacherAvataButton.setEnabled(true);
-
-        String imagePath = selectTeacher.getImagePath();
-
-        if (!selectedImagePath.equals(imagePath)) {
-            if (!selectedImagePath.trim().equals("")) {
-                selectTeacher.setImagePath(selectedImagePath);
-            }
-        }
-
-        String teacherName = this.teacherNameInput.getText().trim();
-        String teacherAddress = this.teacherAddressInput.getText().trim();
-        String teacherPhoneNumber = this.teacherPhoneNumBerInput.getText().trim();
-        String teacherBirthday = this.teacherBirthdayInput.getText().trim();
-        String teacherEmail = this.teacherEmailInput.getText().trim();
-
-        // Bắt lỗi, không nhập đủ
-
-        if (teacherName.equals("")) {
-            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập họ tên giáo viên", "Thông báo");
-            return;
-        }
-
-        if (teacherAddress.equals("")) {
-            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập địa chỉ", "Thông báo");
-            return;
-        }
-        if (teacherPhoneNumber.equals("")) {
-            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập số điện thoại", "Thông báo");
-            return;
-        }
-        if (!isNumeric(teacherPhoneNumber)) {
-            MessageDialog.showInfoDialog(jPanel1, "Dữ liệu nhập vào phải là số", "Thông báo");
-            return;
-        }
-        if (teacherBirthday.equals("")) {
-            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập ngày sinh", "Thông báo");
-            return;
-        }
-
-        if (!isDate(teacherBirthday)) {
-            MessageDialog.showInfoDialog(jPanel1, "Ngày sinh nhập chưa đúng định dạng", "Thông báo");
-            return;
-        }
-        if (teacherEmail.equals("")) {
-            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập email", "Thông báo");
-            return;
-        }
-        if (!isValidEmail(teacherEmail)) {
-            MessageDialog.showInfoDialog(jPanel1, "Email không đúng định dạng", "Thông báo");
-            return;
-        }
-
-        if (teacherName.equalsIgnoreCase(selectTeacher.getLastName() + " " + selectTeacher.getFirstName())
-                && teacherAddress.equalsIgnoreCase(selectTeacher.getAddress())
-                && teacherPhoneNumber.equalsIgnoreCase(selectTeacher.getPhoneNumber())
-                && teacherBirthday.equalsIgnoreCase(selectTeacher.getBirthDate())
-                && teacherEmail.equalsIgnoreCase(selectTeacher.getEmail())
-                && selectedImagePath.trim().equals("")) {
-            isCheck = true;
-        }
-
-        if (isCheck) {
-
-        } else {
-            selectTeacher.setFirstName(TeacherService.FirstName(teacherName));
-            selectTeacher.setLastName(TeacherService.LastName(teacherName));
-            selectTeacher.setPhoneNumber(teacherPhoneNumber);
-            selectTeacher.setBirthDate(teacherBirthday);
-            selectTeacher.setEmail(teacherEmail);
-            selectTeacher.setAddress(teacherAddress);
-
-            try {
-
-                TeacherService.updateTeacher(selectTeacher);
-                MessageDialog.showInfoDialog(jPanel1, "Cập nhật thông tin thành công!", "Thông báo");
-                loadInformationTeacher();
-
-            } catch (Exception ex) {
-                MessageDialog.showErrorDialog(jPanel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
-            }
-
-        }
-
-
     }//GEN-LAST:event_changeInformationButtonActionPerformed
 
     private void changeAccoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeAccoutButtonActionPerformed
-        try {
-            boolean isCheck = false;
-            teacherPasswordInput.setEnabled(true);
-            List<Account> data_accounts = AccountDAO.readFromFile();
-            String password = teacherPasswordInput.getText().trim();
-            if (password.equals("")) {
-                MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập mật khẩu", "Thông báo");
-                return;
-            }
-            Account selectAccount = null;
-            for (Account item : data_accounts) {
-                if (item.getId() == selectTeacher.getAccountId()) {
-                    selectAccount = item;
-                    break;
-                }
-            }
-            if (password.equalsIgnoreCase(selectAccount.getPassword())) {
-                isCheck = true;
-            }
-
-            if (isCheck) {
-
-            } else {
-                for (Account item : data_accounts) {
-                    if (item.getId() == selectTeacher.getAccountId()) {
-                        item.setPassword(password);
-                        break;
-                    }
-
-                }
-                AccountDAO.writeToFile(data_accounts);
-                MessageDialog.showInfoDialog(jPanel1, "Cập nhật thông tin thành công!", "Thông báo");
-                loadInformationTeacher();
-            }
-        } catch (Exception ex) {
-            MessageDialog.showErrorDialog(jPanel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
-        }
+        teacherPasswordInput.setEnabled(true);
     }//GEN-LAST:event_changeAccoutButtonActionPerformed
 
     private void teacherAvataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherAvataButtonActionPerformed
@@ -618,6 +527,106 @@ public class TeacherProfile extends javax.swing.JFrame {
         screen.setLocationRelativeTo(null);
         screen.setVisible(true);
     }//GEN-LAST:event_backpageActionPerformed
+
+    private void saveChangeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeAccountActionPerformed
+        try {
+            teacherPasswordInput.setEnabled(true);
+            List<Account> data_accounts = AccountDAO.readFromFile();
+            String password = teacherPasswordInput.getText().trim();
+            if (password.equals("")) {
+                MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập mật khẩu", "Thông báo");
+                return;
+            }
+            Account selectAccount = null;
+            for (Account item : data_accounts) {
+                if (item.getId() == selectTeacher.getAccountId()) {
+                    selectAccount = item;
+                    break;
+                }
+            }
+            for (Account item : data_accounts) {
+                if (item.getId() == selectTeacher.getAccountId()) {
+                    item.setPassword(password);
+                    break;
+                }
+
+            }
+            AccountDAO.writeToFile(data_accounts);
+            MessageDialog.showInfoDialog(jPanel1, "Cập nhật thông tin thành công!", "Thông báo");
+            loadInformationTeacher();
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jPanel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_saveChangeAccountActionPerformed
+
+    private void saveChangeInfomationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeInfomationActionPerformed
+        String imagePath = selectTeacher.getImagePath();
+
+        if (!selectedImagePath.equals(imagePath)) {
+            if (!selectedImagePath.trim().equals("")) {
+                selectTeacher.setImagePath(selectedImagePath);
+            }
+        }
+
+        String teacherName = this.teacherNameInput.getText().trim();
+        String teacherAddress = this.teacherAddressInput.getText().trim();
+        String teacherPhoneNumber = this.teacherPhoneNumBerInput.getText().trim();
+        String teacherBirthday = this.teacherBirthdayInput.getText().trim();
+        String teacherEmail = this.teacherEmailInput.getText().trim();
+
+        // Bắt lỗi, không nhập đủ
+        if (teacherName.equals("")) {
+            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập họ tên giáo viên", "Thông báo");
+            return;
+        }
+
+        if (teacherAddress.equals("")) {
+            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập địa chỉ", "Thông báo");
+            return;
+        }
+        if (teacherPhoneNumber.equals("")) {
+            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập số điện thoại", "Thông báo");
+            return;
+        }
+        if (!isNumeric(teacherPhoneNumber)) {
+            MessageDialog.showInfoDialog(jPanel1, "Dữ liệu nhập vào phải là số", "Thông báo");
+            return;
+        }
+        if (teacherBirthday.equals("")) {
+            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập ngày sinh", "Thông báo");
+            return;
+        }
+
+        if (!isDate(teacherBirthday)) {
+            MessageDialog.showInfoDialog(jPanel1, "Ngày sinh nhập chưa đúng định dạng", "Thông báo");
+            return;
+        }
+        if (teacherEmail.equals("")) {
+            MessageDialog.showInfoDialog(jPanel1, "Bạn chưa nhập email", "Thông báo");
+            return;
+        }
+        if (!isValidEmail(teacherEmail)) {
+            MessageDialog.showInfoDialog(jPanel1, "Email không đúng định dạng", "Thông báo");
+            return;
+        }
+
+        selectTeacher.setFirstName(TeacherService.FirstName(teacherName));
+        selectTeacher.setLastName(TeacherService.LastName(teacherName));
+        selectTeacher.setPhoneNumber(teacherPhoneNumber);
+        selectTeacher.setBirthDate(teacherBirthday);
+        selectTeacher.setEmail(teacherEmail);
+        selectTeacher.setAddress(teacherAddress);
+
+        try {
+
+            TeacherService.updateTeacher(selectTeacher);
+            MessageDialog.showInfoDialog(jPanel1, "Cập nhật thông tin thành công!", "Thông báo");
+            loadInformationTeacher();
+
+        } catch (Exception ex) {
+            MessageDialog.showErrorDialog(jPanel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
+        }
+    }//GEN-LAST:event_saveChangeInfomationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -666,6 +675,8 @@ public class TeacherProfile extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JButton saveChangeAccount;
+    private javax.swing.JButton saveChangeInfomation;
     private javax.swing.JTextField teacherAddressInput;
     private javax.swing.JLabel teacherAddressLabel;
     private javax.swing.JButton teacherAvataButton;

@@ -86,6 +86,7 @@ public class ManageTourStudent extends javax.swing.JFrame {
         rateStudentButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Xem danh sách sinh viên tham gia của một chuyến tham quan");
 
         btn_back.setText("Quay lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {

@@ -72,6 +72,7 @@ public class UpdateStudentProfile extends javax.swing.JFrame {
         imageBrowse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cập nhập thông tin sinh viên");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 

@@ -43,6 +43,7 @@ public class ChangePassword extends javax.swing.JFrame {
         CancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Thay đổi mật khẩu");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 

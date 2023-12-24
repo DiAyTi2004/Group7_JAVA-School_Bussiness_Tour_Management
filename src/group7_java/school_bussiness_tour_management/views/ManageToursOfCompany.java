@@ -59,9 +59,9 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
         createCompanyButton = new javax.swing.JButton();
         companyCodeLabel = new javax.swing.JLabel();
         returnBackButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Danh sách các chuyến tham quan do một doanh nghiệp tổ chức");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -138,10 +138,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(createCompanyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(returnBackButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(returnBackButton)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(28, Short.MAX_VALUE))))
         );
@@ -149,9 +146,7 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(returnBackButton)
-                    .addComponent(jLabel2))
+                .addComponent(returnBackButton)
                 .addGap(5, 5, 5)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -172,8 +167,6 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
                 .addComponent(createCompanyButton)
                 .addContainerGap())
         );
-
-        jLabel2.getAccessibleContext().setAccessibleName("jLabelCompanyId");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -300,7 +293,6 @@ public class ManageToursOfCompany extends javax.swing.JFrame {
     private javax.swing.JLabel companyPhoneLabel;
     private javax.swing.JButton createCompanyButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton returnBackButton;
     private javax.swing.JTable toursOfCompanyTable;

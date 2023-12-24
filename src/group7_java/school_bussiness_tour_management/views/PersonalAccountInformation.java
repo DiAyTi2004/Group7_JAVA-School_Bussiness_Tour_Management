@@ -64,6 +64,7 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
         UpdateProfileButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Thông tin chi tiết của sinh viên");
 
         closeButton.setBackground(new java.awt.Color(255, 51, 51));
         closeButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

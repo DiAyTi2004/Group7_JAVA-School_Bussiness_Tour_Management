@@ -77,6 +77,7 @@ public class AddStudentToTour extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Thêm sinh viên vào chuyến tham quan");
 
         btn_back.setText("Quay lại");
         btn_back.addActionListener(new java.awt.event.ActionListener() {

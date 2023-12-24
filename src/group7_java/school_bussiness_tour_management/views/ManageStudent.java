@@ -89,6 +89,7 @@ public class ManageStudent extends javax.swing.JFrame {
         imageBrowse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Quản lý sinh viên");
 
         btn_back.setText("Trở lại trang chủ");
         btn_back.addActionListener(new java.awt.event.ActionListener() {

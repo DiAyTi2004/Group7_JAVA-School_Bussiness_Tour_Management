@@ -57,6 +57,7 @@ public class ManageCompany extends javax.swing.JFrame {
         toursOfComButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Quản lý doanh nghiệp");
 
         turnBackHome.setText("Quay lại trang chủ");
         turnBackHome.addActionListener(new java.awt.event.ActionListener() {

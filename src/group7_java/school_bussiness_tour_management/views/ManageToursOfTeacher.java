@@ -109,7 +109,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
         exportFileExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Xem chi tour của giáo viên");
+        setTitle("Xem danh sách các chuyến tham quan của giáo viên");
 
         backManageTeacher.setText("Quay lại trang trước");
         backManageTeacher.addActionListener(new java.awt.event.ActionListener() {
