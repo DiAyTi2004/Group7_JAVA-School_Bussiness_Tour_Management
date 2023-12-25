@@ -1,1 +1,41 @@
-[{"password":"123","role":"Toàn quyền hệ thống","id":1,"username":"admin"},{"password":"123","role":"Quản lí thông thường","id":2,"username":"normal1"},{"password":"123","role":"Tài khoản sinh viên","id":4,"username":"SV01"},{"password":"12345","role":"Tài khoản giáo viên","id":5,"username":"GV01"},{"password":"GV02","role":"Tài khoản giáo viên","id":6,"username":"GV02"},{"password":"SV02","role":"Tài khoản sinh viên","id":7,"username":"SV02"},{"password":"GV03","role":"Tài khoản giáo viên","id":8,"username":"GV03"},{"password":"SV03","role":"Tài khoản sinh viên","id":9,"username":"SV03"},{"password":"SV04","role":"Tài khoản sinh viên","id":10,"username":"SV04"},{"password":"hkdsfla","role":"Tài khoản sinh viên","id":11,"username":"hkdsfla"},{"password":"SV05","role":"Tài khoản sinh viên","id":12,"username":"SV05"}]
+[{
+        "password": "123",
+        "role": "Toàn quyền hệ thống",
+        "id": 1,
+        "username": "admin"
+    }, {
+        "password": "123",
+        "role": "Quản lí thông thường",
+        "id": 2,
+        "username": "normal1"
+    }, {
+        "password": "12345",
+        "role": "Tài khoản giáo viên",
+        "id": 5,
+        "username": "GV01"
+    }, {
+        "password": "GV02",
+        "role": "Tài khoản giáo viên",
+        "id": 6,
+        "username": "GV02"
+    }, {
+        "password": "SV02",
+        "role": "Tài khoản sinh viên",
+        "id": 7,
+        "username": "SV02"
+    }, {
+        "password": "GV03",
+        "role": "Tài khoản giáo viên",
+        "id": 8,
+        "username": "GV03"
+    }, {
+        "password": "SV04",
+        "role": "Tài khoản sinh viên",
+        "id": 9,
+        "username": "SV04"
+    }, {
+        "password": "SV05",
+        "role": "Tài khoản sinh viên",
+        "id": 10,
+        "username": "SV05"
+    }]

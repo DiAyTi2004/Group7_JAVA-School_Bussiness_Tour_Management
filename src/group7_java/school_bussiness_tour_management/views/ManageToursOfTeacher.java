@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -257,12 +257,25 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
         try {
             int index = toursTable.getSelectedRow();
             if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn chọn chọn chuyến tham quan để xem danh sách sinh viên tham quan", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Vui chọn chọn chọn chuyến tham quan để xem danh sách sinh viên tham quan", 
+                        "Thông báo");
                 return;
             }
-            Tour selectedTour = TourService.getTourByIndex(index);
+            String tourCode = (String) toursTable.getValueAt(index, 0);
+            List<Tour> data_tours = TourService.getAllTours();
+            int id = -1;
+            for(Tour item : data_tours)
+            {
+                if(item.getCode().equalsIgnoreCase(tourCode))
+                {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Tour selectedTour = TourService.getTourById(id);
             dispose();
-            TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", selectedTour.getId(), teacherId, false);
+            TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", 
+                    selectedTour.getId(), teacherId, false);
             ShowData showDataScreen = new ShowData(data);
             if (showDataScreen != null) {
                 showDataScreen.setLocationRelativeTo(null);

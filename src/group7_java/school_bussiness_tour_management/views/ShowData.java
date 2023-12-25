@@ -7,6 +7,7 @@ package group7_java.school_bussiness_tour_management.views;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.common.PDFExporter;
 import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
@@ -53,6 +54,11 @@ public class ShowData extends javax.swing.JFrame {
                 clearDataButton.setText("Đánh giá");
                 exportPDFFileButton.setText("Sinh viên chưa đánh giá");
                 exportExcelFileButton.setText("Sinh viên đã đánh giá");
+            }
+            if(dataOfShowData.getTypeData().equalsIgnoreCase("toursOfStudents"))
+            {
+                exportPDFFileButton.setVisible(false);
+                exportExcelFileButton.setVisible(false);
             }
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Có lỗi xảy ra! Chi tiết: " + ex.getMessage(), "lỗi");
@@ -319,6 +325,7 @@ public class ShowData extends javax.swing.JFrame {
                     List<StudentTour> data_student_tours = StudentTourDAO.readFromFile();
                     List<Tour> data_tour = TourDAO.readFromFile();
                     String tourCode = (String) dataTable.getValueAt(index, 0);
+                    List<Student> data_students = StudentService.getAllStudents();
                     int id = -1;
                     Iterator<Tour> iterator = data_tour.iterator();
                     while (iterator.hasNext()) {
@@ -356,9 +363,20 @@ public class ShowData extends javax.swing.JFrame {
                                 break;
                             }
                         }
+                        if (data_students != null) {
+                            Iterator<Student> iterator2 = data_students.iterator();
+                            while (iterator2.hasNext()) {
+                                Student item = iterator2.next();
+                                if (item.getId() == dataOfShowData.getStudentId()) {
+                                    iterator2.remove();
+                                    break;
+                                }
+                            }
+                        }
                         data_student_tours.remove(delTour);
                         StudentTourDAO.writeToFile(data_student_tours);
                         TourDAO.writeToFile(data_tour);
+                        StudentDAO.writeToFile(data_students);
                         MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
                         loadTableData();
                     }
@@ -831,7 +849,7 @@ public class ShowData extends javax.swing.JFrame {
                             }
                         }
                     }
-                }else if ( dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
+                } else if (dataOfShowData.getTypeData().equalsIgnoreCase("studentTookPlaceTours")) {
                     Tour tour = TourService.getTourById(dataOfShowData.getTourId());
                     if (tour != null) {
                         List<StudentTour> data_students_tour = tour.getStudentTours();
@@ -856,7 +874,7 @@ public class ShowData extends javax.swing.JFrame {
                             }
                         }
                     }
-                } 
+                }
             }
             tableModel.fireTableDataChanged();
         } catch (Exception ex) {

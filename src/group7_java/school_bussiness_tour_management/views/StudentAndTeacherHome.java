@@ -7,6 +7,7 @@ package group7_java.school_bussiness_tour_management.views;
 import com.itextpdf.text.Rectangle;
 import group7_java.school_bussiness_tour_management.common.MessageDialog;
 import group7_java.school_bussiness_tour_management.common.TransmittedDataShowData;
+import group7_java.school_bussiness_tour_management.dao.StudentDAO;
 import group7_java.school_bussiness_tour_management.dao.StudentTourDAO;
 import group7_java.school_bussiness_tour_management.dao.TeacherDAO;
 import group7_java.school_bussiness_tour_management.dao.TourDAO;
@@ -397,9 +398,7 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
         try {
             if (loggedInStudent != null) {
                 dispose();
-                Student stu = StudentService.getStudentByAccountId(loggedInStudent.getAccountId());
                 PersonalAccountInformation personalAccountInformationScreen = new PersonalAccountInformation(loggedInStudent);
-
                 personalAccountInformationScreen.setLocationRelativeTo(null);
                 personalAccountInformationScreen.setVisible(true);
             } else if (loggedInTeacher != null) {
@@ -409,7 +408,7 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
                 screen.setVisible(true);
             }
         } catch (Exception ex) {
-            Logger.getLogger(StudentAndTeacherHome.class.getName()).log(Level.SEVERE, null, ex);
+            MessageDialog.showErrorDialog(jPanel1, "Có lỗi, chi tiết: " + ex.getMessage(), "Lỗi");
         }
     }//GEN-LAST:event_updateProfileActionPerformed
 
@@ -417,6 +416,7 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
         try {
             jLabel3.setText("CHUYẾN THAM QUAN HÔM NAY CỦA BẠN");
             addTour.setVisible(false);
+            ratedTour.setVisible(false);
             searchInput.setVisible(false);
             searchButton.setVisible(false);
             tableModel = new DefaultTableModel();
@@ -504,6 +504,7 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
     private void showUpcomingToursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showUpcomingToursActionPerformed
         jLabel3.setText("CÁC CHUYẾN THAM QUAN DOANH NGHIỆP SẮP DIỄN RA");
         addTour.setVisible(true);
+        ratedTour.setVisible(false);
         searchInput.setVisible(true);
         searchButton.setVisible(true);
         initializeTableOfTours();
@@ -643,6 +644,7 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
                     List<StudentTour> data_student_tours = StudentTourDAO.readFromFile();
                     List<StudentTour> data_students_of_this_tour = selectTour.getStudentTours();
                     List<Tour> tours = StudentTourService.getToursForStudent(loggedInStudent.getId());
+                    List<Student> data_students = StudentService.getAllStudents();
                     if (data_students_of_this_tour != null && data_student_tours != null && tours != null) {
                         for (StudentTour item : data_students_of_this_tour) {
                             if (item.getStudentId() == loggedInStudent.getId()) {
@@ -675,8 +677,22 @@ public class StudentAndTeacherHome extends javax.swing.JFrame {
                             }
                         }
                     }
+                    if(data_students != null)
+                    {
+                        for (Student item : data_students) {
+                            if (item.getId() == loggedInStudent.getId()) {
+                                if (item.getStudentTours() == null) {
+                                    item.setStudentTours(new ArrayList<>());
+                                }
+                                item.getStudentTours().add(newTour);
+
+                                break;
+                            }
+                        }
+                    }
                     TourDAO.writeToFile(data_tours);
                     StudentTourDAO.writeToFile(data_student_tours);
+                    StudentDAO.writeToFile(data_students);
                     MessageDialog.showInfoDialog(tourNowTable, "Đăng ký tham quan thành công", "Thông báo");
                 } else if (loggedInTeacher != null) {
                     List<Tour> data_tours_teacher = loggedInTeacher.getTours();

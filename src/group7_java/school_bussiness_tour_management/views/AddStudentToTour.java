@@ -236,9 +236,7 @@ public class AddStudentToTour extends javax.swing.JFrame {
                     }
                 }
             }
-            System.out.println("studentData: " + studentData);
             StudentDAO.writeToFile(studentData);
-
             List<Tour> tourData = TourDAO.readFromFile();
             for (int i = 0; i < tourData.size(); i++) {
                 if (tourData.get(i).getId() == selectedTour.getId()) {
@@ -367,8 +365,8 @@ public class AddStudentToTour extends javax.swing.JFrame {
                     tableModel.addRow(
                             new Object[]{
                                 stu.getCode(),
-                                stu.getFirstName(),
                                 stu.getLastName(),
+                                stu.getFirstName(),
                                 ClassroomService.getById(stu.getClassId()).getName(),
                                 stu.getBirthDate(),
                                 stu.getPhoneNumber(),
