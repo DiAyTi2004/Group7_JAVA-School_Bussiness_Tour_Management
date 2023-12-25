@@ -278,11 +278,13 @@ public class ManageTeacher extends javax.swing.JFrame {
             if (data != null) {
                 for (Teacher tea : data) {
                     if (tea.getTours() != null) {
-                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
+                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), 
+                            tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
                             tea.getTours().size()
                         });
                     } else {
-                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(), tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
+                        tableModel.addRow(new Object[]{tea.getCode(), tea.getLastName() + " " + tea.getFirstName(), tea.getAddress(),
+                            tea.getPhoneNumber(), tea.getEmail(), tea.getBirthDate(),
                             0
                         });
                     }
@@ -384,7 +386,8 @@ public class ManageTeacher extends javax.swing.JFrame {
             clearField();
             loadTableData();
         } catch (Exception e) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin giáo viên, chi tiết: " + e.getMessage() + "\n" + e.toString() + "\n", "Lỗi");
+            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi sửa thông tin giáo viên, chi tiết: " + e.getMessage() + 
+                    "\n" + e.toString() + "\n", "Lỗi");
             e.printStackTrace();
         }
 
@@ -453,7 +456,8 @@ public class ManageTeacher extends javax.swing.JFrame {
             }
             // Thêm giáo viên
             if (!TeacherService.isCheckCodeTeacher(teacherID)) {
-                TeacherService.createNewTeacher(imagePath, teacherID, teacherName, teacherAddress, teacherPhoneNumber, teacherEmail, teacherBirthday);
+                TeacherService.createNewTeacher(imagePath, teacherID, teacherName, teacherAddress, 
+                        teacherPhoneNumber, teacherEmail, teacherBirthday);
                 loadTableData();
                 MessageDialog.showInfoDialog(this, "Đã thêm thành công", "Thông  báo");
                 clearField();
@@ -502,14 +506,16 @@ public class ManageTeacher extends javax.swing.JFrame {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
             }
-            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa giáo viên " + selectedTea.getLastName() + " " + selectedTea.getFirstName(), "Xác nhận");
+            int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa giáo viên " 
+                    + selectedTea.getLastName() + " " + selectedTea.getFirstName(), "Xác nhận");
             if (keyPress == 0) {
                 TeacherService.deleteTeacher(selectedTea.getId());
                 loadTableData();
                 clearField();
             }
         } catch (Exception ex) {
-            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
+            MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" 
+                    + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
         }
     }//GEN-LAST:event_deleteTeacherBtnActionPerformed
@@ -546,7 +552,8 @@ public class ManageTeacher extends javax.swing.JFrame {
         try {
             int index = teacherTable.getSelectedRow();
             if (index == -1) {
-                MessageDialog.showInfoDialog(this, "Vui chọn giáo viên để xem các chuyến tham quan của giáo viên", "Thông báo");
+                MessageDialog.showInfoDialog(this, "Vui chọn giáo viên để xem các chuyến tham quan của giáo viên", 
+                        "Thông báo");
                 return;
             }
             String teacherCode = (String) teacherTable.getValueAt(index, 0);
@@ -566,8 +573,9 @@ public class ManageTeacher extends javax.swing.JFrame {
                 manageToursOfTeacherScreen.setLocationRelativeTo(null);
                 manageToursOfTeacherScreen.setVisible(true);
                 manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
-                manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
-                manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã giáo viên: " + selectedTea.getCode());
+                manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + 
+                        selectedTea.getLastName() + " " + selectedTea.getFirstName());
                 manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
                 manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
                 manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
