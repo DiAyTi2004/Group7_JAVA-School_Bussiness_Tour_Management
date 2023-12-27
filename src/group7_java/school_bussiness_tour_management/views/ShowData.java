@@ -22,6 +22,8 @@ import group7_java.school_bussiness_tour_management.services.StudentTourService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -283,31 +285,70 @@ public class ShowData extends javax.swing.JFrame {
                     }
 
                     Tour selectTour = TourService.getTourById(id);
-                    for (Teacher item : data_teacher) {
-                        if (item.getId() == selectTeacher.getId()) {
-                            // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
-                            Iterator<Tour> iteratorTeacher = item.getTours().iterator();
-                            while (iteratorTeacher.hasNext()) {
-                                Tour tour = iteratorTeacher.next();
-                                if (tour.getId() == selectTour.getId()) {
-                                    iteratorTeacher.remove();
-                                    break;
+                    String dateString = selectTour.getStartDate();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate inputDate = LocalDate.parse(dateString, formatter);
+                    LocalDate currentDate = LocalDate.now();
+                    if (currentDate.compareTo(inputDate) < 0) {
+                        for (Teacher item : data_teacher) {
+                            if (item.getId() == selectTeacher.getId()) {
+                                // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                                Iterator<Tour> iteratorTeacher = item.getTours().iterator();
+                                while (iteratorTeacher.hasNext()) {
+                                    Tour tour = iteratorTeacher.next();
+                                    if (tour.getId() == selectTour.getId()) {
+                                        iteratorTeacher.remove();
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    for (Tour tour : data_tour) {
-                        if (tour.getId() == id) {
-                            tour.setTeacherId(selectTeacher.getId() - 100);
-                            break;
+                        for (Tour tour : data_tour) {
+                            if (tour.getId() == id) {
+                                tour.setTeacherId(selectTeacher.getId() - 100);
+                                break;
+                            }
                         }
-                    }
 
-                    TourDAO.writeToFile(data_tour);
-                    TeacherDAO.writeToFile(data_teacher);
-                    MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
-                    loadTableData();
+                        TourDAO.writeToFile(data_tour);
+                        TeacherDAO.writeToFile(data_teacher);
+                        MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
+                        loadTableData();
+                    } else {
+                        MessageDialog.showInfoDialog(dataTable, "Bạn đã tham gia chuyến tham quan này rùi", "Thông báo");
+                        return;
+                    }
+                    if (currentDate.compareTo(inputDate) == 0) {
+                        for (Teacher item : data_teacher) {
+                            if (item.getId() == selectTeacher.getId()) {
+                                // Sử dụng Iterator để lặp qua danh sách và loại bỏ phần tử
+                                Iterator<Tour> iteratorTeacher = item.getTours().iterator();
+                                while (iteratorTeacher.hasNext()) {
+                                    Tour tour = iteratorTeacher.next();
+                                    if (tour.getId() == selectTour.getId()) {
+                                        iteratorTeacher.remove();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        for (Tour tour : data_tour) {
+                            if (tour.getId() == id) {
+                                tour.setTeacherId(selectTeacher.getId() - 100);
+                                break;
+                            }
+                        }
+
+                        TourDAO.writeToFile(data_tour);
+                        TeacherDAO.writeToFile(data_teacher);
+                        MessageDialog.showInfoDialog(this, "Xóa chuyến tham quan thành công", "Thông báo");
+                        loadTableData();
+                    } else {
+                        MessageDialog.showInfoDialog(dataTable, "Chuyến tham quan này diễn ra vào ngày hôm nay nên bạn không thể hủy", "Thông báo");
+                        return;
+                    }
                 }
 
             } catch (Exception ex) {
@@ -341,7 +382,21 @@ public class ShowData extends javax.swing.JFrame {
                             delTour = item;
                         }
                     }
+
                     if (delTour != null) {
+                        Tour del = TourService.getTourById(delTour.getTourId());
+                        String dateString = del.getStartDate();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        LocalDate inputDate = LocalDate.parse(dateString, formatter);
+                        LocalDate currentDate = LocalDate.now();
+                        if (currentDate.compareTo(inputDate) == 0) {
+                            MessageDialog.showInfoDialog(dataTable, "Chuyến tham quan này diễn ra vào ngày hôm nay nên bạn không thể hủy", "Thông báo");
+                            return;
+                        }
+                        if (currentDate.compareTo(inputDate) > 0) {
+                            MessageDialog.showInfoDialog(dataTable, "Chuyến tham quan này đã diễn ra rùi", "Thông báo");
+                            return;
+                        }
                         Iterator<Tour> iterator_tour = data_tour.iterator();
                         while (iterator_tour.hasNext()) {
                             Tour item = iterator_tour.next();
