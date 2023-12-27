@@ -26,6 +26,9 @@ public class PersonalAccountInformation extends javax.swing.JFrame {
         this.loggedInStudent = loggedInStudent;
         showPersonalAccountInformation();
     }
+    public PersonalAccountInformation() throws Exception {
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

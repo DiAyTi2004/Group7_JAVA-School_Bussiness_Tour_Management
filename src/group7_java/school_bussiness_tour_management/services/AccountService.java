@@ -46,7 +46,7 @@ public class AccountService {
     public static Account getAccountByUsername(String username) throws Exception {
         List<Account> data = AccountDAO.readFromFile();
         for (Account acc : data) {
-            if (acc.getUsername().equals(username)) {
+            if (acc.getUsername().equalsIgnoreCase(username)) {
                 return acc;
             }
         }

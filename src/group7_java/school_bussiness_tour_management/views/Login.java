@@ -175,7 +175,8 @@ public class Login extends javax.swing.JFrame {
                 if (loggedInAccount.getRole().equals("Tài khoản sinh viên")) {
                     Student loggedInStudent = StudentService.getStudentByAccountId(loggedInAccount.getId());
                     if (loggedInStudent == null) {
-                        loggedInStudent = StudentService.createStudentAttachToAccount(loggedInAccount.getId());
+                        MessageDialog.showInfoDialog(jPanel1, "Tài khoản của bạn không tồn tại, vui lòng liên hệ lại với đội kỹ thuật của nhà trường", "Thông báo");
+                        return;
                     }
                     StudentAndTeacherHome studentAndTeacherHome = new StudentAndTeacherHome(loggedInStudent);
                     studentAndTeacherHome.setVisible(true);

@@ -277,8 +277,8 @@ public class ManageTourStudent extends javax.swing.JFrame {
                         tableModel.addRow(
                                 new Object[]{
                                     stu.getCode(),
-                                    stu.getFirstName(),
                                     stu.getLastName(),
+                                    stu.getFirstName(),
                                     ClassroomService.getById(stu.getClassId()).getName(),
                                     stu.getBirthDate(),
                                     stu.getPhoneNumber(),
@@ -458,9 +458,9 @@ public class ManageTourStudent extends javax.swing.JFrame {
             case 0:
                 return stu.getCode();
             case 1:
-                return stu.getFirstName();
-            case 2:
                 return stu.getLastName();
+            case 2:
+                return stu.getFirstName();
             case 3:
                 return stu.getBirthDate();
             case 4:
@@ -501,8 +501,8 @@ public class ManageTourStudent extends javax.swing.JFrame {
                     tableModel.addRow(
                             new Object[]{
                                 stu.getCode(),
-                                stu.getFirstName(),
                                 stu.getLastName(),
+                                stu.getFirstName(),
                                 stu.getBirthDate(),
                                 ClassroomService.getById(stu.getClassId()).getName(),
                                 stu.getPhoneNumber(),
