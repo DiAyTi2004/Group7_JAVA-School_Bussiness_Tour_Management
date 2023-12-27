@@ -313,14 +313,22 @@ public class ManageTeacher extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên muốn sửa", "Thông báo");
                 return;
             }
-            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            String codeTeacher = (String) teacherTable.getValueAt(index, 0);
+            List<Teacher> data_teachers = TeacherService.getAllTeachers();
+            int id = -1;
+            for (Teacher item : data_teachers) {
+                if (item.getCode().equalsIgnoreCase(codeTeacher)) {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Teacher selectedTea = TeacherService.getTeacherById(id);
             String imagePath = selectedTea.getImagePath();
 
             if (!selectedImagePath.equals(imagePath)) {
                 if (!selectedImagePath.trim().equals("")) {
                     selectedTea.setImagePath(selectedImagePath);
                 }
-
             }
 
             String teacherID = this.teacherIDField.getText().trim();
@@ -476,34 +484,45 @@ public class ManageTeacher extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn giáo viên muốn xóa", "Thông báo");
                 return;
             }
-            Teacher selectedTea = TeacherService.getTeacherByIndex(index);
+            String codeTeacher = (String) teacherTable.getValueAt(index, 0);
+            List<Teacher> data_teachers = TeacherService.getAllTeachers();
+            int id = -1;
+            for (Teacher item : data_teachers) {
+                if (item.getCode().equalsIgnoreCase(codeTeacher)) {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Teacher selectedTea = TeacherService.getTeacherById(id);
             String imagePath = selectedTea.getImagePath();
-
+            String imagePathDefault = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
             if (imagePath == null) {
                 return;
             }
-            try {
-                // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
-                File imageFile = new File(imagePath);
-
-                if (imageFile.exists()) {
-                    // Kiểm tra quyền truy cập và xóa tập tin
-                    if (imageFile.canWrite() && imageFile.canRead()) {
-                        if (!imageFile.delete()) {
-                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
-                }
-            } catch (SecurityException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
-            }
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa giáo viên " + selectedTea.getLastName() + " " + selectedTea.getFirstName(), "Xác nhận");
             if (keyPress == 0) {
+                if (!imagePath.equalsIgnoreCase(imagePathDefault)) {
+                    try {
+                        // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
+                        File imageFile = new File(imagePath);
+
+                        if (imageFile.exists()) {
+                            // Kiểm tra quyền truy cập và xóa tập tin
+                            if (imageFile.canWrite() && imageFile.canRead()) {
+                                if (!imageFile.delete()) {
+                                    JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                        }
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                    }
+                }
                 TeacherService.deleteTeacher(selectedTea.getId());
                 loadTableData();
                 clearField();
@@ -552,10 +571,8 @@ public class ManageTeacher extends javax.swing.JFrame {
             String teacherCode = (String) teacherTable.getValueAt(index, 0);
             List<Teacher> data_teachers = TeacherService.getAllTeachers();
             int id = -1;
-            for(Teacher item : data_teachers)
-            {
-                if(item.getCode().equalsIgnoreCase(teacherCode))
-                {
+            for (Teacher item : data_teachers) {
+                if (item.getCode().equalsIgnoreCase(teacherCode)) {
                     id = item.getId();
                     break;
                 }

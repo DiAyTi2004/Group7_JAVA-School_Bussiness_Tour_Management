@@ -13,7 +13,11 @@ import group7_java.school_bussiness_tour_management.services.CompanyService;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import static group7_java.school_bussiness_tour_management.services.TourService.getLastTourId;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -281,13 +285,28 @@ public class ManageTour extends javax.swing.JFrame {
             homeScreen.setLocationRelativeTo(null);
             homeScreen.setVisible(true);
         } else {
-            dispose();
-            ManageTeacher teacherScreen = new ManageTeacher();
-            teacherScreen.setLocationRelativeTo(null);
-            teacherScreen.setVisible(true);
+            Teacher selectedTea;
+            try {
+                selectedTea = TeacherService.getTeacherById(teacherId);
+                ManageToursOfTeacher manageToursOfTeacherScreen = new ManageToursOfTeacher(selectedTea);
+                if (manageToursOfTeacherScreen != null) {
+                    manageToursOfTeacherScreen.setLocationRelativeTo(null);
+                    manageToursOfTeacherScreen.setVisible(true);
+                    manageToursOfTeacherScreen.setImagePath(selectedTea.getImagePath());
+                    manageToursOfTeacherScreen.getTeacherIdLabel().setText("Mã doanh nghiệp: " + selectedTea.getCode());
+                    manageToursOfTeacherScreen.getTeacherNameLabel().setText("Tên giáo viên: " + selectedTea.getLastName() + " " + selectedTea.getFirstName());
+                    manageToursOfTeacherScreen.getTeacherPhoneNumberLabel().setText("Số điện thoại: " + selectedTea.getPhoneNumber());
+                    manageToursOfTeacherScreen.getTeacherEmailLable().setText("Email: " + selectedTea.getEmail());
+                    manageToursOfTeacherScreen.getTeacherAdressLable().setText("Địa chỉ: " + selectedTea.getAddress());
+                    manageToursOfTeacherScreen.setTeacherID(selectedTea.getId());
+                    manageToursOfTeacherScreen.initializeTable();
+                    dispose();
+                }
+            } catch (Exception e) {
+                MessageDialog.showErrorDialog(this, "Có lỗi, chi tiết: " + e.getMessage(), "Lỗi");
+            }
 
         }
-
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
@@ -302,6 +321,9 @@ public class ManageTour extends javax.swing.JFrame {
             Teacher tea = (Teacher) teacherInput.getSelectedItem();
             int compId = comp.getId();
             int teaId = tea.getId();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate inputDate = LocalDate.parse(tourDate, formatter);
+            LocalDate currentDate = LocalDate.now();
             if (tourName.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
                 return;
@@ -312,6 +334,10 @@ public class ManageTour extends javax.swing.JFrame {
             }
             if (tourDate.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (currentDate.compareTo(inputDate) >= 0) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi phải lớn hơn ngày hiện tại", "Thông báo");
                 return;
             }
             if (presentator.equalsIgnoreCase("")) {
@@ -397,6 +423,9 @@ public class ManageTour extends javax.swing.JFrame {
             Teacher tea = (Teacher) teacherInput.getSelectedItem();
             int compId = comp.getId();
             int teaId = tea.getId();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate inputDate = LocalDate.parse(tourDate, formatter);
+            LocalDate currentDate = LocalDate.now();
             if (tourName.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Tên chuyến đi không được để trống", "Thông báo");
                 return;
@@ -407,6 +436,10 @@ public class ManageTour extends javax.swing.JFrame {
             }
             if (tourDate.equalsIgnoreCase("")) {
                 MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi không được để trống", "Thông báo");
+                return;
+            }
+            if (currentDate.compareTo(inputDate) >= 0) {
+                MessageDialog.showInfoDialog(this, "Ngày khởi hành của chuyến đi phải lớn hơn ngày hiện tại", "Thông báo");
                 return;
             }
             if (presentator.equalsIgnoreCase("")) {
@@ -637,16 +670,24 @@ public class ManageTour extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageTour.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageTour.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageTour.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageTour.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageTour.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

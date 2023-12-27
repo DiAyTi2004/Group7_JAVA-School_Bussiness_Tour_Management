@@ -67,9 +67,9 @@
                                   <Component id="txt_email" alignment="0" pref="280" max="32767" attributes="0"/>
                                   <Component id="txt_birth_date" alignment="0" pref="280" max="32767" attributes="0"/>
                                   <Component id="txt_phone_number" alignment="0" pref="280" max="32767" attributes="0"/>
-                                  <Component id="txt_last_name" alignment="0" pref="280" max="32767" attributes="0"/>
-                                  <Component id="txt_address" alignment="0" pref="280" max="32767" attributes="0"/>
                                   <Component id="txt_first_name" alignment="0" pref="280" max="32767" attributes="0"/>
+                                  <Component id="txt_address" alignment="0" pref="280" max="32767" attributes="0"/>
+                                  <Component id="txt_last_name" alignment="0" pref="280" max="32767" attributes="0"/>
                                   <Component id="txt_code" alignment="0" pref="280" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -105,12 +105,12 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txt_first_name" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txt_last_name" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txt_last_name" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="txt_first_name" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
@@ -235,11 +235,14 @@
         <Property name="text" type="java.lang.String" value="Class ID"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txt_first_name">
+    <Component class="javax.swing.JTextField" name="txt_last_name">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_last_nameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_code">
     </Component>
-    <Component class="javax.swing.JTextField" name="txt_last_name">
+    <Component class="javax.swing.JTextField" name="txt_first_name">
     </Component>
     <Component class="javax.swing.JTextField" name="txt_address">
     </Component>

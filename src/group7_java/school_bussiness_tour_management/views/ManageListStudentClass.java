@@ -76,9 +76,9 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txt_first_name = new javax.swing.JTextField();
-        txt_code = new javax.swing.JTextField();
         txt_last_name = new javax.swing.JTextField();
+        txt_code = new javax.swing.JTextField();
+        txt_first_name = new javax.swing.JTextField();
         txt_address = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
         txt_birth_date = new javax.swing.JTextField();
@@ -137,6 +137,12 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         jLabel7.setText("Ngày sinh");
 
         jLabel8.setText("Class ID");
+
+        txt_last_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_last_nameActionPerformed(evt);
+            }
+        });
 
         btn_add.setText("Thêm");
         btn_add.addActionListener(new java.awt.event.ActionListener() {
@@ -226,9 +232,9 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                                     .addComponent(txt_email, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_birth_date, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_phone_number, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_last_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                                    .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_first_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(txt_address, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                    .addComponent(txt_last_name, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                                     .addComponent(txt_code, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))))))
                 .addGap(16, 16, 16))
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -254,11 +260,11 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                             .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_last_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_last_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_first_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -364,10 +370,21 @@ public class ManageListStudentClass extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn doanh nghiệp", "Thông báo");
                 return;
             }
-            Student selectedStudent = StudentService.getStudentByIndex(index);
+            String codeStudent = (String) studentTable.getValueAt(index, 0);
+            List<Student> data_students = StudentDAO.readFromFile();
+            int id = -1;
+            for(Student item : data_students)
+            {
+                if(item.getCode().equalsIgnoreCase(codeStudent))
+                {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Student selectedStudent = StudentService.getById(id);
             txt_code.setText(selectedStudent.getCode());
-            txt_first_name.setText(selectedStudent.getFirstName());
             txt_last_name.setText(selectedStudent.getLastName());
+            txt_first_name.setText(selectedStudent.getFirstName());
             txt_address.setText(selectedStudent.getAddress());
             txt_phone_number.setText(selectedStudent.getPhoneNumber());
             txt_email.setText(selectedStudent.getEmail());
@@ -468,6 +485,10 @@ public class ManageListStudentClass extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_classroomInputActionPerformed
 
+    private void txt_last_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_last_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_last_nameActionPerformed
+
 //    private void isCheckInput() {
 //        String code = txt_code.getText().trim();
 //        String first_name = txt_first_name.getText().trim();
@@ -498,8 +519,8 @@ public class ManageListStudentClass extends javax.swing.JFrame {
 
     private void clearAllFields() {
         txt_code.setText("");
-        txt_first_name.setText("");
         txt_last_name.setText("");
+        txt_first_name.setText("");
         txt_address.setText("");
         txt_email.setText("");
         txt_phone_number.setText("");
@@ -517,7 +538,7 @@ public class ManageListStudentClass extends javax.swing.JFrame {
             tableModel.setRowCount(0);
             if (data != null) {
                 for (Student stu : data) {
-                    tableModel.addRow(new Object[]{stu.getCode(), stu.getFirstName(), stu.getLastName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate()
+                    tableModel.addRow(new Object[]{stu.getCode(), stu.getLastName(), stu.getFirstName(), stu.getAddress(), stu.getPhoneNumber(), stu.getEmail(), stu.getBirthDate()
                     });
                 }
             }

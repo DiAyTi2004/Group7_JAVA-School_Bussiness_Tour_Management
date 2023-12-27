@@ -14,6 +14,8 @@ import group7_java.school_bussiness_tour_management.models.Tour;
 import group7_java.school_bussiness_tour_management.services.TeacherService;
 import group7_java.school_bussiness_tour_management.services.TourService;
 import java.awt.Image;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -37,7 +39,6 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
     public ManageToursOfTeacher() {
         initComponents();
     }
-    
 
     private int teacherId;
 
@@ -260,7 +261,16 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                 MessageDialog.showInfoDialog(this, "Vui chọn chọn chọn chuyến tham quan để xem danh sách sinh viên tham quan", "Thông báo");
                 return;
             }
-            Tour selectedTour = TourService.getTourByIndex(index);
+            String tourCode = (String) toursTable.getValueAt(index, 0);
+            List<Tour> data_tours = TourService.getAllTours();
+            int id = -1;
+            for (Tour item : data_tours) {
+                if (item.getCode().equalsIgnoreCase(tourCode)) {
+                    id = item.getId();
+                    break;
+                }
+            }
+            Tour selectedTour = TourService.getTourById(id);
             dispose();
             TransmittedDataShowData data = new TransmittedDataShowData("studentTours", "managetoursofteacher", selectedTour.getId(), teacherId, false);
             ShowData showDataScreen = new ShowData(data);
@@ -294,7 +304,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
     }//GEN-LAST:event_addTourForTeacherActionPerformed
 
     private void deleteTourForTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteTourForTeacherActionPerformed
-         try {
+        try {
             int index = toursTable.getSelectedRow();
             if (index == -1) {
                 MessageDialog.showInfoDialog(this, "Vui lòng chọn chuyến tham quan mà bạn muốn xóa", "Thông báo");
@@ -334,7 +344,7 @@ public class ManageToursOfTeacher extends javax.swing.JFrame {
                         }
                     }
                 }
-
+                
                 for (Tour tour : data_tour) {
                     if (tour.getId() == id) {
                         tour.setTeacherId(selectTeacher.getId() - 100);

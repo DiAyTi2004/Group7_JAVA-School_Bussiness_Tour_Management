@@ -327,9 +327,8 @@ public class ManageStudent extends javax.swing.JFrame {
         try {
             int id = StudentService.getLastStudentId();
             String imagePath = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
-            if(selectedImagePath.trim() != "")
-            {
-                imagePath = selectedImagePath ;
+            if (selectedImagePath.trim() != "") {
+                imagePath = selectedImagePath;
             }
             String code = txt_code.getText().trim();
             String lastName = txt_last_name.getText().trim();
@@ -386,7 +385,6 @@ public class ManageStudent extends javax.swing.JFrame {
             }
             Student selectedStudent = StudentService.getStudentByIndex(index);
             String imagePath = selectedStudent.getImagePath();
-            
 
             if (!selectedImagePath.equals(imagePath)) {
                 //xóa ảnh cũ
@@ -409,8 +407,7 @@ public class ManageStudent extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
                 }
 
-                if(!selectedImagePath.trim().equals(""))
-                {
+                if (!selectedImagePath.trim().equals("")) {
                     selectedStudent.setImagePath(selectedImagePath);
                 }
             }
@@ -490,34 +487,36 @@ public class ManageStudent extends javax.swing.JFrame {
 
             Student selectedStudent = StudentService.getStudentByIndex(index);
             String imagePath = selectedStudent.getImagePath();
-
-            try {
-                // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
-                File imageFile = new File(imagePath);
-
-                if (imageFile.exists()) {
-                    // Kiểm tra quyền truy cập và xóa tập tin
-                    if (imageFile.canWrite() && imageFile.canRead()) {
-                        if (!imageFile.delete()) {
-                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
-                }
-            } catch (SecurityException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
-            }
-
+            String imagePathDefault = "src\\\\group7_java\\\\school_bussiness_tour_management\\\\resources\\\\user.jpg";
             int keyPress = MessageDialog.showConfirmDialog(this, "Bạn có chắc muốn xóa sinh viên có mã " + selectedStudent.getCode(), "Xác nhận");
             if (keyPress == 0) {
+                if (!imagePath.equalsIgnoreCase(imagePathDefault)) {
+                    try {
+                        // Kiểm tra xem đường dẫn hình ảnh có tồn tại không
+                        File imageFile = new File(imagePath);
+
+                        if (imageFile.exists()) {
+                            // Kiểm tra quyền truy cập và xóa tập tin
+                            if (imageFile.canWrite() && imageFile.canRead()) {
+                                if (!imageFile.delete()) {
+                                    JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Không có quyền truy cập để xóa ảnh.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Ảnh không tồn tại");
+                        }
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Có lỗi khi xóa ảnh: " + e.getMessage());
+                    }
+                }
                 StudentService.deleteStudent(selectedStudent.getId());
                 loadTableData();
                 clearAllFields();
             }
+
         } catch (Exception ex) {
             MessageDialog.showErrorDialog(this, "Xảy ra lỗi khi xóa, chi tiết: " + ex.getMessage() + "\n" + ex.toString() + "\n", "Phát hiện lỗi");
             ex.printStackTrace();
